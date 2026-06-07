@@ -1,139 +1,113 @@
-# License Notice
-Notice that the "core" library with the API and general code is released with MIT License.
-However, the libraries which are implementing adapters are licensed in the same way as the adapted libraries.
-Currently there are **two** such adapter libraries, and **both of them are released with license Apache 2.0 **
-* [YanQi](https://github.com/TomasJohansson/adapters-shortest-paths-dotnet/tree/master/Programmerare.ShortestPaths.Adapter.YanQi)
-* [Bsmock](https://github.com/TomasJohansson/adapters-shortest-paths-dotnet/tree/master/Programmerare.ShortestPaths.Adapter.Bsmock)
-Both of the above libraries are bundled in [NuGet package Programmerare.ShortestPaths 1.0.0](https://www.nuget.org/packages/Programmerare.ShortestPaths/1.0.0) and thus the license should be considered as Apache 2.0 for that binary distribution.
+# Adapters for Shortest Paths (.NET)
 
-## Adapters for C#.NET implementations of Graph algorithms useful for finding the shortest paths in travel routing.
+C# / .NET 10 adapter library providing three implementations of Yen's algorithm for finding the K shortest loopless paths between two nodes in a weighted directed graph.
 
-The purpose of this project is to provide Adapters for C#.NET implementations finding the shortest path**s** (and note the plural of the word 'path**s**').<br>
-This is useful for travel routing  when you want to minimize the total time or total distance.<br>
-The project might also be useful for other situations, but travel routing is the main kind of application I have in mind.<br>
-Regarding graph theory applicable for finding the shortest paths in travel routing, see more information about that further down in a separate section at this page.
-  
-**Currently there are two implemented Adapters**, i.e. two different implementations can be used.
-Since the Client code is using the same Target interface (see the [Adapter Design Pattern](https://en.wikipedia.org/wiki/Adapter_pattern)) it is possible to **reuse the same test code for the different implementations**.
-Therefore you can assert their results against each other, which could help finding bugs. If one implementation would produce a different result than the others, then it is likely a bug that should be reported and hopefully fixed. However, note that the tested graph need to be constructed in such a way that there must not be more than one path (among the first shortest paths you use test assertions for) with the same total weight. If multiple paths have the same total weight then it is not obvious which should be sorted first, and then it would not be surprising if different implementations produce different results.
+This is the .NET port of the Java project [adapters-shortest-paths](https://github.com/TomasJohansson/adapters-shortest-paths).
 
-When you run such tests with the same test data for different implementations then you can also easily **compare the performance for the different implementations**.
+## Quick Start
 
-Currently there are only two implementations in this C# version of the [Java project adapters-shortest-paths](https://github.com/TomasJohansson/adapters-shortest-paths) 
-but the test files being used in the C# version have also been tested with the five different implementations in the Java project with the same results, so therefore it is very likely that the implementations are correct.
-
-### Example of how to use this C# shortest paths adapter library:
-
-The C# code example below uses the following graph with four vertices (A,B,C,D) and five edges with weights.<br>(A to B (5) , A to C (6) , B to C (7)  , B to D (8) , C to D (9) ).<br>![alt text](images/shortest_paths_getting_started_example.gif "Logo Title Text 1")<br>
-There are three possible paths from A to D , with the total weight within parenthesis : 
-* A to B to D (total cost: 13 = 5 + 8)
-* A to C to D (total cost: 15 = 6 + 9)
-* A to B to C to D (total cost: 21 = 5 + 7 + 9)
-
-For example, the vertices might represent cities, and the edges might represent roads with distances as weights.
-
-The C# code below can be used for finding the shortest paths (sorted with the shortest first) from A to D :<br>
-
-```C#
+```csharp
 using Programmerare.ShortestPaths.Core.Api;
-using Programmerare.ShortestPaths.Adapter.Bsmock;
 using Programmerare.ShortestPaths.Adapter.YanQi;
-using static Programmerare.ShortestPaths.Core.Impl.VertexImpl;	// CreateVertex
-using static Programmerare.ShortestPaths.Core.Impl.WeightImpl;	// CreateWeight
-using static Programmerare.ShortestPaths.Core.Impl.EdgeImpl;	// CreateEdge
-using static Programmerare.ShortestPaths.Core.Impl.GraphImpl;	// CreateGraph
-using System;
-using System.Text;
-using System.Collections.Generic;
-...
+using static Programmerare.ShortestPaths.Core.Impl.VertexImpl;   // CreateVertex
+using static Programmerare.ShortestPaths.Core.Impl.WeightImpl;   // CreateWeight
+using static Programmerare.ShortestPaths.Core.Impl.EdgeImpl;    // CreateEdge
+using static Programmerare.ShortestPaths.Core.Impl.GraphImpl;   // CreateGraph
 
-	PathFinderFactory pathFinderFactory = new PathFinderFactoryYanQi();
-	// Alternative implementation:
-	//PathFinderFactory pathFinderFactory = new PathFinderFactoryBsmock();
+Vertex a = CreateVertex("A");
+Vertex b = CreateVertex("B");
+Vertex c = CreateVertex("C");
+Vertex d = CreateVertex("D");
 
-	Vertex a = CreateVertex("A");
-	Vertex b = CreateVertex("B");
-	Vertex c = CreateVertex("C");
-	Vertex d = CreateVertex("D");
+IList<Edge> edges = new List<Edge> {
+    CreateEdge(a, b, CreateWeight(5)),
+    CreateEdge(a, c, CreateWeight(6)),
+    CreateEdge(b, c, CreateWeight(7)),
+    CreateEdge(b, d, CreateWeight(8)),
+    CreateEdge(c, d, CreateWeight(9))
+};
 
-	Edge edgeAB5 = CreateEdge(a, b, CreateWeight(5));
-	Edge edgeAC6 = CreateEdge(a, c, CreateWeight(6));
-	Edge edgeBC7 = CreateEdge(b, c, CreateWeight(7));
-	Edge edgeBD8 = CreateEdge(b, d, CreateWeight(8));
-	Edge edgeCD9 = CreateEdge(c, d, CreateWeight(9));
+Graph graph = CreateGraph(edges);
 
-	IList<Edge> edges = new List<Edge> {
-		edgeAB5,
-		edgeAC6,
-		edgeBC7,
-		edgeBD8,
-		edgeCD9
-	};
+PathFinderFactory factory = new PathFinderFactoryYanQi();
+// Alternative: new PathFinderFactoryBsmock()
+// Alternative: new PathFinderFactoryQuikGraph()
 
-	Graph graph = CreateGraph(edges);
+PathFinder pathFinder = factory.CreatePathFinder(graph);
+IList<Path> paths = pathFinder.FindShortestPaths(a, d, maxNumberOfPaths: 5);
 
-	PathFinder pathFinder = pathFinderFactory.CreatePathFinder(graph);
-
-	IList<Path> shortestPathsFromAtoD = pathFinder.FindShortestPaths(a, d, 5);
-
-	foreach(Path pathFromAtoD in shortestPathsFromAtoD) {
-		Console.WriteLine(pathFromAtoD.GetPathAsPrettyPrintedStringForConsoleOutput());
-	}
-	/*
-	 Resulting output from the above loop:
-		13 ( 5 [A--->B]  + 8 [B--->D] )
-		15 ( 6 [A--->C]  + 9 [C--->D] )
-		21 ( 5 [A--->B]  + 7 [B--->C]  + 9 [C--->D] )             
-	 */
-	 
-	 ...
-	 
-	 
-	public static class MyExtensionMethods {
-		public static string GetPathAsPrettyPrintedStringForConsoleOutput(this Path path) {
-			var sb = new StringBuilder();
-			IList<Edge> edges = path.EdgesForPath;
-			sb.Append(path.TotalWeightForPath.WeightValue + " ( ");
-			for (int i = 0; i < edges.Count; i++) {
-				if(i > 0) sb.Append(" + ");
-				sb.Append(edges[i].GetEdgeAsPrettyPrintedStringForConsoleOutput());
-			}
-			sb.Append(")");
-			return sb.ToString();
-		}
-		private static string GetEdgeAsPrettyPrintedStringForConsoleOutput(this Edge edge) {
-			return edge.EdgeWeight.WeightValue  + " [" + edge.StartVertex.VertexId + "--->" + edge.EndVertex.VertexId + "] ";		
-		}
-	}  
+foreach (Path path in paths) {
+    Console.WriteLine($"{path.TotalWeightForPath.WeightValue} via {string.Join(" -> ", path.EdgesForPath.Select(e => $"{e.StartVertex.VertexId}->{e.EndVertex.VertexId}"))}");
+}
+// Output:
+// 13 via A -> B -> D
+// 15 via A -> C -> D
+// 21 via A -> B -> C -> D
 ```
-If you are using [NuGet](https://www.nuget.org/) and want to try the above code, you can use the NuGet package [Programmerare.ShortestPaths 1.0.0](https://www.nuget.org/packages/Programmerare.ShortestPaths/1.0.0).
-After the installation, your project file (.csproj) should have become updated with the following content:
-```xml
-    <PackageReference Include="Programmerare.ShortestPaths">
-      <Version>1.0.0</Version>
-    </PackageReference>
+
+## Build & Test
+
+```bash
+dotnet restore adapters-shortest-paths-dotnet.sln
+dotnet build  adapters-shortest-paths-dotnet.sln
+dotnet test   adapters-shortest-paths-dotnet.sln
 ```
-An alternative to use NuGet as above is to download [released binaries](https://github.com/TomasJohansson/adapters-shortest-paths-dotnet/releases)
 
-There are six binaries. You need to use at least four of them.
-If you only want to use the "YanQi" implementation, then you can skip the two binaries (adapter and adaptee) with "Bsmock" in the file name.
-If you only want to use the "Bsmock" implementation, then you can skip the two binaries (adapter and adaptee) with "YanQi" in the file name.
+All 95 tests pass (0 failed, 0 skipped). No mono or .NET Framework runtime required.
 
-Regarding why the six binaries have not been individually released to NuGet:
-To make it easier to reuse.
-If someone would find the NuGet package page and then see six binaries to choose from, then it would probably be tempting to just skip using it all rather than spending time trying to figure out which ones to use.
-By only releasing one package to NuGet, the decision will be much easier.
-The file size is not a problem. The zip/package file with all six binaries is only about 150 kb.
-(and that zip/package file also contains pdb files and xml files, and the number of files also multiplied with two, i.e. currently one version for .NET 2.0 and one for .NET 4.0, i.e. altogether 36 files in the zip file with size 146 kb)
+## Architecture
 
-### .NET versions
+```
+Client  ──▶  Core  ◀── Adapter (Bsmock / YanQi / QuikGraph)
+              │              │
+              │              ▼
+              │          Adaptee (third-party algorithm source, translated from Java)
+              ▼
+          OptimizedPriorityQueue (NuGet)
+```
 
-Currently the code is compiled for two target frameworks:
-* .NET Framework 2.0
-* .NET Framework 4.0
-     
+| Project | Description | License |
+|---|---|---|
+| **Core** | Public API interfaces (`PathFinderFactory`, `PathFinder`, `Graph`, `Edge`, `Vertex`, `Weight`, `Path`) and default implementations | MIT |
+| **Adapter.Bsmock** | Adapter using Brandon Smock's K-shortest-paths implementation | Apache 2.0 |
+| **Adapter.YanQi** | Adapter using Yan Qi's K-shortest-paths implementation | Apache 2.0 |
+| **Adapter.QuikGraph** | Adapter using QuikGraph graph library | MS-PL |
+| **Adaptee.Bsmock** | Translated Java source from [bsmock/k-shortest-paths](https://github.com/bsmock/k-shortest-paths) | Apache 2.0 |
+| **Adaptee.YanQi** | Translated Java source from [yan-qi/k-shortest-paths-java-version](https://github.com/yan-qi/k-shortest-paths-java-version) | Apache 2.0 |
+| **Test** | NUnit test suite — same assertions run against all three adapters and compare results | MIT |
+| **Parallel-Test** | Runs all three implementations in parallel for performance comparison | MIT |
 
-#### Some concepts in graph theory:
+All projects target **net10.0** (single target framework).
 
-See the section with the same name as above at the bottom of the Java version of this library:
-[adapters-shortest-paths](https://github.com/TomasJohansson/adapters-shortest-paths)
+## Implementations
+
+Three interchangeable implementations of Yen's algorithm are available:
+
+| Factory | Algorithm Source | Notes |
+|---|---|---|
+| `PathFinderFactoryBsmock` | [bsmock/k-shortest-paths](https://github.com/bsmock/k-shortest-paths) | Uses `OptimizedPriorityQueue` for priority queue operations |
+| `PathFinderFactoryYanQi` | [yan-qi/k-shortest-paths-java-version](https://github.com/yan-qi/k-shortest-paths-java-version) | Vertices use integer IDs internally; string IDs are mapped automatically |
+| `PathFinderFactoryQuikGraph` | [QuikGraph](https://github.com/KeRNeLith/QuikGraph) | Wrapper around the QuikGraph library |
+
+## .NET Version
+
+This project targets **.NET 10** (single target framework `net10.0`).
+
+Previously it supported .NET Framework 2.0, 4.0, and 4.7.2 with a polyfill layer (`Adaptees.Common`) providing `java.util` collection types for .NET 2.0 compatibility. That polyfill layer has been removed — all collections now use standard BCL types (`List<T>`, `Dictionary<TKey,TValue>`, etc.) and `OptimizedPriorityQueue` 5.1 from NuGet.
+
+## License
+
+- **Core** — MIT
+- **Adapter.YanQi / Adaptee.YanQi** — Apache 2.0 (based on Yan Qi's Java implementation)
+- **Adapter.Bsmock / Adaptee.Bsmock** — Apache 2.0 (based on Brandon Smock's Java implementation)
+- **Adapter.QuikGraph** — MS-PL (based on QuikGraph)
+
+The bundled NuGet package `Programmerare.ShortestPaths` should be considered Apache 2.0 since it contains Apache-licensed code.
+
+See `NOTICE.txt` in the repository root for the full license summary.
+
+## Related Projects
+
+- **Java version**: [adapters-shortest-paths](https://github.com/TomasJohansson/adapters-shortest-paths) — the original Java project with five implementations (Bsmock, YanQi, JGraphT, Mulavito, ReneArgento)
+- **YanQi algorithm source**: [k-shortest-paths-java-version](https://github.com/yan-qi/k-shortest-paths-java-version) — Yan Qi's original Java implementation
+- **Bsmock algorithm source**: [k-shortest-paths](https://github.com/bsmock/k-shortest-paths) — Brandon Smock's original Java implementation
