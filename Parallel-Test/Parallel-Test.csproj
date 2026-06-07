@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>Parallel_Test</RootNamespace>
+    <AssemblyName>Parallel-Test</AssemblyName>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Update="App.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Programmerare.ShortestPaths.Adapter.Bsmock\Programmerare.ShortestPaths.Adapter.Bsmock.csproj" />
+    <ProjectReference Include="..\Programmerare.ShortestPaths.Adapter.YanQi\Programmerare.ShortestPaths.Adapter.YanQi.csproj" />
+    <ProjectReference Include="..\Programmerare.ShortestPaths.Core\Programmerare.ShortestPaths.Core.csproj" />
+  </ItemGroup>
+
+</Project>

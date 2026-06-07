@@ -1,20 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net20;net40</TargetFrameworks>
+    <TargetFramework>net10.0</TargetFramework>
     <RootNamespace>Programmerare.ShortestPaths.Core</RootNamespace>
-	<Version>1.0.0</Version>
-	<Description>Core adapter library with general classes and interfaces.
+    <Version>1.0.0</Version>
+    <Description>Core adapter library with general classes and interfaces.
 For example it contains the Target (see the Adapter design pattern) interfaces.
 The adapter implementations with dependencies to adaptees are located in other libraries.
 </Description>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netstandard2.0\Programmerare.ShortestPaths.Core.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\Programmerare.ShortestPaths.Core.xml</DocumentationFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net20|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>.\bin\Programmerare.ShortestPaths.Core.xml</DocumentationFile>
   </PropertyGroup>
 

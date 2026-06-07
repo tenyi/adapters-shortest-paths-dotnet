@@ -17,8 +17,8 @@
 * You can also find license information in the files "License.txt" and "NOTICE.txt" in the project root directory.
 */
 
+using Priority_Queue;
 using edu.ufl.cise.bsmock.graph.util;
-using Programmerare.ShortestPaths.Adaptees.Common.DotNetTypes;
 using System;
 using System.Collections.Generic;
 
@@ -74,7 +74,7 @@ namespace edu.ufl.cise.bsmock.graph.ksp {
         public IList<Path> Ksp(Graph graph, String sourceLabel, String targetLabel, int K) {
             // Initialize containers for candidate paths and k shortest paths
             List<Path> ksp = new List<Path>();
-            java.util.PriorityQueue<Path> candidates = new java.util.PriorityQueue<Path>();
+            SimplePriorityQueue<Path> candidates = new SimplePriorityQueue<Path>();
 
             //try {
                 /* Compute and add the shortest path */
@@ -92,10 +92,10 @@ namespace edu.ufl.cise.bsmock.graph.ksp {
                        graph */
                     for (int i = 0; i < previousPath.Size(); i++) {
                         // Initialize a container to store the modified (removed) edges for this node/iteration
-                        java.util.LinkedList<Edge> removedEdges = new java.util.LinkedList<Edge>();
+                        List<Edge> removedEdges = new List<Edge>();
 
                         // Spur node = currently visited node in the (k-1)st shortest path
-                        String spurNode = previousPath.GetEdges().get(i).GetFromNode();
+                        String spurNode = previousPath.GetEdges()[i].GetFromNode();
 
                         // Root path = prefix portion of the (k-1)st path up to the spur node
                         Path rootPath = previousPath.CloneTo(i);
@@ -107,9 +107,9 @@ namespace edu.ufl.cise.bsmock.graph.ksp {
                             if (rootPath.Equals((object)stub)) {
                             /* If so, eliminate the next edge in the path from the graph (later on, this forces the spur
                                node to connect the root path with an un-found suffix path) */
-                            Edge re = p.GetEdges().get(i);
+                            Edge re = p.GetEdges()[i];
                                 graph.RemoveEdge(re.GetFromNode(), re.GetToNode());
-                                removedEdges.add(re);
+                                removedEdges.Add(re);
                             }
                         }
 
@@ -117,7 +117,7 @@ namespace edu.ufl.cise.bsmock.graph.ksp {
                         foreach(Edge rootPathEdge in rootPath.GetEdges()) {
                             String rn = rootPathEdge.GetFromNode();
                             if (!rn.Equals(spurNode)) {
-                                removedEdges.addAll(graph.RemoveNode(rn));
+                                removedEdges.AddRange(graph.RemoveNode(rn));
                             }
                         }
 
@@ -131,8 +131,8 @@ namespace edu.ufl.cise.bsmock.graph.ksp {
                             totalPath.AddPath(spurPath);
 
                             // If candidate path has not been generated previously, add it
-                            if (!candidates.contains(totalPath))
-                                candidates.add(totalPath, totalPath.GetTotalCost());
+                            if (!candidates.Contains(totalPath))
+                                candidates.Enqueue(totalPath, (float)totalPath.GetTotalCost());
                         }
 
                         // Restore all of the edges that were removed during this iteration
@@ -142,7 +142,10 @@ namespace edu.ufl.cise.bsmock.graph.ksp {
                     /* Identify the candidate path with the shortest cost */
                     bool isNewPath;
                     do {
-                        kthPath = candidates.poll();
+                        if (!candidates.TryDequeue(out kthPath)) {
+                            kthPath = null;
+                            break;
+                        }
                         isNewPath = true;
                         if (kthPath != null) {
                             foreach (Path p in ksp) {
@@ -183,7 +186,7 @@ namespace edu.ufl.cise.bsmock.graph.ksp {
         public static  List<Path> Ksp_v2(Graph graph, String sourceLabel, String targetLabel, int K) {
             // Initialize containers for candidate paths and k shortest paths
             List<Path> ksp = new List<Path>();
-            java.util.PriorityQueue<Path> candidates = new java.util.PriorityQueue<Path>();
+            SimplePriorityQueue<Path> candidates = new SimplePriorityQueue<Path>();
 
             try {
                 /* Compute and add the shortest path */
@@ -208,10 +211,10 @@ namespace edu.ufl.cise.bsmock.graph.ksp {
                         }
 
                         // Initialize container to store the edited (removed) edges
-                        java.util.LinkedList<Edge> removedEdges = new java.util.LinkedList<Edge>();
+                        List<Edge> removedEdges = new List<Edge>();
 
                         // Spur node = currently visited node in the (k-1)st shortest path
-                        String spurNode = previousPath.GetEdges().get(i).GetFromNode();
+                        String spurNode = previousPath.GetEdges()[i].GetFromNode();
 
                         // Root path = prefix portion of the (k-1)st path up to the spur node
                         // REFACTOR THIS
@@ -224,7 +227,7 @@ namespace edu.ufl.cise.bsmock.graph.ksp {
                                 continue;
                             bool rootMatch = true;
                             for (int rootPos = 0; rootPos < i; rootPos++) {
-                                if (!p.GetEdges().get(rootPos).Equals(rootPathEdges[rootPos])) {
+                                if (!p.GetEdges()[rootPos].Equals(rootPathEdges[rootPos])) {
                                     rootMatch = false;
                                     break;
                                 }
@@ -233,9 +236,9 @@ namespace edu.ufl.cise.bsmock.graph.ksp {
                             if (rootMatch) {
                                 /* If so, eliminate the next edge in the path from the graph (later on, this forces the spur
                                    node to connect the root path with an un-found suffix path) */
-                                Edge re = p.GetEdges().get(i);
+                                Edge re = p.GetEdges()[i];
                                 graph.RemoveEdge(re.GetFromNode(),re.GetToNode());
-                                removedEdges.add(re);
+                                removedEdges.Add(re);
                             }
                         }
 
@@ -243,7 +246,7 @@ namespace edu.ufl.cise.bsmock.graph.ksp {
                         foreach(Edge rootPathEdge in rootPathEdges) {
                             String rn = rootPathEdge.GetFromNode();
                             if (!rn.Equals(spurNode)) {
-                                removedEdges.addAll(graph.RemoveNode(rn));
+                                removedEdges.AddRange(graph.RemoveNode(rn));
                             }
                         }
 
@@ -259,8 +262,8 @@ namespace edu.ufl.cise.bsmock.graph.ksp {
                             totalPath.AddPath(spurPath);
 
                             // If candidate path has not been generated previously, add it
-                            //if (!candidates.contains(totalPath))
-                            candidates.add(totalPath, totalPath.GetTotalCost());
+                            //if (!candidates.Contains(totalPath))
+                            candidates.Enqueue(totalPath, (float)totalPath.GetTotalCost());
                         }
 
                         // Restore removed edges
@@ -270,7 +273,10 @@ namespace edu.ufl.cise.bsmock.graph.ksp {
                     /* Identify the candidate path with the shortest cost */
                     bool isNewPath;
                     do {
-                        kthPath = candidates.poll();
+                        if (!candidates.TryDequeue(out kthPath)) {
+                            kthPath = null;
+                            break;
+                        }
                         isNewPath = true;
                         if (kthPath != null) {
                             foreach (Path p in ksp) {
@@ -291,7 +297,7 @@ namespace edu.ufl.cise.bsmock.graph.ksp {
                     ksp.Add(kthPath);
                 }
             } catch (Exception e) {
-                ConsoleUtility.WriteLine(e);
+                Console.WriteLine(e);
                 //e.printStackTrace();
             }
 

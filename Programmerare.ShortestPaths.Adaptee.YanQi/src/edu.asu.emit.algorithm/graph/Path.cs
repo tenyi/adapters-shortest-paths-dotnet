@@ -51,6 +51,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
+using System.Collections.Generic;
 using edu.asu.emit.algorithm.graph.abstraction;
 using System;
 
@@ -67,13 +68,13 @@ namespace edu.asu.emit.algorithm.graph {
      */
     public class Path : BaseElementWithWeight {
 	
-	    private java.util.LinkedList<BaseVertex> vertexList = new java.util.LinkedList<BaseVertex>();
-	    private double weight = -1;
+        // 重構 Path 類別為不可變物件 (Immutable)。
+        // 欄位皆設為 readonly，且在建構與讀取時進行防禦性複製，以避免 Dictionary 鍵值雜湊改變的問題。
+	    private readonly List<BaseVertex> vertexList;
+	    private readonly double weight;
 	
-	    public Path() { }
-	
-	    public Path(java.util.LinkedList<BaseVertex> vertexList, double weight) {
-		    this.vertexList = vertexList;
+	    public Path(IEnumerable<BaseVertex> vertexList, double weight) {
+		    this.vertexList = new List<BaseVertex>(vertexList);
 		    this.weight = weight;
 	    }
 
@@ -81,25 +82,34 @@ namespace edu.asu.emit.algorithm.graph {
 		    return weight;
 	    }
 	
-	    public void SetWeight(double weight) {
-		    this.weight = weight;
-	    }
-	
-	    public java.util.LinkedList<BaseVertex> GetVertexList() {
-		    return vertexList;
+	    // 取值時回傳複本（防禦性複製），相容於 .NET 2.0 且防止外部修改內部列表
+	    public List<BaseVertex> GetVertexList() {
+		    return new List<BaseVertex>(vertexList);
 	    }
 	
 	    public override bool Equals(object right) {
-		
+
 		    if (right is Path) {
 			    Path rPath = (Path) right;
-			    return vertexList.Equals(rPath.vertexList);
+			    if (vertexList.Count != rPath.vertexList.Count) {
+				    return false;
+			    }
+			    for (int i = 0; i < vertexList.Count; i++) {
+				    if (!Equals(vertexList[i], rPath.vertexList[i])) {
+					    return false;
+				    }
+			    }
+			    return true;
 		    }
 		    return false;
 	    }
 
 	    public override int GetHashCode() {
-		    return vertexList.GetHashCode();
+		    int hash = 0;
+		    foreach (BaseVertex v in vertexList) {
+			    hash = unchecked(hash * 31 + (v == null ? 0 : v.GetHashCode()));
+		    }
+		    return hash;
 	    }
 	
 	    public override String ToString() {

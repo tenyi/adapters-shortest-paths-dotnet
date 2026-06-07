@@ -1,7 +1,7 @@
 ﻿// This class is located in project "Programmerare.ShortestPaths.Adaptee.YanQi.Test"
 // but also added as link from project "Programmerare.ShortestPaths.Adaptee.Bsmock.Test"
 // Reason: Reusing it while overkill to create a separate project only because of this one file.
-namespace Programmerare.ShortestPaths.Adaptees.Common
+namespace Programmerare.ShortestPaths.Adaptee.YanQi.Test
 {
     // TODO: Move this class to a test library 
     // since it is currently only used from test libraries
@@ -29,7 +29,7 @@ namespace Programmerare.ShortestPaths.Adaptees.Common
         public static string GetFullPath(string fileNamePathRelativeFromProjectDirectory)
         {
             string basePath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-            string fileNamePathRelativePart = fileNamePathRelativeFromProjectDirectory.Replace('/', '\\');
+            string fileNamePathRelativePart = fileNamePathRelativeFromProjectDirectory.Replace('/', System.IO.Path.DirectorySeparatorChar);
             return System.IO.Path.Combine(basePath, fileNamePathRelativePart);
         }
     }

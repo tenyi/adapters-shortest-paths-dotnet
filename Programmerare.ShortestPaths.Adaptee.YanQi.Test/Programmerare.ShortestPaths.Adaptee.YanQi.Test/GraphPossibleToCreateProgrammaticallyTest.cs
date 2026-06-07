@@ -69,7 +69,7 @@ namespace Programmerare.ShortestPaths.Adaptee.YanQi.Test
 		    AreEqual(path.GetWeight(), expectedTotalCost, SMALL_DELTA_VALUE_FOR_DOUBLE_CMOPARISONS);
 		    var vertices = path.GetVertexList();
 		    for (int i = 0; i < nodenames.Length; i++) {
-			    AreEqual(vertices.get(i).GetId(), nodenames[i]);
+			    AreEqual(vertices[i].GetId(), nodenames[i]);
 		    }
 	    }
 

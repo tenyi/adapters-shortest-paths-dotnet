@@ -22,7 +22,6 @@ using System;
 using System.Text;
 using System.Collections.Generic;
 using System.IO;
-using Programmerare.ShortestPaths.Adaptees.Common.DotNetTypes;
 
 namespace edu.ufl.cise.bsmock.graph {
     /**
@@ -55,7 +54,7 @@ namespace edu.ufl.cise.bsmock.graph {
         public int NumEdges() {
             int edgeCount = 0;
             foreach (Node node in nodes.Values) {
-                edgeCount += node.GetEdges().size();
+                edgeCount += node.GetEdges().Count;
             }
             return edgeCount;
         }
@@ -83,7 +82,7 @@ namespace edu.ufl.cise.bsmock.graph {
             AddEdge(edge.GetFromNode(),edge.GetToNode(),edge.GetWeight());
         }
 
-        public void AddEdges(java.util.LinkedList<Edge> edges) {
+        public void AddEdges(List<Edge> edges) {
             foreach (Edge edge in edges) {
                 AddEdge(edge);
             }
@@ -115,11 +114,11 @@ namespace edu.ufl.cise.bsmock.graph {
             return nodes;
         }
 
-        public java.util.LinkedList<Edge> GetEdgeList() {
-            java.util.LinkedList<Edge> edgeList = new java.util.LinkedList<Edge>();
+        public List<Edge> GetEdgeList() {
+            List<Edge> edgeList = new List<Edge>();
 
             foreach (Node node in nodes.Values) {
-                edgeList.addAll(node.GetEdges());
+                edgeList.AddRange(node.GetEdges());
             }
 
             return edgeList;
@@ -133,23 +132,23 @@ namespace edu.ufl.cise.bsmock.graph {
             return nodes[label];
         }
 
-        public java.util.LinkedList<Edge> RemoveNode(String label) {
-            java.util.LinkedList<Edge> edges = new java.util.LinkedList<Edge>();
+        public List<Edge> RemoveNode(String label) {
+            List<Edge> edges = new List<Edge>();
             if (nodes.ContainsKey(label)) {
                 Node node = nodes[label];
                 nodes.Remove(label);
-                edges.addAll(node.GetEdges());
-                edges.addAll(RemoveEdgesToNode(label));
+                edges.AddRange(node.GetEdges());
+                edges.AddRange(RemoveEdgesToNode(label));
             }
             return edges;
         }
 
-        public java.util.LinkedList<Edge> RemoveEdgesToNode(String label) {
-            java.util.LinkedList<Edge> edges = new java.util.LinkedList<Edge>();
+        public List<Edge> RemoveEdgesToNode(String label) {
+            List<Edge> edges = new List<Edge>();
             foreach (Node node in nodes.Values) {
                 if (node.GetAdjacencyList().Contains(label)) { // TODO: perfomance ... Contains in collection ...
                     double weight = node.RemoveEdge(label);
-                    edges.add(new Edge(node.GetLabel(),label,weight));
+                    edges.Add(new Edge(node.GetLabel(),label,weight));
                 }
             }
             return edges;

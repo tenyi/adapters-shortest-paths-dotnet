@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace JavaToDotNetTranslationHelpers {
 
@@ -23,7 +23,6 @@ namespace JavaToDotNetTranslationHelpers {
     // https://msdn.microsoft.com/en-us/library/hh881542(v=vs.110).aspx
 
     // Note that extension methods also works for .NET 2
-    // thanks to the code in the file ...\Programmerare.ShortestPaths.Adaptees.Common\DotNetTypes\DotNet20\SupportForExtensionMethods.cs
     public static class ExtensionMethodsForCollectionsAndDictionaries {
         public static void AddAll<T>(
             this ICollection<T> list, 
@@ -43,52 +42,29 @@ namespace JavaToDotNetTranslationHelpers {
 
         public static void AddAll<T>(
             this ICollection<T> list, 
-            java.util.LinkedList<T> list2
+            List<T> list2
         ) {
             foreach(T t in list2) {
                 list.Add(t);
             }
         }
 
+        // 簡化為原生字典索引器操作，避免先 ContainsKey 再 Remove 的額外開銷。
         public static void AddOrReplace<T,U>(
             this IDictionary<T,U> dict, 
             T t, 
             U u
         ) {
-            // When translating code from Java (Map) to C#.NET (IDictionary)
-            // the behaviour is different regarding when the key already exists.
-            // The purpose of this method is to handle that difference
-            // i.e. use this method when translating code from Java to C#.NET.
-            
-            // Java Map:
-            // https://docs.oracle.com/javase/8/docs/api/java/util/Map.html#put-K-V-
-            // > "If the map previously contained a mapping for the key, the old value is replaced by the specified value"
-            
-            // C#.NET IDictionary:
-            // https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.idictionary-2.add?view=netframework-4.7.1
-            // > "the Add method throws an ArgumentException when attempting to add a duplicate key."
-            if(dict.ContainsKey(t)) {
-                dict.Remove(t);
-            }
-            dict.Add(t, u);
+            dict[t] = u;
         }
 
-        //public static void AddOrReplace<T>(
-        //    this ICollection<T> set, 
-        //    T t
-        //) {
-        //    if(set.Contains(t)) {
-        //        set.Remove(t);
-        //    }
-        //    set.Add(t);
-        //}
-
+        // 使用 TryGetValue 取代 ContainsKey + 索引器取值，減少一次雜湊定位以提升效能。
         public static U GetValueIfExists<T,U>(
             this IDictionary<T, U> dict, 
             T key
         ) {
-            if(dict.ContainsKey(key)) {
-                return dict[key];
+            if (dict.TryGetValue(key, out var val)) {
+                return val;
             }
             return default(U);
         }

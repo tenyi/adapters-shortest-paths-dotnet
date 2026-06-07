@@ -80,6 +80,15 @@ namespace edu.asu.emit.algorithm.graph.shortestpaths {
 	
 	    // variables for debugging and testing
 	    private int generatedPathNum = 0;
+
+	    // Matches Java's AbstractList.hashCode(): iterates elements as 31 * hash + elem.hashCode()
+	    private static int ContentHashCode(List<BaseVertex> list, int count) {
+		    int hash = 1;
+		    for (int i = 0; i < count; i++) {
+			    hash = 31 * hash + (list[i] == null ? 0 : list[i].GetHashCode());
+		    }
+		    return hash;
+	    }
 	
 	    /**
 	     * Default constructor.
@@ -102,7 +111,12 @@ namespace edu.asu.emit.algorithm.graph.shortestpaths {
 		    if (graph == null) {
 			    throw new System.ArgumentException("A NULL graph object occurs!");
 		    }
-		    this.graph = new VariableGraph((Graph)graph);
+            // 使用安全轉型 (as)，若非 Graph 型別則拋出明確異常，以增加型別安全性
+            var g = graph as Graph;
+            if (g == null) {
+                throw new System.ArgumentException("Graph must be of type edu.asu.emit.algorithm.graph.Graph");
+            }
+		    this.graph = new VariableGraph(g);
 		    this.sourceVertex = sourceVertex;
 		    this.targetVertex = targetVertex;
 		    Init();
@@ -116,7 +130,7 @@ namespace edu.asu.emit.algorithm.graph.shortestpaths {
 		    // get the shortest path by default if both source and target exist
 		    if (sourceVertex != null && targetVertex != null) {
 			    Path shortestPath = GetShortestPath(sourceVertex, targetVertex);
-			    if (shortestPath.GetVertexList().size() > 0) {
+			    if (shortestPath.GetVertexList().Count > 0) {
 				    pathCandidates.Add(shortestPath);
 				    pathDerivationVertexIndex.Add(shortestPath, sourceVertex);
 			    }
@@ -167,115 +181,117 @@ namespace edu.asu.emit.algorithm.graph.shortestpaths {
 
 		    BaseVertex curDerivation = pathDerivationVertexIndex[curPath];
 		    int curPathHash =
-			    curPath.GetVertexList().subList(0, curPath.GetVertexList().indexOf(curDerivation)).GetHashCode();
+			    ContentHashCode(curPath.GetVertexList(), curPath.GetVertexList().IndexOf(curDerivation));
 		
 		    int count = resultList.Count;
 		
-		    //3.2 remove the vertices and arcs in the graph
-		    for (int i = 0; i < count-1; ++i) {
-			    Path curResultPath = resultList[i];
-							
-			    int curDevVertexId =
-				    curResultPath.GetVertexList().indexOf(curDerivation);
-			
-			    if (curDevVertexId < 0) {
-                    continue;
-                }
+		    // 使用 try-finally 區塊包裹計算過程，以確保即使拋出異常也能還原圖形狀態，避免狀態污染
+            try {
+		        //3.2 remove the vertices and arcs in the graph
+		        for (int i = 0; i < count-1; ++i) {
+			        Path curResultPath = resultList[i];
+								
+			        int curDevVertexId =
+				        curResultPath.GetVertexList().IndexOf(curDerivation);
+				
+			        if (curDevVertexId < 0) {
+                        continue;
+                    }
 
-			    // Note that the following condition makes sure all candidates should be considered. 
-			    /// The algorithm in the paper is not correct for removing some candidates by mistake. 
-			    int pathHash = curResultPath.GetVertexList().subList(0, curDevVertexId).GetHashCode();
-			    if (pathHash != curPathHash) {
-                    continue;
-                }
-			
-			    BaseVertex curSuccVertex =
-				    curResultPath.GetVertexList().get(curDevVertexId + 1);
-			
-			    graph.DeleteEdge(new Pair<int, int>(
-                        curDerivation.GetId(), curSuccVertex.GetId()));
-		    }
-		
-		    int pathLength = curPath.GetVertexList().size();
-		    java.util.LinkedList<BaseVertex> curPathVertexList = curPath.GetVertexList();
-		    for (int i = 0; i < pathLength-1; ++i) {
-			    graph.DeleteVertex(curPathVertexList.get(i).GetId());
-			    graph.DeleteEdge(new Pair<int, int>(
-                        curPathVertexList.get(i).GetId(),
-                        curPathVertexList.get(i + 1).GetId()));
-		    }
-		
-		    //3.3 calculate the shortest tree rooted at target vertex in the graph
-		    DijkstraShortestPathAlg reverseTree = new DijkstraShortestPathAlg(graph);
-		    reverseTree.GetShortestPathFlower(targetVertex);
-		
-		    //3.4 recover the deleted vertices and update the cost and identify the new candidate results
-		    bool isDone = false;
-		    for (int i=pathLength-2; i>=0 && !isDone; --i)	{
-			    //3.4.1 get the vertex to be recovered
-			    BaseVertex curRecoverVertex = curPathVertexList.get(i);
-			    graph.RecoverDeletedVertex(curRecoverVertex.GetId());
-			
-			    //3.4.2 check if we should stop continuing in the next iteration
-			    if (curRecoverVertex.GetId() == curDerivation.GetId()) {
-				    isDone = true;
-			    }
-			
-			    //3.4.3 calculate cost using forward star form
-			    Path subPath = reverseTree.UpdateCostForward(curRecoverVertex);
-			
-			    //3.4.4 get one candidate result if possible
-			    if (subPath != null) {
-				    ++generatedPathNum;
+			        // Note that the following condition makes sure all candidates should be considered. 
+			        /// The algorithm in the paper is not correct for removing some candidates by mistake. 
+			        int pathHash = ContentHashCode(curResultPath.GetVertexList(), curDevVertexId);
+			        if (pathHash != curPathHash) {
+                        continue;
+                    }
 				
-				    //3.4.4.1 get the prefix from the concerned path
-				    double cost = 0; 
-				    IList<BaseVertex> prePathList = new List<BaseVertex>();
-				    reverseTree.CorrectCostBackward(curRecoverVertex);
+			        BaseVertex curSuccVertex =
+				        curResultPath.GetVertexList()[curDevVertexId + 1];
 				
-				    for (int j=0; j<pathLength; ++j) {
-					    BaseVertex curVertex = curPathVertexList.get(j);
-					    if (curVertex.GetId() == curRecoverVertex.GetId()) {
-						    j=pathLength;
-					    } else {
-						    cost += graph.GetEdgeWeightOfGraph(curPathVertexList.get(j),
-								    curPathVertexList.get(j+1));
-						    prePathList.Add(curVertex);
-					    }
-				    }
-				    prePathList.AddAll(subPath.GetVertexList());
+			        graph.DeleteEdge(new Pair<int, int>(
+                            curDerivation.GetId(), curSuccVertex.GetId()));
+		        }
+			
+		        int pathLength = curPath.GetVertexList().Count;
+		        List<BaseVertex> curPathVertexList = curPath.GetVertexList();
+		        for (int i = 0; i < pathLength-1; ++i) {
+			        graph.DeleteVertex(curPathVertexList[i].GetId());
+			        graph.DeleteEdge(new Pair<int, int>(
+                            curPathVertexList[i].GetId(),
+                            curPathVertexList[i + 1].GetId()));
+		        }
+			
+		        //3.3 calculate the shortest tree rooted at target vertex in the graph
+		        DijkstraShortestPathAlg reverseTree = new DijkstraShortestPathAlg(graph);
+		        reverseTree.GetShortestPathFlower(targetVertex);
+			
+		        //3.4 recover the deleted vertices and update the cost and identify the new candidate results
+		        bool isDone = false;
+		        for (int i=pathLength-2; i>=0 && !isDone; --i)	{
+			        //3.4.1 get the vertex to be recovered
+			        BaseVertex curRecoverVertex = curPathVertexList[i];
+			        graph.RecoverDeletedVertex(curRecoverVertex.GetId());
+				
+			        //3.4.2 check if we should stop continuing in the next iteration
+			        if (curRecoverVertex.GetId() == curDerivation.GetId()) {
+				        isDone = true;
+			        }
+				
+			        //3.4.3 calculate cost using forward star form
+			        Path subPath = reverseTree.UpdateCostForward(curRecoverVertex);
+				
+			        //3.4.4 get one candidate result if possible
+			        if (subPath != null) {
+				        ++generatedPathNum;
+					
+				        //3.4.4.1 get the prefix from the concerned path
+				        double cost = 0; 
+				        IList<BaseVertex> prePathList = new List<BaseVertex>();
+				        reverseTree.CorrectCostBackward(curRecoverVertex);
+					
+				        for (int j=0; j<pathLength; ++j) {
+					        BaseVertex curVertex = curPathVertexList[j];
+					        if (curVertex.GetId() == curRecoverVertex.GetId()) {
+						        j=pathLength;
+					        } else {
+						        cost += graph.GetEdgeWeightOfGraph(curPathVertexList[j],
+								        curPathVertexList[j+1]);
+						        prePathList.Add(curVertex);
+					        }
+				        }
+				        prePathList.AddAll(subPath.GetVertexList());
 
-				    //3.4.4.2 compose a candidate
-				    subPath.SetWeight(cost + subPath.GetWeight());
-				    subPath.GetVertexList().clear();
-				    subPath.GetVertexList().addAll(prePathList);
+				        //3.4.4.2 compose a candidate (因為 prePathList 已經包含了 subPath 的頂點，直接使用它建立新的 Path)
+                        Path combinedPath = new Path(prePathList, cost + subPath.GetWeight());
+					
+				        //3.4.4.3 put it in the candidate pool if new
+				        if (!pathDerivationVertexIndex.ContainsKey(combinedPath)) {
+					        pathCandidates.Add(combinedPath);
+					        pathDerivationVertexIndex.Add(combinedPath, curRecoverVertex);
+				        }
+			        }
 				
-				    //3.4.4.3 put it in the candidate pool if new
-				    if (!pathDerivationVertexIndex.ContainsKey(subPath)) {
-					    pathCandidates.Add(subPath);
-					    pathDerivationVertexIndex.Add(subPath, curRecoverVertex);
-				    }
-			    }
-			
-			    //3.4.5 restore the edge
-			    BaseVertex succVertex = curPathVertexList.get(i + 1);
-			    graph.RecoverDeletedEdge(new Pair<int, int>(
-                        curRecoverVertex.GetId(), succVertex.GetId()));
-			
-			    //3.4.6 update cost if necessary
-			    double cost1 = graph.GetEdgeWeight(curRecoverVertex, succVertex)
-				    + reverseTree.GetStartVertexDistanceIndex()[succVertex];
-			
-			    if (reverseTree.GetStartVertexDistanceIndex()[curRecoverVertex] >  cost1) {
-				    reverseTree.GetStartVertexDistanceIndex().AddOrReplace(curRecoverVertex, cost1);
-				    reverseTree.GetPredecessorIndex().AddOrReplace(curRecoverVertex, succVertex);
-				    reverseTree.CorrectCostBackward(curRecoverVertex);
-			    }
-		    }
-		
-		    //3.5 restore everything
-		    graph.RecoverDeletedEdges();
-		    graph.RecoverDeletedVertices();
+			        //3.4.5 restore the edge
+			        BaseVertex succVertex = curPathVertexList[i + 1];
+			        graph.RecoverDeletedEdge(new Pair<int, int>(
+                            curRecoverVertex.GetId(), succVertex.GetId()));
+				
+			        //3.4.6 update cost if necessary
+			        double cost1 = graph.GetEdgeWeight(curRecoverVertex, succVertex)
+				        + reverseTree.GetStartVertexDistanceIndex()[succVertex];
+				
+			        if (reverseTree.GetStartVertexDistanceIndex()[curRecoverVertex] >  cost1) {
+				        reverseTree.GetStartVertexDistanceIndex().AddOrReplace(curRecoverVertex, cost1);
+				        reverseTree.GetPredecessorIndex().AddOrReplace(curRecoverVertex, succVertex);
+				        reverseTree.CorrectCostBackward(curRecoverVertex);
+			        }
+		        }
+            }
+            finally {
+		        //3.5 restore everything
+		        graph.RecoverDeletedEdges();
+		        graph.RecoverDeletedVertices();
+            }
 		
 		    return curPath;
 	    }

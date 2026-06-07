@@ -1,5 +1,4 @@
 ﻿using edu.asu.emit.algorithm.graph;
-using Programmerare.ShortestPaths.Adaptees.Common;
 
 namespace Programmerare.ShortestPaths.Adaptee.YanQi.Test
 {

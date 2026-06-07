@@ -116,13 +116,13 @@ namespace Programmerare.ShortestPaths.Adaptee.YanQi.Test
             assertVertexList(expectedPath.Nodes, actualPath.GetVertexList());
         }
 
-        private void assertVertexList(IList<int> expectedVertices, java.util.List<BaseVertex> actualVertices)
+        private void assertVertexList(IList<int> expectedVertices, IList<BaseVertex> actualVertices)
         {
-            Assert.AreEqual(expectedVertices.Count, actualVertices.size());
+            Assert.AreEqual(expectedVertices.Count, actualVertices.Count);
             int count = expectedVertices.Count;
             for(int i=0; i<count; i++)
             {
-                Assert.AreEqual(expectedVertices[i], actualVertices.get(i).GetId());
+                Assert.AreEqual(expectedVertices[i], actualVertices[i].GetId());
             }
         }
 

@@ -8,15 +8,16 @@
 * https://github.com/TomasJohansson/adapters-shortest-paths-dotnet/
 * The current name of the subproject (within the VS solution) with the translated C# code:
 * Programmerare.ShortestPaths.Adaptee.Bsmock
-* 
+*
 * Regarding the latest license, Brandon Smock has released (13th of November 2017) the code with Apache License 2.0
 * https://github.com/bsmock/k-shortest-paths/commit/b0af3f4a66ab5e4e741a5c9faffeb88def752882
 * https://github.com/bsmock/k-shortest-paths/pull/4
 * https://github.com/bsmock/k-shortest-paths/blob/master/LICENSE
-* 
+*
 * You can also find license information in the files "License.txt" and "NOTICE.txt" in the project root directory.
 */
 
+using Priority_Queue;
 /**
  * Created by brandonsmock on 6/1/15.
  * The above statement applies to the original Java code found here:
@@ -24,14 +25,7 @@
  * Regarding the translation of that Java code to this .NET code, see the top of this source file for more information.
  */
 using System;
-//using System.Collections.Generic; // problem with 3.5 if everything is imported since HashSet was introduced with .NET 3.5 and the interface ISet with .NET 4.0 
-using G = System.Collections.Generic;// https://stackoverflow.com/questions/3720222/using-statement-with-generics-using-iset-system-collections-generic-iset
-#if ( NET20 || NET30 || NET35 ) // ISet and HashSet
-using Programmerare.ShortestPaths.Adaptees.Common.DotNetTypes.DotNet20; // ISet and HashSet:
-// else (if > .NET 3.5) then ISet and HashSet exist in System.Collections.Generic
-#else
-using System.Collections.Generic; // ISet and HashSet
-#endif
+using System.Collections.Generic;
 
 namespace edu.ufl.cise.bsmock.graph.util {
     public sealed class Dijkstra {
@@ -39,13 +33,13 @@ namespace edu.ufl.cise.bsmock.graph.util {
         private Dijkstra() {}
 
         public static ShortestPathTree ShortestPathTree(Graph graph, String sourceLabel) {
-            G.IDictionary<String,Node> nodes = graph.GetNodes();
+            IDictionary<String,Node> nodes = graph.GetNodes();
             if (!nodes.ContainsKey(sourceLabel))
                 throw new Exception("Source node not found in graph.");
             ShortestPathTree predecessorTree = new ShortestPathTree(sourceLabel);
 
-            ISet<DijkstraNode> visited = new HashSet<DijkstraNode>();
-            java.util.PriorityQueue<DijkstraNode> pq = new java.util.PriorityQueue<DijkstraNode>();
+            HashSet<DijkstraNode> visited = new HashSet<DijkstraNode>();
+            SimplePriorityQueue<DijkstraNode> pq = new SimplePriorityQueue<DijkstraNode>();
             foreach (String nodeLabel in nodes.Keys) {
                 DijkstraNode newNode = new DijkstraNode(nodeLabel);
                 newNode.SetDist(double.MaxValue);
@@ -55,15 +49,15 @@ namespace edu.ufl.cise.bsmock.graph.util {
             DijkstraNode sourceNode = predecessorTree.GetNodes()[predecessorTree.GetRoot()];
             sourceNode.SetDist(0);
             sourceNode.SetDepth(0);
-            pq.add(sourceNode, sourceNode.GetDist());
+            pq.Enqueue(sourceNode, (float)sourceNode.GetDist());
 
             int count = 0;
-            while (!pq.isEmpty()) {
-                DijkstraNode current = pq.poll();
+            while (pq.Count > 0) {
+                DijkstraNode current = pq.Dequeue();
                 String currLabel = current.GetLabel();
                 visited.Add(current);
                 count++;
-                G.IDictionary<String, Double> neighbors = nodes[currLabel].GetNeighbors();
+                IDictionary<String, Double> neighbors = nodes[currLabel].GetNeighbors();
                 foreach (String currNeighborLabel in neighbors.Keys) {
                     DijkstraNode neighborNode = predecessorTree.GetNodes()[currNeighborLabel];
                     Double currDistance = neighborNode.GetDist();
@@ -71,11 +65,13 @@ namespace edu.ufl.cise.bsmock.graph.util {
                     if (newDistance < currDistance) {
                         DijkstraNode neighbor = predecessorTree.GetNodes()[currNeighborLabel];
 
-                        pq.remove(neighbor);
+                        if (pq.Contains(neighbor)) {
+                            pq.Remove(neighbor);
+                        }
                         neighbor.SetDist(newDistance);
                         neighbor.SetDepth(current.GetDepth() + 1);
                         neighbor.SetParent(currLabel);
-                        pq.add(neighbor, neighbor.GetDist());
+                        pq.Enqueue(neighbor, (float)neighbor.GetDist());
                     }
                 }
             }
@@ -84,11 +80,9 @@ namespace edu.ufl.cise.bsmock.graph.util {
         }
 
         public static Path ShortestPath(Graph graph, String sourceLabel, String targetLabel) {
-            //if (!nodes.containsKey(sourceLabel))
-            //    throw new Exception("Source node not found in graph.");
-            G.IDictionary<String,Node> nodes = graph.GetNodes();
+            IDictionary<String,Node> nodes = graph.GetNodes();
             ShortestPathTree predecessorTree = new ShortestPathTree(sourceLabel);
-            java.util.PriorityQueue<DijkstraNode> pq = new java.util.PriorityQueue<DijkstraNode>();
+            SimplePriorityQueue<DijkstraNode> pq = new SimplePriorityQueue<DijkstraNode>();
             foreach (String nodeLabel in nodes.Keys) {
                 DijkstraNode newNode = new DijkstraNode(nodeLabel);
                 newNode.SetDist(double.MaxValue);
@@ -99,11 +93,11 @@ namespace edu.ufl.cise.bsmock.graph.util {
 
             sourceNode.SetDist(0);
             sourceNode.SetDepth(0);
-            pq.add(sourceNode, sourceNode.GetDist());
+            pq.Enqueue(sourceNode, (float)sourceNode.GetDist());
 
             int count = 0;
-            while (!pq.isEmpty()) {
-                DijkstraNode current = pq.poll();
+            while (pq.Count > 0) {
+                DijkstraNode current = pq.Dequeue();
                 String currLabel = current.GetLabel();
                 if (currLabel.Equals(targetLabel)) {
                     Path shortestPath = new Path();
@@ -117,7 +111,7 @@ namespace edu.ufl.cise.bsmock.graph.util {
                     return shortestPath;
                 }
                 count++;
-                G.IDictionary<String, Double> neighbors = nodes[currLabel].GetNeighbors();
+                IDictionary<String, Double> neighbors = nodes[currLabel].GetNeighbors();
                 foreach (String currNeighborLabel in neighbors.Keys) {
                     DijkstraNode neighborNode = predecessorTree.GetNodes()[currNeighborLabel];
                     Double currDistance = neighborNode.GetDist();
@@ -125,11 +119,13 @@ namespace edu.ufl.cise.bsmock.graph.util {
                     if (newDistance < currDistance) {
                         DijkstraNode neighbor = predecessorTree.GetNodes()[currNeighborLabel];
 
-                        pq.remove(neighbor);
+                        if (pq.Contains(neighbor)) {
+                            pq.Remove(neighbor);
+                        }
                         neighbor.SetDist(newDistance);
                         neighbor.SetDepth(current.GetDepth() + 1);
                         neighbor.SetParent(currLabel);
-                        pq.add(neighbor, neighbor.GetDist());
+                        pq.Enqueue(neighbor, (float)neighbor.GetDist());
                     }
                 }
             }

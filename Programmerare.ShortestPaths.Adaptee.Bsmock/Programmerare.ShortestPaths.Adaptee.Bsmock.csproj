@@ -1,7 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net20;net40</TargetFrameworks>
+    <TargetFramework>net10.0</TargetFramework>
     <RootNamespace>Programmerare.ShortestPaths.Adaptee.Bsmock</RootNamespace>
     <Version>1.0.0</Version>
     <Description>Library used for finding the shortest paths between two nodes in a graph.
@@ -11,14 +11,15 @@ https://github.com/bsmock/k-shortest-paths/
 The Java fork of the above Java library:
 https://github.com/TomasJohansson/k-shortest-paths</Description>
     <AssemblyName>Programmerare.ShortestPaths.Adaptee.Bsmock</AssemblyName>
+    <Nullable>disable</Nullable>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net20|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>.\bin\Programmerare.ShortestPaths.Adaptee.Bsmock.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Programmerare.ShortestPaths.Adaptees.Common\Programmerare.ShortestPaths.Adaptees.Common.csproj" />
+    <PackageReference Include="OptimizedPriorityQueue" Version="5.1.0" />
   </ItemGroup>
 
 </Project>

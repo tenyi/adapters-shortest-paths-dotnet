@@ -47,7 +47,8 @@ namespace Programmerare.ShortestPaths.Utils
 
         public FileInfo GetFileInResourcesFolder(string pathToFileRelativeToResourceFolder) {
             string absolutePathToResourceFolder = GetAbsolutePathToResourceFolder();
-            string absolutePathToFileWithinResourceFolder  = System.IO.Path.Combine(absolutePathToResourceFolder, pathToFileRelativeToResourceFolder);
+            string normalizedPath = pathToFileRelativeToResourceFolder.Replace('\\', Path.DirectorySeparatorChar);
+            string absolutePathToFileWithinResourceFolder = Path.Combine(absolutePathToResourceFolder, normalizedPath);
             var file = new FileInfo(absolutePathToFileWithinResourceFolder);
             if(!file.Exists) throw new Exception("File does not exist: " + file.FullName);
             return file;
@@ -55,7 +56,7 @@ namespace Programmerare.ShortestPaths.Utils
 
         private string GetAbsolutePathToResourceFolder() {
             string basePath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-            string relativePathToResourceFolder = @"test\Programmerare.ShortestPaths.Adapter.Implementations\resources\";
+            string relativePathToResourceFolder = Path.Combine("test", "Programmerare.ShortestPaths.Adapter.Implementations", "resources");
             string absolutePathToResourceFolder = System.IO.Path.Combine(basePath, relativePathToResourceFolder);
             return absolutePathToResourceFolder;
         }

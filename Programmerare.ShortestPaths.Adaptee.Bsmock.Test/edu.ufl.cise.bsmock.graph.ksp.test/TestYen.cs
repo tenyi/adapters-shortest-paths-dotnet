@@ -24,8 +24,8 @@ using edu.ufl.cise.bsmock.graph.ksp;
 using edu.ufl.cise.bsmock.graph.util;
 using NUnit.Framework;
 using System.Collections.Generic;
-using Programmerare.ShortestPaths.Adaptees.Common;
 using Programmerare.ShortestPaths.Test.Utils;
+using Programmerare.ShortestPaths.Adaptee.YanQi.Test;
 
 /**
 * Test of Yen's algorithm for computing the K shortest loopless paths between two nodes in a graph.
