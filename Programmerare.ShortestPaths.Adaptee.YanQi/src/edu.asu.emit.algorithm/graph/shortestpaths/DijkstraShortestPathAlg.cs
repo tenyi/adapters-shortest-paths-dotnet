@@ -52,14 +52,8 @@
  *
  */
 using System;
-//using System.Collections.Generic; // problem with 3.5 if everything is imported since HashSet was introduced with .NET 3.5 and the interface ISet with .NET 4.0 
-using G = System.Collections.Generic;// https://stackoverflow.com/questions/3720222/using-statement-with-generics-using-iset-system-collections-generic-iset
-#if ( NET20 || NET30 || NET35 ) // ISet and HashSet
-using Programmerare.ShortestPaths.Adaptees.Common.DotNetTypes.DotNet20; // ISet and HashSet:
-// else (if > .NET 3.5) then ISet and HashSet exist in System.Collections.Generic
-#else
-using System.Collections.Generic; // ISet and HashSet
-#endif
+using System.Collections.Generic;
+using Priority_Queue;
 using edu.asu.emit.algorithm.graph.abstraction;
 using JavaToDotNetTranslationHelpers;
 
@@ -79,9 +73,9 @@ namespace edu.asu.emit.algorithm.graph.shortestpaths {
 
 	    // Intermediate variables
 	    private ISet<BaseVertex> determinedVertexSet = new HashSet<BaseVertex>();
-        private java.util.PriorityQueue<BaseVertex> vertexCandidateQueue = new java.util.PriorityQueue<BaseVertex>();
-	    private G.IDictionary<BaseVertex, Double> startVertexDistanceIndex = new G.Dictionary<BaseVertex, Double>();
-	    private G.IDictionary<BaseVertex, BaseVertex> predecessorIndex = new G.Dictionary<BaseVertex, BaseVertex>();
+        private SimplePriorityQueue<BaseVertex> vertexCandidateQueue = new SimplePriorityQueue<BaseVertex>();
+	    private IDictionary<BaseVertex, Double> startVertexDistanceIndex = new Dictionary<BaseVertex, Double>();
+	    private IDictionary<BaseVertex, BaseVertex> predecessorIndex = new Dictionary<BaseVertex, BaseVertex>();
 
 	    /**
 	     * Default constructor.
@@ -96,7 +90,7 @@ namespace edu.asu.emit.algorithm.graph.shortestpaths {
 	     */
 	    public void Clear()	{
 		    determinedVertexSet.Clear();
-		    vertexCandidateQueue.clear();
+		    vertexCandidateQueue.Clear();
 		    startVertexDistanceIndex.Clear();
 		    predecessorIndex.Clear();
 	    }
@@ -106,7 +100,7 @@ namespace edu.asu.emit.algorithm.graph.shortestpaths {
 	     * 
 	     * @return
 	     */
-	    public G.IDictionary<BaseVertex, Double> GetStartVertexDistanceIndex() {
+	    public IDictionary<BaseVertex, Double> GetStartVertexDistanceIndex() {
             return startVertexDistanceIndex;
 	    }
 
@@ -114,7 +108,7 @@ namespace edu.asu.emit.algorithm.graph.shortestpaths {
 	     * Getter for the index of the predecessors of vertices
 	     * @return
 	     */
-	    public G.IDictionary<BaseVertex, BaseVertex> GetPredecessorIndex() {
+	    public IDictionary<BaseVertex, BaseVertex> GetPredecessorIndex() {
             return predecessorIndex;
 	    }
 
@@ -151,11 +145,11 @@ namespace edu.asu.emit.algorithm.graph.shortestpaths {
 		    BaseVertex startVertex = isSource2sink ? sourceVertex : sinkVertex;
 		    startVertexDistanceIndex.Add(startVertex, 0d);
 		    startVertex.SetWeight(0d);
-		    vertexCandidateQueue.add(startVertex, startVertex.GetWeight());
+		    vertexCandidateQueue.Enqueue(startVertex, (float)startVertex.GetWeight());
 
 		    // 2. start searching for the shortest path
-		    while (!vertexCandidateQueue.isEmpty()) {
-			    BaseVertex curCandidate = vertexCandidateQueue.poll();
+		    while (vertexCandidateQueue.Count > 0) {
+			    BaseVertex curCandidate = vertexCandidateQueue.Dequeue();
 
 			    if (curCandidate.Equals(endVertex)) {
                     break;
@@ -198,7 +192,11 @@ namespace edu.asu.emit.algorithm.graph.shortestpaths {
 				    predecessorIndex.AddOrReplace(curAdjacentVertex, vertex);
 				
 				    curAdjacentVertex.SetWeight(distance);
-				    vertexCandidateQueue.add(curAdjacentVertex, curAdjacentVertex.GetWeight());
+				    if (vertexCandidateQueue.Contains(curAdjacentVertex)) {
+					    vertexCandidateQueue.UpdatePriority(curAdjacentVertex, (float)curAdjacentVertex.GetWeight());
+				    } else {
+					    vertexCandidateQueue.Enqueue(curAdjacentVertex, (float)curAdjacentVertex.GetWeight());
+				    }
 			    }
 		    }
 	    }
@@ -214,17 +212,17 @@ namespace edu.asu.emit.algorithm.graph.shortestpaths {
 	    public Path GetShortestPath(BaseVertex sourceVertex, BaseVertex sinkVertex)	{
 		    DetermineShortestPaths(sourceVertex, sinkVertex, true);
 		    //
-		    java.util.LinkedList<BaseVertex> vertexList = new java.util.LinkedList<BaseVertex>();
+		    List<BaseVertex> vertexList = new List<BaseVertex>();
 		    double weight = startVertexDistanceIndex.ContainsKey(sinkVertex) ?
 			    startVertexDistanceIndex[sinkVertex] : Graph.DISCONNECTED;
 		    if (weight != Graph.DISCONNECTED) {
 			    BaseVertex curVertex = sinkVertex;
 			    do {
-				    vertexList.add(curVertex);
+				    vertexList.Add(curVertex);
 				    curVertex = predecessorIndex[curVertex];
 			    } while (curVertex != null && curVertex != sourceVertex);
-			    vertexList.add(sourceVertex);
-                vertexList.reverse();
+			    vertexList.Add(sourceVertex);
+                vertexList.Reverse();
 		    }
 		    return new Path(vertexList, weight);
 	    }
@@ -266,19 +264,20 @@ namespace edu.asu.emit.algorithm.graph.shortestpaths {
 			    }
 		    }
 		
-		    // 4. create the subPath if exists
+		    // 4. 若 subPath 存在，則建立該路徑物件
 		    Path subPath = null;
 		    if (cost < Graph.DISCONNECTED) {
-			    subPath = new Path();
-			    subPath.SetWeight(cost);
-			    java.util.LinkedList<BaseVertex> vertexList = subPath.GetVertexList();
-			    vertexList.add(vertex);
+                // 由於 Path 重新設計為不可變物件 (Immutable)，
+                // 我們在此先建立頂點列表，最後再透過建構子建立 Path 實例。
+			    List<BaseVertex> vertexList = new List<BaseVertex>();
+			    vertexList.Add(vertex);
 			
 			    BaseVertex selVertex = predecessorIndex[vertex];
 			    while (selVertex != null) {
-				    vertexList.add(selVertex);
+				    vertexList.Add(selVertex);
 				    selVertex = predecessorIndex.GetValueIfExists(selVertex);
 			    }
+                subPath = new Path(vertexList, cost);
 		    }
 		
 		    return subPath;
@@ -292,12 +291,13 @@ namespace edu.asu.emit.algorithm.graph.shortestpaths {
 	     */
 	    public void CorrectCostBackward(BaseVertex vertex) {
 		    // 1. initialize the list of vertex to be updated
-		    var vertexList = new java.util.LinkedList<BaseVertex>();
-		    vertexList.add(vertex);
+		    var vertexList = new List<BaseVertex>();
+		    vertexList.Add(vertex);
 		
 		    // 2. update the cost of relevant precedents of the input vertex
-		    while (!vertexList.isEmpty()) {
-			    BaseVertex curVertex = vertexList.remove(0);
+		    while (vertexList.Count > 0) {
+			    BaseVertex curVertex = vertexList[0];
+			    vertexList.RemoveAt(0);
 			    double costOfCurVertex = startVertexDistanceIndex[curVertex];
 			
 			    ISet<BaseVertex> preVertexSet = graph.GetPrecedentVertices(curVertex);
@@ -309,7 +309,7 @@ namespace edu.asu.emit.algorithm.graph.shortestpaths {
 				    if (costOfPreVertex > freshCost) {
 					    startVertexDistanceIndex.AddOrReplace(preVertex, freshCost);
 					    predecessorIndex.AddOrReplace(preVertex, curVertex);
-					    vertexList.add(preVertex);
+					    vertexList.Add(preVertex);
 				    }
 			    }
 		    }

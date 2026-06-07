@@ -1,123 +1,36 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E3C0E64A-6B2B-4B7E-AF75-465C7B7A7559}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <TargetFramework>net10.0</TargetFramework>
+    <IsPackable>false</IsPackable>
     <RootNamespace>dotnet_adapters_shortest_paths_test</RootNamespace>
     <AssemblyName>Programmerare.ShortestPaths.Test</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
+    <Nullable>disable</Nullable>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <ProjectReference Include="..\Programmerare.ShortestPaths.Adapter.QuikGraph\Programmerare.ShortestPaths.Adapter.QuikGraph.csproj" />
+    <ProjectReference Include="..\Programmerare.ShortestPaths.Core\Programmerare.ShortestPaths.Core.csproj" />
+    <ProjectReference Include="..\Programmerare.ShortestPaths.Adapter.Bsmock\Programmerare.ShortestPaths.Adapter.Bsmock.csproj" />
+    <ProjectReference Include="..\Programmerare.ShortestPaths.Adapter.YanQi\Programmerare.ShortestPaths.Adapter.YanQi.csproj" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="test\Utils\TargetFrameworkDetectorTest.cs" />
-    <Compile Include="test\Utils\TargetFrameworkTest.cs" />
-    <Compile Include="Utils\TargetFramework.cs" />
-    <Compile Include="Utils\TargetFrameworkEnum.cs" />
-    <Compile Include="Utils\TargetFrameworkDetector.cs" />
-    <Compile Include="test\Programmerare.ShortestPaths.Adapter.Implementations\main\Graphs\Utils\FileReaderForGraphEdges.cs" />
-    <Compile Include="test\Programmerare.ShortestPaths.Adapter.Implementations\main\Graphs\Utils\PathFinderFactories.cs" />
-    <Compile Include="test\Programmerare.ShortestPaths.Adapter.Implementations\main\Utils\FileReader.cs" />
-    <Compile Include="test\Programmerare.ShortestPaths.Adapter.Implementations\main\Utils\ResourceReader.cs" />
-    <Compile Include="test\Programmerare.ShortestPaths.Adapter.Implementations\main\Utils\XmlFileReader.cs" />
-    <Compile Include="test\Programmerare.ShortestPaths.Adapter.Implementations\PathFinderImplementationsTest.cs" />
-    <Compile Include="test\Programmerare.ShortestPaths.Adapter.Implementations\test\Programmerare.ShortestPaths.Graphs.Tests\BigGraphTest.cs" />
-    <Compile Include="test\Programmerare.ShortestPaths.Adapter.Implementations\test\Programmerare.ShortestPaths.Graphs.Tests\EdgeIdValuesTest.cs" />
-    <Compile Include="test\Programmerare.ShortestPaths.Adapter.Implementations\test\Programmerare.ShortestPaths.Graphs.Tests\PathFinderBaseValidationExceptionTest.cs" />
-    <Compile Include="test\Programmerare.ShortestPaths.Adapter.Implementations\test\Programmerare.ShortestPaths.Graphs.Tests\SmallGraphTest.cs" />
-    <Compile Include="test\Programmerare.ShortestPaths.Adapter.Implementations\test\Programmerare.ShortestPaths.Graphs.Tests\XmlDefinedTestCasesTest.cs" />
-    <Compile Include="test\Programmerare.ShortestPaths.Adapter.Implementations\test\Programmerare.ShortestPaths.Graphs.Utils\FileReaderForGraphEdgesTest.cs" />
-    <Compile Include="test\Programmerare.ShortestPaths.Adapter.Implementations\test\Programmerare.ShortestPaths.Graphs.Utils\GraphShortestPathAssertionHelper.cs" />
-    <Compile Include="test\Programmerare.ShortestPaths.Adapter.Implementations\test\Programmerare.ShortestPaths.Utils\FileReaderTest.cs" />
-    <Compile Include="test\Programmerare.ShortestPaths.Adapter.Implementations\test\Programmerare.ShortestPaths.Utils\ResourceReaderTest.cs" />
-    <Compile Include="test\Programmerare.ShortestPaths.Adapter.Implementations\test\Programmerare.ShortestPaths.Utils\XmlFileReaderTest.cs" />
-    <Compile Include="test\Programmerare.ShortestPaths\Core\Impl\generics\EdgeGenericsImplTest.cs" />
-    <Compile Include="test\Programmerare.ShortestPaths\Core\Impl\generics\EdgeMapperTest.cs" />
-    <Compile Include="test\Programmerare.ShortestPaths\Core\Impl\generics\GraphGenericsImplTest.cs" />
-    <Compile Include="test\Programmerare.ShortestPaths\Core\Impl\generics\PathFinderBaseTest.cs" />
-    <Compile Include="test\Programmerare.ShortestPaths\Core\Impl\generics\PathFinderFactoryGenericsBaseTest.cs" />
-    <Compile Include="test\Programmerare.ShortestPaths\Core\Impl\generics\PathGenericsImplTest.cs" />
-    <Compile Include="test\Programmerare.ShortestPaths\Core\Impl\GraphImplTest.cs" />
-    <Compile Include="test\Programmerare.ShortestPaths\Core\Impl\VertexImplTest.cs" />
-    <Compile Include="test\Programmerare.ShortestPaths\Core\Impl\WeightImplTes.cs" />
-    <Compile Include="test\Programmerare.ShortestPaths\Core\Parsers\EdgeParserTest.cs" />
-    <Compile Include="test\Programmerare.ShortestPaths\Core\Parsers\PathParserTest.cs" />
-    <Compile Include="test\Programmerare.ShortestPaths\Core\Validation\GraphEdgesValidatorTest.cs" />
-    <Compile Include="test\Programmerare.ShortestPaths\Utils\EdgeUtilityTest.cs" />
-    <Compile Include="test\Programmerare.ShortestPaths\Utils\MapperForIntegerIdsAndGeneralStringIdsTest.cs" />
-    <Compile Include="test\Programmerare.ShortestPaths\Utils\StringUtilityTest.cs" />
-    <Compile Include="test\Programmerare.ShortestPaths\Utils\TimeMeasurerTest.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Programmerare.ShortestPaths.Adapter.QuikGraph\Programmerare.ShortestPaths.Adapter.QuikGraph.csproj">
-      <Project>{2709f76e-78cb-4b17-a9df-6a303a7d8d53}</Project>
-      <Name>Programmerare.ShortestPaths.Adapter.QuikGraph</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Programmerare.ShortestPaths.Core\Programmerare.ShortestPaths.Core.csproj">
-      <Project>{45de26bc-016f-445c-b625-9d7f04ea3353}</Project>
-      <Name>Programmerare.ShortestPaths.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Programmerare.ShortestPaths.Adapter.Bsmock\Programmerare.ShortestPaths.Adapter.Bsmock.csproj">
-      <Project>{b15edc9e-b0bd-4cf0-ae98-31649df63d84}</Project>
-      <Name>Programmerare.ShortestPaths.Adapter.Bsmock</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Programmerare.ShortestPaths.Adapter.YanQi\Programmerare.ShortestPaths.Adapter.YanQi.csproj">
-      <Project>{e5f801d6-0430-4e40-8deb-94ef6def2f8c}</Project>
-      <Name>Programmerare.ShortestPaths.Adapter.YanQi</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
-    <PackageReference Include="NUnit">
-      <Version>3.12.0</Version>
-    </PackageReference>
-    <PackageReference Include="NUnit3TestAdapter">
-      <Version>3.16.1</Version>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.6.0" />
+    <PackageReference Include="NUnit" Version="3.14.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="6.2.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
+
   <ItemGroup>
-    <Content Include="test\Programmerare.ShortestPaths.Adapter.Implementations\resources\directory_for_filereader_test\file_for_filereader_test.txt" />
-    <Content Include="test\Programmerare.ShortestPaths.Adapter.Implementations\resources\directory_for_filereader_test\two_edges_A_B_7__X_Y_8.txt" />
+    <None Update="test\Programmerare.ShortestPaths.Adapter.Implementations\resources\directory_for_filereader_test\file_for_filereader_test.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="test\Programmerare.ShortestPaths.Adapter.Implementations\resources\directory_for_filereader_test\two_edges_A_B_7__X_Y_8.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Content Include="test\Programmerare.ShortestPaths.Adapter.Implementations\resources\directory_for_resource_reader_test\txtFile1.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -135,7 +48,6 @@
     </Content>
     <Content Include="test\Programmerare.ShortestPaths.Adapter.Implementations\resources\test_graphs\generated_graph.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
     </Content>
     <Content Include="test\Programmerare.ShortestPaths.Adapter.Implementations\resources\test_graphs\origin_bsmock\small_road_network_01.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -154,7 +66,6 @@
     </Content>
     <Content Include="test\Programmerare.ShortestPaths.Adapter.Implementations\resources\test_graphs\origin_yanqi\test_50.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
     </Content>
     <Content Include="test\Programmerare.ShortestPaths.Adapter.Implementations\resources\test_graphs\origin_yanqi\test_50_2.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -174,15 +85,18 @@
     <Content Include="test\Programmerare.ShortestPaths.Adapter.Implementations\resources\test_graphs\origin_yanqi\test_8.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="test\Programmerare.ShortestPaths.Adapter.Implementations\resources\test_graphs\small_graph_1.txt" />
+    <None Update="test\Programmerare.ShortestPaths.Adapter.Implementations\resources\test_graphs\small_graph_1.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Content Include="test\Programmerare.ShortestPaths.Adapter.Implementations\resources\test_graphs\small_graph_1.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
     </Content>
-    <Content Include="test\Programmerare.ShortestPaths.Adapter.Implementations\resources\test_graphs\small_graph_2.txt" />
+    <None Update="test\Programmerare.ShortestPaths.Adapter.Implementations\resources\test_graphs\small_graph_2.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Content Include="test\Programmerare.ShortestPaths.Adapter.Implementations\resources\test_graphs\small_graph_2.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
 </Project>

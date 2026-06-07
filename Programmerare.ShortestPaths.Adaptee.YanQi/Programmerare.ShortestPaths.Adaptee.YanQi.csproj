@@ -1,7 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net20;net40</TargetFrameworks>
+    <TargetFramework>net10.0</TargetFramework>
     <Version>1.0.0</Version>
     <Description>Library used for finding the shortest paths between two nodes in a graph.
 The project was created from a fork of a Java library which has been translated to C#.
@@ -11,14 +11,15 @@ The Java fork of the above Java library:
 https://github.com/TomasJohansson/k-shortest-paths-java-version</Description>
     <AssemblyName>Programmerare.ShortestPaths.Adaptee.YanQi</AssemblyName>
     <RootNamespace>Programmerare.ShortestPaths.Adaptee.YanQi</RootNamespace>
+    <Nullable>disable</Nullable>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net20|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>.\bin\Programmerare.ShortestPaths.Adaptee.YanQi.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Programmerare.ShortestPaths.Adaptees.Common\Programmerare.ShortestPaths.Adaptees.Common.csproj" />
+    <PackageReference Include="OptimizedPriorityQueue" Version="5.1.0" />
   </ItemGroup>
 
 </Project>

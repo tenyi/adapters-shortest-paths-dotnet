@@ -96,10 +96,10 @@ namespace Programmerare.ShortestPaths.Adapter.YanQi.Generics
 		    while(yenAlg.HasNext()) {
 			    global::edu.asu.emit.algorithm.graph.Path path = yenAlg.Next();
 			    IList<E> edges = new List<E>();
-			    java.util.List<BaseVertex> vertexList = path.GetVertexList();
-			    for (int i = 1; i < vertexList.size(); i++) {
-				    BaseVertex startVertexForEdge = vertexList.get(i-1);
-				    BaseVertex endVertexForEdge = vertexList.get(i);
+			    IList<BaseVertex> vertexList = path.GetVertexList();
+			    for (int i = 1; i < vertexList.Count; i++) {
+				    BaseVertex startVertexForEdge = vertexList[i-1];
+				    BaseVertex endVertexForEdge = vertexList[i];
 				    E edge = GetOriginalEdgeInstance(startVertexForEdge, endVertexForEdge); 
 				    edges.Add(
 					    edge

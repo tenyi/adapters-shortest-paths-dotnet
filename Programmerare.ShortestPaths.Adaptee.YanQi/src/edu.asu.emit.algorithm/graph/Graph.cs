@@ -52,21 +52,13 @@
  *
  */
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
-//using System.Collections.Generic; // problem with 3.5 if everything is imported since HashSet was introduced with .NET 3.5 and the interface ISet with .NET 4.0 
-using G = System.Collections.Generic;// https://stackoverflow.com/questions/3720222/using-statement-with-generics-using-iset-system-collections-generic-iset
-#if ( NET20 || NET30 || NET35 ) // ISet and HashSet
-using Programmerare.ShortestPaths.Adaptees.Common.DotNetTypes.DotNet20; // ISet and HashSet:
-// else (if > .NET 3.5) then ISet and HashSet exist in System.Collections.Generic
-#else
-using System.Collections.Generic; // ISet and HashSet
-#endif
 using System.Text.RegularExpressions;
 using edu.asu.emit.algorithm.graph.abstraction;
 using edu.asu.emit.algorithm.utils;
 using JavaToDotNetTranslationHelpers;
-using Programmerare.ShortestPaths.Adaptees.Common.DotNetTypes;
 
 namespace edu.asu.emit.algorithm.graph {
 
@@ -88,23 +80,23 @@ namespace edu.asu.emit.algorithm.graph {
 	    public static readonly double DISCONNECTED = double.MaxValue;
 	
 	    // index of fan-outs of one vertex
-	    protected G.IDictionary<int, ISet<BaseVertex>> fanoutVerticesIndex =
-		    new G.Dictionary<int, ISet<BaseVertex>>();
+	    protected IDictionary<int, ISet<BaseVertex>> fanoutVerticesIndex =
+		    new Dictionary<int, ISet<BaseVertex>>();
 	
 	    // index for fan-ins of one vertex
-	    protected G.IDictionary<int, ISet<BaseVertex>> faninVerticesIndex =
-		    new G.Dictionary<int, ISet<BaseVertex>>();
+	    protected IDictionary<int, ISet<BaseVertex>> faninVerticesIndex =
+		    new Dictionary<int, ISet<BaseVertex>>();
 	
 	    // index for edge weights in the graph
-	    protected G.IDictionary<Pair<int, int>, Double> vertexPairWeightIndex = 
-		    new G.Dictionary<Pair<int, int>, Double>();
+	    protected IDictionary<Pair<int, int>, Double> vertexPairWeightIndex = 
+		    new Dictionary<Pair<int, int>, Double>();
 	
 	    // index for vertices in the graph
-	    protected G.IDictionary<int, BaseVertex> idVertexIndex = 
-		    new G.Dictionary<int, BaseVertex>();
+	    protected IDictionary<int, BaseVertex> idVertexIndex = 
+		    new Dictionary<int, BaseVertex>();
 	
 	    // list of vertices in the graph 
-	    protected G.IList<BaseVertex> vertexList = new System.Collections.Generic.List<BaseVertex>();
+	    protected IList<BaseVertex> vertexList = new System.Collections.Generic.List<BaseVertex>();
 	
 	    // the number of vertices in the graph
 	    protected int vertexNum = 0;
@@ -144,7 +136,7 @@ namespace edu.asu.emit.algorithm.graph {
 	     * Clear members of the graph.
 	     */
 	    public void Clear() {
-		    Vertex.Reset();
+            // 移除已廢除的 Vertex.Reset() 呼叫以避免多執行緒污染
 		    vertexNum = 0;
 		    edgeNum = 0; 
 		    vertexList.Clear();
@@ -209,7 +201,7 @@ namespace edu.asu.emit.algorithm.graph {
 
 		    } catch (IOException e) {
 			    // If another exception is generated, print a stack trace
-                ConsoleUtility.WriteLine(e.StackTrace);
+                Console.WriteLine(e.StackTrace);
 		    }
 	    }
 #endif
@@ -305,11 +297,11 @@ namespace edu.asu.emit.algorithm.graph {
 	    }
 	
 	    public virtual double GetEdgeWeight(BaseVertex source, BaseVertex sink)	{
-		    return vertexPairWeightIndex.ContainsKey(
-					    new Pair<int, int>(source.GetId(), sink.GetId()))? 
-							    vertexPairWeightIndex[
-									    new Pair<int, int>(source.GetId(), sink.GetId())]
-						      : DISCONNECTED;
+            // 改用 TryGetValue 減少一次字典 lookup，提升效能
+            if (vertexPairWeightIndex.TryGetValue(new Pair<int, int>(source.GetId(), sink.GetId()), out double weight)) {
+                return weight;
+            }
+            return DISCONNECTED;
 	    }
 
 	    /**
@@ -323,7 +315,7 @@ namespace edu.asu.emit.algorithm.graph {
 	    /**
 	     * Return the vertex list in the graph.
 	     */
-	    public virtual G.IList<BaseVertex> GetVertexList() {
+	    public virtual IList<BaseVertex> GetVertexList() {
 		    return vertexList;
 	    }
 	
@@ -356,7 +348,8 @@ namespace edu.asu.emit.algorithm.graph {
 	    protected void SetNumberOfVertices(int numberOfVertices) {
 		    vertexNum = numberOfVertices;
 		    for (int i=0; i<vertexNum; ++i) {
-			    BaseVertex vertex = new Vertex();
+                // 顯式傳入唯一的整數 ID，達成無狀態與執行緒安全
+			    BaseVertex vertex = new Vertex(i);
 			    vertexList.Add(vertex);
 			    idVertexIndex.Add(vertex.GetId(), vertex);
 		    }

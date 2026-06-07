@@ -51,14 +51,7 @@
  *
  */
 
-//using System.Collections.Generic; // problem with 3.5 if everything is imported since HashSet was introduced with .NET 3.5 and the interface ISet with .NET 4.0 
-using G = System.Collections.Generic;// https://stackoverflow.com/questions/3720222/using-statement-with-generics-using-iset-system-collections-generic-iset
-#if ( NET20 || NET30 || NET35 ) // ISet and HashSet
-using Programmerare.ShortestPaths.Adaptees.Common.DotNetTypes.DotNet20; // ISet and HashSet:
-// else (if > .NET 3.5) then ISet and HashSet exist in System.Collections.Generic
-#else
-using System.Collections.Generic; // ISet and HashSet
-#endif
+using System.Collections.Generic;
 
 namespace edu.asu.emit.algorithm.graph.abstraction {
     /**
@@ -72,7 +65,7 @@ namespace edu.asu.emit.algorithm.graph.abstraction {
      */
     public interface BaseGraph {
 	
-	    G.IList<BaseVertex> GetVertexList();
+	    IList<BaseVertex> GetVertexList();
 	    double GetEdgeWeight(BaseVertex source, BaseVertex sink);
 	    ISet<BaseVertex> GetAdjacentVertices(BaseVertex vertex);
 	    ISet<BaseVertex> GetPrecedentVertices(BaseVertex vertex);

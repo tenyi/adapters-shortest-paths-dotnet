@@ -1,18 +1,19 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net20;net40</TargetFrameworks>
+    <TargetFramework>net10.0</TargetFramework>
     <RootNamespace>Programmerare.ShortestPaths.Adapter.Bsmock</RootNamespace>
     <Version>1.0.0</Version>
     <Description>Adapter implementation (for the Target Adapter interfaces defined in 'Programmerare.ShortestPaths.Core') which uses 'Programmerare.ShortestPaths.Adaptee.Bsmock' as the adaptee.</Description>
     <AssemblyName>Programmerare.ShortestPaths.Adapter.Bsmock</AssemblyName>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netstandard2.0\Programmerare.ShortestPaths.Adapter.Bsmock.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\Programmerare.ShortestPaths.Adapter.Bsmock.xml</DocumentationFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net20|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>.\bin\Programmerare.ShortestPaths.Adapter.Bsmock.xml</DocumentationFile>
   </PropertyGroup>
 

@@ -226,7 +226,7 @@ namespace Programmerare.ShortestPaths.Graphs.Tests {
 					    }
 					    catch(Exception e) {
 						    // Without try/catch here we would fail without seeing which test file caused the failure
-						    // We might use the method 'Assert.fail' here but then we do not see the stack trace, so therefore throw exception here 
+						    // We might use the method 'Assert.fail' here but then we do not see the stack trace, so therefore throw exception here
 						    throw new Exception("Failure for the test defined in file " + fileName + " , " + e.Message, e);
 					    }
 				    }
@@ -237,15 +237,17 @@ namespace Programmerare.ShortestPaths.Graphs.Tests {
 	    }
 
 	    private void runTestCaseDefinedInXmlFile(
-		    string pathToResourcesFoldersIncludingTrailingSlash, 
+		    string pathToResourcesFoldersIncludingTrailingSlash,
 		    string nameOfXmlFileWithoutDirectoryPath,
 		    IList<PathFinderFactory> pathFinderFactories
 	    )  {
 		    runTestCaseDefinedInXmlFileWithPathIncludingDirectory(
-			    pathToResourcesFoldersIncludingTrailingSlash + nameOfXmlFileWithoutDirectoryPath, 
+			    pathToResourcesFoldersIncludingTrailingSlash + nameOfXmlFileWithoutDirectoryPath,
 			    pathFinderFactories
 		    );
 	    }
+
+
 	
 	    private void runTestCaseDefinedInXmlFileWithPathIncludingDirectory(
 		    string pathToResourceXmlFile, 

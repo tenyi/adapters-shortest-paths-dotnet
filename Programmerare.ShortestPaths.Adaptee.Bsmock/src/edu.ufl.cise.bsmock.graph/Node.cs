@@ -88,10 +88,10 @@ namespace edu.ufl.cise.bsmock.graph {
             return neighbors.Keys;
         }
 
-        public java.util.LinkedList<Edge> GetEdges() {
-            java.util.LinkedList<Edge> edges = new java.util.LinkedList<Edge>();
+        public List<Edge> GetEdges() {
+            List<Edge> edges = new List<Edge>();
             foreach (String toNodeLabel in neighbors.Keys) {
-                edges.add(new Edge(label,toNodeLabel,neighbors[toNodeLabel]));
+                edges.Add(new Edge(label,toNodeLabel,neighbors[toNodeLabel]));
             }
 
             return edges;

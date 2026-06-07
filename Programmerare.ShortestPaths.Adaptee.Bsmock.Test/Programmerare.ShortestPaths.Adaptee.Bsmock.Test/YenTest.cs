@@ -35,24 +35,24 @@ namespace Programmerare.ShortestPaths.Adaptee.Bsmock.Test
             Assert.AreEqual(15, path2.GetTotalCost(), deltaValue);
             Assert.AreEqual(21, path3.GetTotalCost(), deltaValue);
 
-            java.util.LinkedList<String> nodes1 = path1.GetNodes();
-            Assert.AreEqual(3, nodes1.size());
-            Assert.AreEqual("A", nodes1.get(0));
-            Assert.AreEqual("B", nodes1.get(1));
-            Assert.AreEqual("D", nodes1.get(2));
+            List<String> nodes1 = path1.GetNodes();
+            Assert.AreEqual(3, nodes1.Count);
+            Assert.AreEqual("A", nodes1[0]);
+            Assert.AreEqual("B", nodes1[1]);
+            Assert.AreEqual("D", nodes1[2]);
         
-            java.util.LinkedList<String> nodes2 = path2.GetNodes();
-            Assert.AreEqual(3, nodes2.size());
-            Assert.AreEqual("A", nodes2.get(0));
-            Assert.AreEqual("C", nodes2.get(1));
-            Assert.AreEqual("D", nodes2.get(2));
+            List<String> nodes2 = path2.GetNodes();
+            Assert.AreEqual(3, nodes2.Count);
+            Assert.AreEqual("A", nodes2[0]);
+            Assert.AreEqual("C", nodes2[1]);
+            Assert.AreEqual("D", nodes2[2]);
 
-            java.util.LinkedList<String> nodes3 = path3.GetNodes();
-            Assert.AreEqual(4, nodes3.size());
-            Assert.AreEqual("A", nodes3.get(0));
-            Assert.AreEqual("B", nodes3.get(1));
-            Assert.AreEqual("C", nodes3.get(2));
-            Assert.AreEqual("D", nodes3.get(3));
+            List<String> nodes3 = path3.GetNodes();
+            Assert.AreEqual(4, nodes3.Count);
+            Assert.AreEqual("A", nodes3[0]);
+            Assert.AreEqual("B", nodes3[1]);
+            Assert.AreEqual("C", nodes3[2]);
+            Assert.AreEqual("D", nodes3[3]);
         }
     }
 }

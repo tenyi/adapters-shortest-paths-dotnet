@@ -77,7 +77,7 @@ namespace Programmerare.ShortestPaths.Adapter.Bsmock.Generics
 			    maxNumberOfPaths
 		    );
 		    foreach(edu.ufl.cise.bsmock.graph.util.Path path in pathList) {
-			    java.util.LinkedList<edu.ufl.cise.bsmock.graph.Edge> listOfEdges = path.GetEdges();
+			    List<edu.ufl.cise.bsmock.graph.Edge> listOfEdges = path.GetEdges();
 			    IList<E> edges = new System.Collections.Generic.List<E>();
 			    foreach(edu.ufl.cise.bsmock.graph.Edge edgeAdaptee in listOfEdges) {
 				    E edge = GetOriginalEdgeInstance(edgeAdaptee);

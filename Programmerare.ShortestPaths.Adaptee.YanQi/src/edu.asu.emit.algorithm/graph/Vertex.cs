@@ -79,10 +79,16 @@ namespace edu.asu.emit.algorithm.graph {
         // which was how the compareTo method was implemented before in this class 
         // i.e. before the method Comparable.compareTo was removed
 	
-	    private static int currentVertexNum = 0; // Uniquely identify each vertex
-	    private int id = currentVertexNum++;
+        // 移除全域靜態 counter 與 Reset 方法，以避免多執行緒狀態污染與競爭條件。
+        // 頂點 ID 現在改為在建構時明確指定，使 Vertex 成為執行緒安全的唯讀標識物件。
+	    private readonly int id;
 	    private double weight = 0;
 	
+        // 唯一的建構子，強迫傳入唯一的頂點 ID
+        public Vertex(int id) {
+            this.id = id;
+        }
+
 	    public int GetId() {
 		    return id;
 	    }
@@ -97,22 +103,6 @@ namespace edu.asu.emit.algorithm.graph {
 	
 	    public void SetWeight(double status) {
 		    weight = status;
-	    }
-	
-        // see comment at the top of the file regarding why the below Comparable<Vertex> method has been removed
-     //   private int compareToo(BaseVertex rVertex) {
-	    //	double diff = this.weight - rVertex.getWeight();
-	    //	if (diff > 0) {
-	    //		return 1;
-	    //	} else if (diff < 0) {
-	    //		return -1;
-	    //	} else { 
-	    //		return 0;
-	    //	}
-	    //}
-	
-	    public static void Reset() {
-		    currentVertexNum = 0;
 	    }
 
         // see comment at the top of the file regarding why the below Comparable<Vertex> methods has been removed

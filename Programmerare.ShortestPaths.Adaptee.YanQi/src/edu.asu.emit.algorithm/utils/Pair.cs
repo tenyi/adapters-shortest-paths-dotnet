@@ -76,13 +76,14 @@ namespace edu.asu.emit.algorithm.utils {
     	    return o2;
         }
         
+        // 重構 GetHashCode 實作，改用傳統乘法質數雜湊組合方式，以顯著降低雜湊碰撞，提升字典尋找效能。
         public override int GetHashCode() {
-            int code = 0;
-            if (o1 != null)
-                code = o1.GetHashCode();
-            if (o2 != null)
-                code = code/2 + o2.GetHashCode()/2;
-            return code;
+            unchecked {
+                int hash = 17;
+                hash = hash * 23 + (o1 == null ? 0 : o1.GetHashCode());
+                hash = hash * 23 + (o2 == null ? 0 : o2.GetHashCode());
+                return hash;
+            }
         }
 
         public static bool Same(Object o1, Object o2) {

@@ -16,17 +16,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Programmerare.ShortestPaths.Adapter.Bsmock", "Programmerare.ShortestPaths.Adapter.Bsmock\Programmerare.ShortestPaths.Adapter.Bsmock.csproj", "{B15EDC9E-B0BD-4CF0-AE98-31649DF63D84}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Programmerare.ShortestPaths.Adaptee.Bsmock", "Programmerare.ShortestPaths.Adaptee.Bsmock\Programmerare.ShortestPaths.Adaptee.Bsmock.csproj", "{60C54CB0-C8BF-4A39-9F8B-B18D0F76A89D}"
-	ProjectSection(ProjectDependencies) = postProject
-		{E345E0BE-3A15-4D06-BCAA-4951EF27DE15} = {E345E0BE-3A15-4D06-BCAA-4951EF27DE15}
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Programmerare.ShortestPaths.Adaptee.Bsmock.Test", "Programmerare.ShortestPaths.Adaptee.Bsmock.Test\Programmerare.ShortestPaths.Adaptee.Bsmock.Test.csproj", "{BDDF6667-CF76-429E-8B19-5E9FD9BDA947}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Programmerare.ShortestPaths.Adaptees.Common", "Programmerare.ShortestPaths.Adaptees.Common\Programmerare.ShortestPaths.Adaptees.Common.csproj", "{E345E0BE-3A15-4D06-BCAA-4951EF27DE15}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Programmerare.ShortestPaths.Adaptees.Common.Test", "Programmerare.ShortestPaths.Adaptees.Common.Test\Programmerare.ShortestPaths.Adaptees.Common.Test.csproj", "{68DE9558-16E2-443C-91BD-DFF912AD5D3D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Programmerare.ShortestPaths.Example", "Programmerare.ShortestPaths.Example\Programmerare.ShortestPaths.Example.csproj", "{EE0C7039-58E5-4E23-A671-B321CBEE2A19}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Programmerare.ShortestPaths.Adapter.QuikGraph", "Programmerare.ShortestPaths.Adapter.QuikGraph\Programmerare.ShortestPaths.Adapter.QuikGraph.csproj", "{2709F76E-78CB-4B17-A9DF-6A303A7D8D53}"
 EndProject
@@ -70,18 +61,6 @@ Global
 		{BDDF6667-CF76-429E-8B19-5E9FD9BDA947}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BDDF6667-CF76-429E-8B19-5E9FD9BDA947}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BDDF6667-CF76-429E-8B19-5E9FD9BDA947}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E345E0BE-3A15-4D06-BCAA-4951EF27DE15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E345E0BE-3A15-4D06-BCAA-4951EF27DE15}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E345E0BE-3A15-4D06-BCAA-4951EF27DE15}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E345E0BE-3A15-4D06-BCAA-4951EF27DE15}.Release|Any CPU.Build.0 = Release|Any CPU
-		{68DE9558-16E2-443C-91BD-DFF912AD5D3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{68DE9558-16E2-443C-91BD-DFF912AD5D3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{68DE9558-16E2-443C-91BD-DFF912AD5D3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{68DE9558-16E2-443C-91BD-DFF912AD5D3D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EE0C7039-58E5-4E23-A671-B321CBEE2A19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EE0C7039-58E5-4E23-A671-B321CBEE2A19}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EE0C7039-58E5-4E23-A671-B321CBEE2A19}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EE0C7039-58E5-4E23-A671-B321CBEE2A19}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2709F76E-78CB-4B17-A9DF-6A303A7D8D53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2709F76E-78CB-4B17-A9DF-6A303A7D8D53}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2709F76E-78CB-4B17-A9DF-6A303A7D8D53}.Release|Any CPU.ActiveCfg = Release|Any CPU

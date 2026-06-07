@@ -52,19 +52,11 @@
  *
  */
 using System;
-//using System.Collections.Generic; // problem with 3.5 if everything is imported since HashSet was introduced with .NET 3.5 and the interface ISet with .NET 4.0 
-using G = System.Collections.Generic;// https://stackoverflow.com/questions/3720222/using-statement-with-generics-using-iset-system-collections-generic-iset
-#if ( NET20 || NET30 || NET35 ) // ISet and HashSet
-using Programmerare.ShortestPaths.Adaptees.Common.DotNetTypes.DotNet20; // ISet and HashSet:
-// else (if > .NET 3.5) then ISet and HashSet exist in System.Collections.Generic
-#else
-using System.Collections.Generic; // ISet and HashSet
-#endif
+using System.Collections.Generic;
 using edu.asu.emit.algorithm.graph.abstraction;
 using edu.asu.emit.algorithm.graph.shortestpaths;
 using edu.asu.emit.algorithm.utils;
 using JavaToDotNetTranslationHelpers;
-using Programmerare.ShortestPaths.Adaptees.Common.DotNetTypes;
 
 namespace edu.asu.emit.algorithm.graph {
     /**
@@ -106,7 +98,7 @@ namespace edu.asu.emit.algorithm.graph {
 	     * 
 	     * @param remVertexList
 	     */
-	    public void SetDelVertexIdList(G.IList<int> remVertexList) {
+	    public void SetDelVertexIdList(IList<int> remVertexList) {
 		    this.remVertexIdSet.AddAll(remVertexList);
 	    }
 
@@ -115,7 +107,7 @@ namespace edu.asu.emit.algorithm.graph {
 	     * 
 	     * @param _rem_edge_hashcode_set
 	     */
-	    public void SetDelEdgeHashcodeSet(G.IList<Pair<int, int>> remEdgeCollection) {
+	    public void SetDelEdgeHashcodeSet(IList<Pair<int, int>> remEdgeCollection) {
 		    remEdgeSet.AddAll(remEdgeCollection);
 	    }
 	
@@ -234,8 +226,8 @@ namespace edu.asu.emit.algorithm.graph {
 	     * Get the list of vertices in the graph, except those removed.
 	     * @return
 	     */
-	    public override G.IList<BaseVertex> GetVertexList() {
-		    G.IList<BaseVertex> retList = new G.List<BaseVertex>();
+	    public override IList<BaseVertex> GetVertexList() {
+		    IList<BaseVertex> retList = new List<BaseVertex>();
 		    foreach (BaseVertex curVertex in base.GetVertexList()) {
 			    if (remVertexIdSet.Contains(curVertex.GetId())) {
 				    continue;
@@ -263,7 +255,7 @@ namespace edu.asu.emit.algorithm.graph {
 	     * @param args
 	     */
 	    public static void main(String[] args) {
-		    ConsoleUtility.WriteLine("Welcome to the class VariableGraph!");
+		    Console.WriteLine("Welcome to the class VariableGraph!");
 		
 		    VariableGraph graph = new VariableGraph("data/test_50");
 		    graph.DeleteVertex(13);
@@ -275,7 +267,7 @@ namespace edu.asu.emit.algorithm.graph {
 		    graph.DeleteVertex(3);
 		    graph.DeleteEdge(new Pair<int, int>(26, 41));
 		    DijkstraShortestPathAlg alg = new DijkstraShortestPathAlg(graph);
-		    ConsoleUtility.WriteLine(alg.GetShortestPath(graph.GetVertex(0), graph.GetVertex(20)));
+		    Console.WriteLine(alg.GetShortestPath(graph.GetVertex(0), graph.GetVertex(20)));
 	    }
     }
 }
