@@ -17,6 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Programmerare.ShortestPaths.Adapter.Bsmock\Programmerare.ShortestPaths.Adapter.Bsmock.csproj" />
     <ProjectReference Include="..\Programmerare.ShortestPaths.Adapter.YanQi\Programmerare.ShortestPaths.Adapter.YanQi.csproj" />
+    <ProjectReference Include="..\Programmerare.ShortestPaths.Adapter.QuikGraph\Programmerare.ShortestPaths.Adapter.QuikGraph.csproj" />
     <ProjectReference Include="..\Programmerare.ShortestPaths.Core\Programmerare.ShortestPaths.Core.csproj" />
   </ItemGroup>
 
