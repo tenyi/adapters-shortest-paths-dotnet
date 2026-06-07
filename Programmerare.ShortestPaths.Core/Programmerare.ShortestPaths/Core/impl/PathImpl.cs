@@ -11,17 +11,19 @@ using Programmerare.ShortestPaths.Core.Api;
 using Programmerare.ShortestPaths.Core.Impl.Generics;
 using System.Collections.Generic;
 
-namespace Programmerare.ShortestPaths.Core.Impl
-{
-    public sealed class PathImpl : PathGenericsImpl<Edge, Vertex, Weight> , Path 
-    {
+namespace Programmerare.ShortestPaths.Core.Impl;
 
-	    private PathImpl(Weight totalWeight, IList<Edge> edges): base(totalWeight, edges) {
-	    }
+/// <summary>
+/// Default implementation of <see cref="Path"/>.
+/// Use the static factory method <see cref="CreatePath"/> to construct instances.
+/// </summary>
+public sealed class PathImpl : PathGenericsImpl<Edge, Vertex, Weight> , Path {
 
-	    public static Path CreatePath(Weight totalWeight, IList<Edge> edges) {
-		    return new PathImpl(totalWeight, edges);
-	    }
+    private PathImpl(Weight totalWeight, IList<Edge> edges): base(totalWeight, edges) {
+    }
 
+    /// <summary>Creates a path with the given total weight and edge list.</summary>
+    public static Path CreatePath(Weight totalWeight, IList<Edge> edges) {
+        return new PathImpl(totalWeight, edges);
     }
 }

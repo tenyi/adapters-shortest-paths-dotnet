@@ -9,61 +9,61 @@
 */
 using Programmerare.ShortestPaths.Core.Api;
 
-namespace Programmerare.ShortestPaths.Core.Impl
-{
-    public sealed class VertexImpl : Vertex {
+namespace Programmerare.ShortestPaths.Core.Impl;
 
-	    private readonly string id;
-	
-	    public static Vertex CreateVertex(
-		    string id		
-	    ) {
-		    return new VertexImpl(
-			    id
-		    );
-	    }
+/// <summary>
+/// Default implementation of <see cref="Vertex"/>.
+/// Use the static factory methods <see cref="CreateVertex(string)"/> or <see cref="CreateVertex(int)"/> to construct instances.
+/// </summary>
+public sealed class VertexImpl : Vertex {
 
-	    public static Vertex CreateVertex(
-		    int id			
-	    ) {
-		    return CreateVertex(id.ToString());
-	    }
-	
-	    private VertexImpl(string id) {
-		    this.id = id;
-	    }
+    private readonly string id;
 
-        public string VertexId => id;
+    public static Vertex CreateVertex(
+        string id
+    ) {
+        return new VertexImpl(id);
+    }
 
-        public override string ToString() {
-		    return "VertexImpl [id=" + id + "]";
-	    }
+    public static Vertex CreateVertex(
+        int id
+    ) {
+        return CreateVertex(id.ToString());
+    }
 
-	    public override int GetHashCode() {
-		    int prime = 31;
-		    int result = 1;
-		    result = prime * result + ((id == null) ? 0 : id.GetHashCode());
-		    return result;
-	    }
+    private VertexImpl(string id) {
+        this.id = id;
+    }
 
-	    public override bool Equals(object obj) {
-		    if (this == obj)
-			    return true;
-		    if (obj == null)
-			    return false;
-		    if (!(obj is VertexImpl))
-			    return false;
-		    VertexImpl other = (VertexImpl) obj;
-		    if (id == null) {
-			    if (other.id != null)
-				    return false;
-		    } else if (!id.Equals(other.id))
-			    return false;
-		    return true;
-	    }
+    public string VertexId => id;
 
-	    public string RenderToString() {
-		    return ToString();
-	    }
+    public override string ToString() {
+        return "VertexImpl [id=" + id + "]";
+    }
+
+    public override int GetHashCode() {
+        int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.GetHashCode());
+        return result;
+    }
+
+    public override bool Equals(object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (obj is not VertexImpl other)
+            return false;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.Equals(other.id))
+            return false;
+        return true;
+    }
+
+    public string RenderToString() {
+        return ToString();
     }
 }

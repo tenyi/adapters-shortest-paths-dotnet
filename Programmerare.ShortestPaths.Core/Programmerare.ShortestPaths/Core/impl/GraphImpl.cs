@@ -12,36 +12,39 @@ using Programmerare.ShortestPaths.Core.Impl.Generics;
 using Programmerare.ShortestPaths.Core.Validation;
 using System.Collections.Generic;
 
-namespace Programmerare.ShortestPaths.Core.Impl
-{
-    public sealed class GraphImpl : GraphGenericsImpl<Edge, Vertex , Weight> , Graph {
+namespace Programmerare.ShortestPaths.Core.Impl;
 
-	    private GraphImpl(
-		    IList<Edge> edges,
-		    GraphEdgesValidationDesired graphEdgesValidationDesired
-	    ) : base(edges, graphEdgesValidationDesired) {
-	    }
+/// <summary>
+/// Default implementation of <see cref="Graph"/>.
+/// Use the static factory methods to construct instances.
+/// </summary>
+public sealed class GraphImpl : GraphGenericsImpl<Edge, Vertex , Weight> , Graph {
 
-        /// <summary>
-        /// Creates a graph instance, but will validate the edges and throw an exception if validation fails.
-        /// If validation is not desired, then use the overloaded method.
-        /// </summary>
-        /// <param name="edges">list of all the edges for the graph</param>
-        /// <returns>an instance implementing the Graph interface</returns>
-	    public static Graph CreateGraph(
-		    IList<Edge> edges
-	    ) {
-		    return CreateGraph(edges, GraphEdgesValidationDesired.YES);
-	    }
-	
-        /// <param name="edges">list of all the edges for the graph</param>
-        /// <param name="graphEdgesValidationDesired">enum specifying whether or not validation is desired</param>
-        /// <returns>an instance implementing the Graph interface</returns>
-	    public static Graph CreateGraph(
-		    IList<Edge> edges,
-		    GraphEdgesValidationDesired graphEdgesValidationDesired
-	    ) {
-		    return new GraphImpl(edges, graphEdgesValidationDesired);
-	    }	
+    private GraphImpl(
+        IList<Edge> edges,
+        GraphEdgesValidationDesired graphEdgesValidationDesired
+    ) : base(edges, graphEdgesValidationDesired) {
+    }
+
+    /// <summary>
+    /// Creates a graph instance, but will validate the edges and throw an exception if validation fails.
+    /// If validation is not desired, then use the overloaded method.
+    /// </summary>
+    /// <param name="edges">list of all the edges for the graph</param>
+    /// <returns>an instance implementing the Graph interface</returns>
+    public static Graph CreateGraph(
+        IList<Edge> edges
+    ) {
+        return CreateGraph(edges, GraphEdgesValidationDesired.YES);
+    }
+
+    /// <param name="edges">list of all the edges for the graph</param>
+    /// <param name="graphEdgesValidationDesired">enum specifying whether or not validation is desired</param>
+    /// <returns>an instance implementing the Graph interface</returns>
+    public static Graph CreateGraph(
+        IList<Edge> edges,
+        GraphEdgesValidationDesired graphEdgesValidationDesired
+    ) {
+        return new GraphImpl(edges, graphEdgesValidationDesired);
     }
 }

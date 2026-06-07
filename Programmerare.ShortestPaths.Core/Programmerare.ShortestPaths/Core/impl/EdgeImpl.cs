@@ -10,34 +10,37 @@
 using Programmerare.ShortestPaths.Core.Api;
 using Programmerare.ShortestPaths.Core.Impl.Generics;
 
-namespace Programmerare.ShortestPaths.Core.Impl
-{
-    public sealed class EdgeImpl : EdgeGenericsImpl<Vertex, Weight> , Edge {
+namespace Programmerare.ShortestPaths.Core.Impl;
 
-	    private EdgeImpl(
-		    string edgeId, 
-		    Vertex startVertex, 
-		    Vertex endVertex, 
-		    Weight weight
-	    ) : base(edgeId, startVertex, endVertex, weight) {
-	    }
+/// <summary>
+/// Default implementation of <see cref="Edge"/>.
+/// Use the static factory methods to construct instances.
+/// </summary>
+public sealed class EdgeImpl : EdgeGenericsImpl<Vertex, Weight> , Edge {
 
-	    public static Edge CreateEdge(
-		    Vertex startVertex, 
-		    Vertex endVertex, 
-		    Weight weight
-	    ) {
-		    string edgeId = CreateEdgeIdValue(startVertex.VertexId, endVertex.VertexId);
-		    return CreateEdge(edgeId, startVertex, endVertex, weight);
-	    }
+    private EdgeImpl(
+        string edgeId,
+        Vertex startVertex,
+        Vertex endVertex,
+        Weight weight
+    ) : base(edgeId, startVertex, endVertex, weight) {
+    }
 
-	    public static Edge CreateEdge(
-		    string edgeId, 
-		    Vertex startVertex, 
-		    Vertex endVertex, 
-		    Weight weight
-	    ) {
-		    return new EdgeImpl(edgeId, startVertex, endVertex, weight);
-	    }	
+    public static Edge CreateEdge(
+        Vertex startVertex,
+        Vertex endVertex,
+        Weight weight
+    ) {
+        string edgeId = CreateEdgeIdValue(startVertex.VertexId, endVertex.VertexId);
+        return CreateEdge(edgeId, startVertex, endVertex, weight);
+    }
+
+    public static Edge CreateEdge(
+        string edgeId,
+        Vertex startVertex,
+        Vertex endVertex,
+        Weight weight
+    ) {
+        return new EdgeImpl(edgeId, startVertex, endVertex, weight);
     }
 }
