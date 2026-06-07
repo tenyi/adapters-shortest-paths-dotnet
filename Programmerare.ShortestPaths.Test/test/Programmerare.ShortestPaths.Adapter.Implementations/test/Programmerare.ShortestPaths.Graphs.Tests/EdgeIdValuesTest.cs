@@ -9,7 +9,7 @@
 */
 
 using Programmerare.ShortestPaths.Core.Api;
-using NUnit.Framework;
+using Xunit;
 using static Programmerare.ShortestPaths.Core.Impl.WeightImpl; // SMALL_DELTA_VALUE_FOR_WEIGHT_COMPARISONS
 using static Programmerare.ShortestPaths.Core.Impl.EdgeImpl; // createEdge
 using static Programmerare.ShortestPaths.Core.Impl.VertexImpl; // createVertex
@@ -71,8 +71,7 @@ namespace Programmerare.ShortestPaths.Graphs.Tests
 	    private Vertex c;
 	    private Vertex d;
 
-	    [SetUp]
-	    public void SetUp() {
+	    public EdgeIdValuesTest() {
 		    a = CreateVertex(A);
 		    b = CreateVertex(B);
 		    c = CreateVertex(C);
@@ -84,7 +83,7 @@ namespace Programmerare.ShortestPaths.Graphs.Tests
 	     * Tests that when there are no explicit Id value for Edge when it is constructed, 
 	     * then the Id will be created as a concatenation of the Id's of the two vertices
 	     */
-	    [Test]
+	    [Fact]
 	    public void testDefaultEdgeIdValuesWhenNotExplicitlyDefined() {
 		    IList<Edge> edges = new List<Edge>();
 		    //edges.add(e)
@@ -118,7 +117,7 @@ namespace Programmerare.ShortestPaths.Graphs.Tests
 	     * (which is changed now in the same commit as this comment was added, as a note in case that class would become renamed, you can trace it in git commit history) 
 	     * The EdgeMappe takes care of the needed concatenation of the Ids for the vertices to retrieve abck the original instances. 
 	     */
-	    [Test]
+	    [Fact]
 	    public void TestCreateEdgesWithoutExplicitNames2() {
 		    IList<Edge> edges = new List<Edge>();
 		    edges.Add(CreateEdge(EDGE_A_to_B, a, b, CreateWeight(WEIGHT_A_to_B)));
@@ -179,29 +178,29 @@ namespace Programmerare.ShortestPaths.Graphs.Tests
 		    );
 		    IList<Path> actualShortestPaths = pathFinder.FindShortestPaths(startVertex, endVertex, 10);
 		
-		    Assert.AreEqual(expectedShortestPaths.Length, actualShortestPaths.Count);
+		    Assert.Equal(expectedShortestPaths.Length, actualShortestPaths.Count);
 
 		    string errorContext = pathFinderFactory.GetType().Name; 
 		    for (int i = 0; i < expectedShortestPaths.Length; i++) {
 			    errorContext += " , i: "+ i;
 			    ExpectedPath expectedPath = expectedShortestPaths[i];
 			    Path actualPath = actualShortestPaths[i];
-			    Assert.AreEqual(expectedPath.totalWeight, actualPath.TotalWeightForPath.WeightValue, SMALL_DELTA_VALUE_FOR_WEIGHT_COMPARISONS, errorContext);
+			    Assert.Equal(expectedPath.totalWeight, actualPath.TotalWeightForPath.WeightValue, 8);
 			    ExpectedEdge[] expectedEdgesForPath = expectedPath.expectedEdges;
 			    IList<Edge> actualEdgesForPath = actualPath.EdgesForPath;
-			    Assert.AreEqual(expectedEdgesForPath.Length, actualEdgesForPath.Count, errorContext);
+			    Assert.Equal(expectedEdgesForPath.Length, actualEdgesForPath.Count);
 			    for (int j = 0; j < expectedEdgesForPath.Length; j++) {
 				    errorContext += " , j=" + j;
 				    ExpectedEdge expectedEdge = expectedEdgesForPath[j];
 				    Edge actualEdge = actualEdgesForPath[j];
-				    Assert.NotNull(actualEdge, errorContext);
-				    Assert.NotNull(actualEdge.EdgeWeight, errorContext);
-				    Assert.NotNull(actualEdge.StartVertex, errorContext);
-				    Assert.NotNull(actualEdge.EndVertex, errorContext);
-				    Assert.AreEqual(expectedEdge.weight, actualEdge.EdgeWeight.WeightValue, SMALL_DELTA_VALUE_FOR_WEIGHT_COMPARISONS, errorContext);
-				    Assert.AreEqual(expectedEdge.startVertexId, actualEdge.StartVertex.VertexId, errorContext);
-				    Assert.AreEqual(expectedEdge.endVertexId, actualEdge.EndVertex.VertexId, errorContext);
-				    Assert.AreEqual(expectedEdge.edgeId, actualEdge.EdgeId, errorContext);
+				    Assert.NotNull(actualEdge);
+				    Assert.NotNull(actualEdge.EdgeWeight);
+				    Assert.NotNull(actualEdge.StartVertex);
+				    Assert.NotNull(actualEdge.EndVertex);
+				    Assert.Equal(expectedEdge.weight, actualEdge.EdgeWeight.WeightValue, 8);
+				    Assert.Equal(expectedEdge.startVertexId, actualEdge.StartVertex.VertexId);
+				    Assert.Equal(expectedEdge.endVertexId, actualEdge.EndVertex.VertexId);
+				    Assert.Equal(expectedEdge.edgeId, actualEdge.EdgeId);
 			    }			
 		    }
 	    }

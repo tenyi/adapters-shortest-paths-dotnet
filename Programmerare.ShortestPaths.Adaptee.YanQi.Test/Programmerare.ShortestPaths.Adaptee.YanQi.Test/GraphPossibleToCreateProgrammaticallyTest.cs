@@ -1,5 +1,5 @@
-using NUnit.Framework;
-using static NUnit.Framework.Assert;
+using Xunit;
+
 using edu.asu.emit.algorithm.graph;
 using edu.asu.emit.algorithm.graph.shortestpaths;
 using System.Text.RegularExpressions;
@@ -11,10 +11,10 @@ namespace Programmerare.ShortestPaths.Adaptee.YanQi.Test
      * @author Tomas Johansson
      * @see GraphPossibleToCreateProgrammatically
      */
-    [TestFixture]
+
     public class GraphPossibleToCreateProgrammaticallyTest {
 
-	    [Test]
+	    [Fact]
 	    public void testGraphPossibleToCreateProgrammatically() {
 		    // The method YenTopKShortestPathsAlgTest.testYenShortestPathsAlg4MultipleGraphs is using 
 		    // similar test data as below but retrieving it from a file, and it was not doing any assertions 
@@ -62,14 +62,14 @@ namespace Programmerare.ShortestPaths.Adaptee.YanQi.Test
 		    assertExpectedPath(yenAlg.Next(), 1.2, 4,0,1,5);		
 		    assertExpectedPath(yenAlg.Next(), 2.0, 4,0,1,2,5);
 		    assertExpectedPath(yenAlg.Next(), 2.1, 4,0,1,3,5);
-		    IsFalse(yenAlg.HasNext());
+		    Assert.False(yenAlg.HasNext());
 	    }
 
 	    private void assertExpectedPath(Path path, double expectedTotalCost, params int[] nodenames) {
-		    AreEqual(path.GetWeight(), expectedTotalCost, SMALL_DELTA_VALUE_FOR_DOUBLE_CMOPARISONS);
+		    Assert.Equal(path.GetWeight(), expectedTotalCost, 8);
 		    var vertices = path.GetVertexList();
 		    for (int i = 0; i < nodenames.Length; i++) {
-			    AreEqual(vertices[i].GetId(), nodenames[i]);
+			    Assert.Equal(vertices[i].GetId(), nodenames[i]);
 		    }
 	    }
 

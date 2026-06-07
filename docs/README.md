@@ -53,7 +53,7 @@ dotnet build  adapters-shortest-paths-dotnet.sln
 dotnet test   adapters-shortest-paths-dotnet.sln
 ```
 
-All 95 tests pass (0 failed, 0 skipped). No mono or .NET Framework runtime required.
+All 96 tests pass (0 failed, 0 skipped). No mono or .NET Framework runtime required.
 
 ## Architecture
 
@@ -74,7 +74,7 @@ Client  ──▶  Core  ◀── Adapter (Bsmock / YanQi / QuikGraph)
 | **Adapter.QuikGraph** | Adapter using QuikGraph graph library | MS-PL |
 | **Adaptee.Bsmock** | Translated Java source from [bsmock/k-shortest-paths](https://github.com/bsmock/k-shortest-paths) | Apache 2.0 |
 | **Adaptee.YanQi** | Translated Java source from [yan-qi/k-shortest-paths-java-version](https://github.com/yan-qi/k-shortest-paths-java-version) | Apache 2.0 |
-| **Test** | NUnit test suite — same assertions run against all three adapters and compare results | MIT |
+| **Test** | xUnit test suite — same assertions run against all three adapters and compare results | MIT |
 | **Parallel-Test** | Runs all three implementations in parallel for performance comparison | MIT |
 
 All projects target **net10.0** (single target framework).

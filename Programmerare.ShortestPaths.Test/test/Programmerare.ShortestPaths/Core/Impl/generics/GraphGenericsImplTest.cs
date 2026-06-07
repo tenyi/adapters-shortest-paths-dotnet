@@ -9,8 +9,8 @@
 */
 
 using Programmerare.ShortestPaths.Core.Api;
-using NUnit.Framework;
-using static NUnit.Framework.Assert;
+using Xunit;
+
 using static Programmerare.ShortestPaths.Core.Impl.GraphImplTest; // createEdgeGenerics
 using static Programmerare.ShortestPaths.Core.Impl.WeightImpl; // SMALL_DELTA_VALUE_FOR_WEIGHT_COMPARISONS
 using static Programmerare.ShortestPaths.Core.Impl.VertexImpl; // createVertex
@@ -23,13 +23,12 @@ namespace Programmerare.ShortestPaths.Core.Impl.Generics
 
 	    private EdgeGenerics<Vertex,Weight> edge1, edge2;
 	
-	    [SetUp]
-	    public void setUp() {
+	    public GraphGenericsImplTest() {
 		    edge1 = createEdgeGenerics(CreateVertex("A"), CreateVertex("B"), CreateWeight(123));
 		    edge2 = createEdgeGenerics(CreateVertex("B"), CreateVertex("C"), CreateWeight(456));		
 	    }
 
-	    [Test]
+	    [Fact]
 	    public void testGetAllEdges() {
 		    IList<EdgeGenerics<Vertex,Weight>> edges = new List<EdgeGenerics<Vertex,Weight>>();
 		    edges.Add(edge1);
@@ -40,9 +39,9 @@ namespace Programmerare.ShortestPaths.Core.Impl.Generics
 		
 		    IList<EdgeGenerics<Vertex, Weight>> allEdges = graph.Edges;
 		
-		    AreEqual(2,  allEdges.Count);
-		    AreSame(edge1, allEdges[0]);
-		    AreSame(edge2, allEdges[1]);
+		    Assert.Equal(2, allEdges.Count);
+		    Assert.Same(edge1, allEdges[0]);
+		    Assert.Same(edge2, allEdges[1]);
 	    }
 
         private GraphGenerics<EdgeGenerics<Vertex, Weight>, Vertex, Weight> createGraphGenerics(IList<EdgeGenerics<Vertex, Weight>> edges)
@@ -50,7 +49,7 @@ namespace Programmerare.ShortestPaths.Core.Impl.Generics
             return GraphGenericsImpl<EdgeGenerics<Vertex, Weight>, Vertex, Weight>.CreateGraphGenerics<EdgeGenerics<Vertex, Weight>, Vertex, Weight>(edges);
         }
 
-        [Test]
+        [Fact]
 	    public void testGetVertices() {
 		    IList<EdgeGenerics<Vertex,Weight>> edges = new List<EdgeGenerics<Vertex,Weight>>();
 		    edges.Add(createEdgeGenerics(CreateVertex("A"), CreateVertex("B"), CreateWeight(1)));
@@ -66,20 +65,20 @@ namespace Programmerare.ShortestPaths.Core.Impl.Generics
 		
 		    IList<string> expectedVerticesIds = new List<string>{"A", "B", "C", "D" };
 		
-		    AreEqual(expectedVerticesIds.Count, vertices.Count);
+		    Assert.Equal(expectedVerticesIds.Count, vertices.Count);
 		
 		    // verify that all vertices in all edges is one of the four above
 		    foreach (EdgeGenerics<Vertex,Weight> edge in edges) {
                 // Java version used hamcrest as below:
 			    //assertThat(expectedVerticesIds, hasItem(edge.getStartVertex().getVertexId()));
 			    //assertThat(expectedVerticesIds, hasItem(edge.getEndVertex().getVertexId()));
-                IsTrue(expectedVerticesIds.Contains(edge.StartVertex.VertexId));
-                IsTrue(expectedVerticesIds.Contains(edge.EndVertex.VertexId));
-                //Fail("fix the test");
+                Assert.True(expectedVerticesIds.Contains(edge.StartVertex.VertexId));
+                Assert.True(expectedVerticesIds.Contains(edge.EndVertex.VertexId));
+                //Assert.Fail("fix the test");
 		    }		
 	    }
 	
-	    [Test]
+	    [Fact]
 	    public void testContainsVertex() {
 		    List<EdgeGenerics<Vertex,Weight>> edges = new List<EdgeGenerics<Vertex,Weight>>();
 		    edges.Add(edge1);
@@ -88,16 +87,16 @@ namespace Programmerare.ShortestPaths.Core.Impl.Generics
 		
 		    GraphGenerics<EdgeGenerics<Vertex,Weight>, Vertex,Weight> graph = createGraphGenerics(edges);
 
-		    IsTrue(graph.ContainsVertex(edge1.StartVertex));
-		    IsTrue(graph.ContainsVertex(edge1.EndVertex));
-		    IsTrue(graph.ContainsVertex(edge2.StartVertex));
-		    IsTrue(graph.ContainsVertex(edge2.EndVertex));
+		    Assert.True(graph.ContainsVertex(edge1.StartVertex));
+		    Assert.True(graph.ContainsVertex(edge1.EndVertex));
+		    Assert.True(graph.ContainsVertex(edge2.StartVertex));
+		    Assert.True(graph.ContainsVertex(edge2.EndVertex));
 		
 		    Vertex vertex = CreateVertex("QWERTY");
-		    IsFalse(graph.ContainsVertex(vertex));
+		    Assert.False(graph.ContainsVertex(vertex));
 	    }
 	    // TODO: refactor some code duplicated above and below i.e. put some code in setup method
-	    [Test]
+	    [Fact]
 	    public void testContainsEdge() {
 		    List<EdgeGenerics<Vertex,Weight>> edges = new List<EdgeGenerics<Vertex,Weight>>();
 		    edges.Add(edge1);
@@ -106,11 +105,11 @@ namespace Programmerare.ShortestPaths.Core.Impl.Generics
 		
 		    GraphGenerics<EdgeGenerics<Vertex,Weight>, Vertex,Weight> graph = createGraphGenerics(edges);
 
-		    IsTrue(graph.ContainsEdge(edge1));
-		    IsTrue(graph.ContainsEdge(edge2));
+		    Assert.True(graph.ContainsEdge(edge1));
+		    Assert.True(graph.ContainsEdge(edge2));
 		
 		    EdgeGenerics<Vertex,Weight> edgeNotInTheGraph = createEdgeGenerics(CreateVertex("XYZ"), CreateVertex("QWERTY"), CreateWeight(987));
-		    IsFalse(graph.ContainsEdge(edgeNotInTheGraph));
+		    Assert.False(graph.ContainsEdge(edgeNotInTheGraph));
 	    }	
     }
 

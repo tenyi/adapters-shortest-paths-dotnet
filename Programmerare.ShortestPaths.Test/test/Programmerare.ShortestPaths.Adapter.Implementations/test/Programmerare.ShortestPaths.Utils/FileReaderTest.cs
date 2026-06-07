@@ -8,17 +8,17 @@
 * https://github.com/TomasJohansson/adapters-shortest-paths-dotnet/
 */
 
-using NUnit.Framework;
+using Xunit;
 using System;
 using System.Collections.Generic;
 
 namespace Programmerare.ShortestPaths.Utils
 {
 [Obsolete] // use xml instead
-//[TestFixture]
+
 public class FileReaderTest {
 
-	   // [Test]
+	   // [Fact]
 	   // public void testReadFile() {
 		  //  string filePath = "directory_for_filereader_test/file_for_filereader_test.txt";
 		  //  // /src/test/resources/directory_for_filereader_test/file_for_filereader_test.txt
@@ -28,9 +28,9 @@ public class FileReaderTest {
 		  //  FileReader fileReader = new FileReader();
 		  //  IList<string> lines = fileReader.ReadLines(filePath);
 		  //  Assert.NotNull(lines);
-		  //  Assert.AreEqual(2,  lines.Count);
-		  //  Assert.AreEqual("first line in testfile", lines[0]);
-		  //  Assert.AreEqual("second line in testfile", lines[1]);
+		  //  Assert.Equal(2, lines.Count);
+		  //  Assert.Equal("first line in testfile", lines[0]);
+		  //  Assert.Equal("second line in testfile", lines[1]);
 	   // }
     }
 }

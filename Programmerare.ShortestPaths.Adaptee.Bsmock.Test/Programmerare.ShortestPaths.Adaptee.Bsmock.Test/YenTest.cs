@@ -1,4 +1,4 @@
-using NUnit.Framework;
+using Xunit;
 using edu.ufl.cise.bsmock.graph;
 using edu.ufl.cise.bsmock.graph.ksp;
 using edu.ufl.cise.bsmock.graph.util;
@@ -12,7 +12,7 @@ namespace Programmerare.ShortestPaths.Adaptee.Bsmock.Test
     /// </summary>
     public class YenTest {
 
-        [Test]
+        [Fact]
         public void YenKShortestPathsTest()
         {
             const double deltaValue = 0.0000001;
@@ -26,33 +26,33 @@ namespace Programmerare.ShortestPaths.Adaptee.Bsmock.Test
 
             Yen yenAlgorithm = new Yen();
             IList<Path> paths = yenAlgorithm.Ksp(graph, "A", "D", 5);
-            Assert.AreEqual(3, paths.Count);
+            Assert.Equal(3, paths.Count);
 
             Path path1 = paths[0];
             Path path2 = paths[1];
             Path path3 = paths[2];
-            Assert.AreEqual(13, path1.GetTotalCost(), deltaValue);
-            Assert.AreEqual(15, path2.GetTotalCost(), deltaValue);
-            Assert.AreEqual(21, path3.GetTotalCost(), deltaValue);
+            Assert.Equal(13, path1.GetTotalCost(), 8);
+            Assert.Equal(15, path2.GetTotalCost(), 8);
+            Assert.Equal(21, path3.GetTotalCost(), 8);
 
             List<String> nodes1 = path1.GetNodes();
-            Assert.AreEqual(3, nodes1.Count);
-            Assert.AreEqual("A", nodes1[0]);
-            Assert.AreEqual("B", nodes1[1]);
-            Assert.AreEqual("D", nodes1[2]);
+            Assert.Equal(3, nodes1.Count);
+            Assert.Equal("A", nodes1[0]);
+            Assert.Equal("B", nodes1[1]);
+            Assert.Equal("D", nodes1[2]);
         
             List<String> nodes2 = path2.GetNodes();
-            Assert.AreEqual(3, nodes2.Count);
-            Assert.AreEqual("A", nodes2[0]);
-            Assert.AreEqual("C", nodes2[1]);
-            Assert.AreEqual("D", nodes2[2]);
+            Assert.Equal(3, nodes2.Count);
+            Assert.Equal("A", nodes2[0]);
+            Assert.Equal("C", nodes2[1]);
+            Assert.Equal("D", nodes2[2]);
 
             List<String> nodes3 = path3.GetNodes();
-            Assert.AreEqual(4, nodes3.Count);
-            Assert.AreEqual("A", nodes3[0]);
-            Assert.AreEqual("B", nodes3[1]);
-            Assert.AreEqual("C", nodes3[2]);
-            Assert.AreEqual("D", nodes3[3]);
+            Assert.Equal(4, nodes3.Count);
+            Assert.Equal("A", nodes3[0]);
+            Assert.Equal("B", nodes3[1]);
+            Assert.Equal("C", nodes3[2]);
+            Assert.Equal("D", nodes3[3]);
         }
     }
 }

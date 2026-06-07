@@ -9,7 +9,7 @@
 */
 
 using Programmerare.ShortestPaths.Core.Api;
-using NUnit.Framework;
+using Xunit;
 using static Programmerare.ShortestPaths.Core.Impl.WeightImpl; // SMALL_DELTA_VALUE_FOR_WEIGHT_COMPARISONS
 using static Programmerare.ShortestPaths.Core.Impl.EdgeImpl; // createEdge
 using static Programmerare.ShortestPaths.Core.Impl.VertexImpl; // createVertex
@@ -22,15 +22,14 @@ namespace Programmerare.ShortestPaths.Graphs.Tests {
      * PathFinderBase is an abstract base class, and this test class verifies that the subclasses throw validation exceptions implemented in the base class. 
      * @author Tomas Johansson
      */
-    [TestFixture]
+
     public class PathFinderBaseValidationExceptionTest {
 	    private IList<PathFinderFactory> pathFinderFactories;
 	    private Edge edgeAB, edgeBC;
 	    private IList<Edge> edges_A_B_and_B_C;
 	    private Vertex vertexA, vertexB, vertexC, vertexX_notPartOfGraph;
 
-	    [SetUp]
-	    public void SetUp() {
+	    public PathFinderBaseValidationExceptionTest() {
 		    pathFinderFactories = PathFinderFactories.CreatePathFinderFactories();
 
 		    vertexA = CreateVertex("A");
@@ -50,7 +49,7 @@ namespace Programmerare.ShortestPaths.Graphs.Tests {
 
         // -------------------------------------------------------------
         // Test with start vertex not part of the graph
-        [Test]
+        [Fact]
         public void incorrect_startVertex_shouldThrowException() {
             foreach (PathFinderFactory pathFinderFactory in pathFinderFactories) {
                 shouldThrowExceptionIfAnyOfTheVerticesIsNotPartOfTheGraph(
@@ -64,7 +63,7 @@ namespace Programmerare.ShortestPaths.Graphs.Tests {
 
         // -------------------------------------------------------------
         // Test with end vertex not part of the graph 
-        [Test]
+        [Fact]
         public void incorrect_endVertex_shouldThrowException() {
             foreach (PathFinderFactory pathFinderFactory in pathFinderFactories) {
                 shouldThrowExceptionIfAnyOfTheVerticesIsNotPartOfTheGraph(
@@ -80,7 +79,7 @@ namespace Programmerare.ShortestPaths.Graphs.Tests {
         // -------------------------------------------------------------
         // Test with start and vertex both part of the graph
         // The purpose of the test is simply to show that these do not throw an exception (as the other tests do) and thus no assertions are done about the found paths
-        [Test]
+        [Fact]
         public void correct_startAndEndVertex_should_NOT_ThrowException() {
             foreach (PathFinderFactory pathFinderFactory in pathFinderFactories) {
                 shouldThrowExceptionIfAnyOfTheVerticesIsNotPartOfTheGraph(
@@ -113,11 +112,9 @@ namespace Programmerare.ShortestPaths.Graphs.Tests {
                     FindShortestPaths(pathFinderFactory, startVertex, endVertex);
                 });
                 //ActualValueDelegate<object> testDelegate = () => FindShortestPaths(pathFinderFactory, startVertex, endVertex);
-                //Assert.That( () => {
+                //Assert.True(() => {
                 //    FindShortestPaths(pathFinderFactory, startVertex, endVertex);
-                //},
-                //Throws.TypeOf<GraphValidationException>
-                //);
+                //});
             }
             else
             {

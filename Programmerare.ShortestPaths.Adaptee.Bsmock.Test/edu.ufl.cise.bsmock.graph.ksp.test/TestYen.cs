@@ -22,7 +22,7 @@ using System;
 using edu.ufl.cise.bsmock.graph;
 using edu.ufl.cise.bsmock.graph.ksp;
 using edu.ufl.cise.bsmock.graph.util;
-using NUnit.Framework;
+using Xunit;
 using System.Collections.Generic;
 using Programmerare.ShortestPaths.Test.Utils;
 using Programmerare.ShortestPaths.Adaptee.YanQi.Test;
@@ -48,10 +48,10 @@ using Programmerare.ShortestPaths.Adaptee.YanQi.Test;
 * Created by Brandon Smock on September 23, 2015.
 * Last updated by Brandon Smock on December 24, 2015.
 */
-[TestFixture]
+
 public class TestYen {
 
-    public static void main(String[] args) {
+    private static void main(String[] args) {
         /* Uncomment any of these example tests */
         String graphFilename, sourceNode, targetNode;
         int K;
@@ -78,7 +78,7 @@ public class TestYen {
         usageExample1(graphFilenameFullPath,sourceNode,targetNode,K);
     }
 
-    public static void usageExample1(String graphFilename, String source, String target, int k) {
+    private static void usageExample1(String graphFilename, String source, String target, int k) {
         /* Read graph from file */
         Console.WriteLine("Reading data from file... ");
         Graph graph = new Graph(graphFilename);
@@ -141,12 +141,12 @@ public class TestYen {
     // No assertions, i.e. no real test
     // but just a way of triggering the main method 
     // from a library
-    [Test]
+    [Fact]
     public void YenMain()
     {
         TargetFramework targetFramework = TargetFrameworkDetector.GetTargetFrameworkForAssembly(typeof(Graph));
         if(!targetFramework.IsSupportingFileStreamReader()) {
-            Assert.Ignore();
+            return;
         }
 
         TestYen.main(null);

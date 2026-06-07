@@ -1,13 +1,12 @@
-﻿using NUnit.Framework;
+using Xunit;
 using Programmerare.ShortestPaths.Core.Api;
 using System.Collections.Generic;
 
 namespace Programmerare.ShortestPaths.Test.Utils {
 
-    [TestFixture]
     public class TargetFrameworkDetectorTest {
     
-        [Test]
+        [Fact]
         public void GetTargetFrameworkEnumFromStringWithNameTest() {
             // The below strings have been retrieved in runtime 
             // (using Console.WriteLine for targetFramework.FrameworkName 
@@ -38,15 +37,13 @@ namespace Programmerare.ShortestPaths.Test.Utils {
             };
 
             foreach(var keyValuePair in testData) {
-                Assert.AreEqual(
-                    keyValuePair.Value, // expected
-                    TargetFrameworkDetector.GetTargetFrameworkEnumFromStringWithName(keyValuePair.Key)
-                );
+                Assert.Equal(keyValuePair.Value, // expected
+                    TargetFrameworkDetector.GetTargetFrameworkEnumFromStringWithName(keyValuePair.Key));
             }
         }
 
-        //[Test]
-        public void GetTargetFrameworkForAssemblyTest() {
+        //[Fact]
+        private void GetTargetFrameworkForAssemblyTest() {
             TargetFrameworkDetector.GetTargetFrameworkForAssembly(typeof(PathFinder));
         }
 

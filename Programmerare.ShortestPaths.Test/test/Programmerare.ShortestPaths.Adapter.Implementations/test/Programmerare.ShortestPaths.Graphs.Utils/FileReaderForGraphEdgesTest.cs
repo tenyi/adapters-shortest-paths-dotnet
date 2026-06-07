@@ -11,10 +11,10 @@
 using System;
 
 namespace Programmerare.ShortestPaths.Graphs.Utils {
-    //[TestFixture]
+
     [Obsolete] // use xml instead
     public class FileReaderForGraphEdgesTest {
-	    //[Test]
+	    //[Fact]
 	    //public void TestReadEdgesFromFile() {
 		   // const string filePath = "directory_for_filereader_test/two_edges_A_B_7__X_Y_8.txt";
 		   // // /src/test/resources/directory_for_filereader_test/file_for_filereader_test.txt
@@ -25,20 +25,20 @@ namespace Programmerare.ShortestPaths.Graphs.Utils {
 		   // FileReaderForGraphEdges<Edge, Vertex, Weight> fileReaderForGraphTestData = FileReaderForGraphEdges<Edge, Vertex, Weight>.CreateFileReaderForGraphEdges(new EdgeFactoryDefault());
 		   // IList<Edge> edges = fileReaderForGraphTestData.ReadEdgesFromFile(filePath);
 		   // Assert.NotNull(edges);
-		   // Assert.AreEqual(2, edges.Count);
+		   // Assert.Equal(2, edges.Count);
 		
 		   // Edge edge1 = edges[0]; // A B 7
 		   // Edge edge2 = edges[1]; // X Y 8
 		   // assertNonNulls(edge1);
 		   // assertNonNulls(edge2);
 
-		   // Assert.AreEqual("A", edge1.StartVertex.VertexId);
-		   // Assert.AreEqual("B", edge1.EndVertex.VertexId);
-		   // Assert.AreEqual(7, edge1.EdgeWeight.WeightValue, SMALL_DELTA_VALUE_FOR_WEIGHT_COMPARISONS);
+		   // Assert.Equal("A", edge1.StartVertex.VertexId);
+		   // Assert.Equal("B", edge1.EndVertex.VertexId);
+		   // Assert.Equal(7, edge1.EdgeWeight.WeightValue, 8);
 		
-		   // Assert.AreEqual("X", edge2.StartVertex.VertexId);
-		   // Assert.AreEqual("Y", edge2.EndVertex.VertexId);
-		   // Assert.AreEqual(8, edge2.EdgeWeight.WeightValue, SMALL_DELTA_VALUE_FOR_WEIGHT_COMPARISONS);		
+		   // Assert.Equal("X", edge2.StartVertex.VertexId);
+		   // Assert.Equal("Y", edge2.EndVertex.VertexId);
+		   // Assert.Equal(8, edge2.EdgeWeight.WeightValue, 8);		
 		
 	    //}
 

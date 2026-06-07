@@ -1,8 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>Programmerare.ShortestPaths</id>
-    <version>1.0.0</version>
+    <version>2.0.0</version>
     <title>Shortest paths adapter/adaptee library</title>
     <authors>TomasJohansson</authors>
     <owners>TomasJohansson</owners>
@@ -16,76 +16,37 @@
     </description>
     <tags>k-shortest-paths kShortestPaths shortestpaths shortest-path-algorithm shortest-paths-algorithm yenalgorithm yen-algorithm Yen algorithm routing</tags>
     <dependencies>
-      
-      <group targetFramework="net20">
-        <dependency id="OptimizedPriorityQueue" version="4.1.1" exclude="Build,Analyzers" />
+      <group targetFramework="net10.0">
+        <dependency id="OptimizedPriorityQueue" version="5.1.0" exclude="Build,Analyzers" />
+        <dependency id="QuikGraph" version="2.5.0" exclude="Build,Analyzers" />
       </group>
-      
-      <group targetFramework="net40">
-        <dependency id="OptimizedPriorityQueue" version="4.1.1" exclude="Build,Analyzers" />
-      </group>			
-      
     </dependencies>
-    
   </metadata>
   
   <files>
-    
-    <!-- net20 -->
-      <file src="Programmerare.ShortestPaths.Core\bin\Release\net20\Programmerare.ShortestPaths.Core.dll" target="lib\net20" />
-      <file src="Programmerare.ShortestPaths.Core\bin\Release\net20\Programmerare.ShortestPaths.Core.pdb" target="lib\net20" />
-      <file src="Programmerare.ShortestPaths.Core\bin\Programmerare.ShortestPaths.Core.xml" target="lib\net20" />
+    <!-- net10.0 -->
+    <file src="Programmerare.ShortestPaths.Core\bin\Release\net10.0\Programmerare.ShortestPaths.Core.dll" target="lib\net10.0" />
+    <file src="Programmerare.ShortestPaths.Core\bin\Release\net10.0\Programmerare.ShortestPaths.Core.pdb" target="lib\net10.0" />
+    <file src="Programmerare.ShortestPaths.Core\bin\Release\net10.0\Programmerare.ShortestPaths.Core.xml" target="lib\net10.0" />
 
-      <file src="Programmerare.ShortestPaths.Adaptees.Common\bin\Release\net20\Programmerare.ShortestPaths.Adaptees.Common.dll" target="lib\net20" />
-      <file src="Programmerare.ShortestPaths.Adaptees.Common\bin\Release\net20\Programmerare.ShortestPaths.Adaptees.Common.pdb" target="lib\net20" />
-      <file src="Programmerare.ShortestPaths.Adaptees.Common\bin\Programmerare.ShortestPaths.Adaptees.Common.xml" target="lib\net20" />
+    <file src="Programmerare.ShortestPaths.Adaptee.Bsmock\bin\Release\net10.0\Programmerare.ShortestPaths.Adaptee.Bsmock.dll" target="lib\net10.0" />
+    <file src="Programmerare.ShortestPaths.Adaptee.Bsmock\bin\Release\net10.0\Programmerare.ShortestPaths.Adaptee.Bsmock.pdb" target="lib\net10.0" />
+    <file src="Programmerare.ShortestPaths.Adaptee.Bsmock\bin\Release\net10.0\Programmerare.ShortestPaths.Adaptee.Bsmock.xml" target="lib\net10.0" />
 
-      <file src="Programmerare.ShortestPaths.Adaptee.Bsmock\bin\Release\net20\Programmerare.ShortestPaths.Adaptee.Bsmock.dll" target="lib\net20" />
-      <file src="Programmerare.ShortestPaths.Adaptee.Bsmock\bin\Release\net20\Programmerare.ShortestPaths.Adaptee.Bsmock.pdb" target="lib\net20" />
-      <file src="Programmerare.ShortestPaths.Adaptee.Bsmock\bin\Programmerare.ShortestPaths.Adaptee.Bsmock.xml" target="lib\net20" />
+    <file src="Programmerare.ShortestPaths.Adaptee.YanQi\bin\Release\net10.0\Programmerare.ShortestPaths.Adaptee.YanQi.dll" target="lib\net10.0" />
+    <file src="Programmerare.ShortestPaths.Adaptee.YanQi\bin\Release\net10.0\Programmerare.ShortestPaths.Adaptee.YanQi.pdb" target="lib\net10.0" />
+    <file src="Programmerare.ShortestPaths.Adaptee.YanQi\bin\Release\net10.0\Programmerare.ShortestPaths.Adaptee.YanQi.xml" target="lib\net10.0" />
 
-      <file src="Programmerare.ShortestPaths.Adaptee.YanQi\bin\Release\net20\Programmerare.ShortestPaths.Adaptee.YanQi.dll" target="lib\net20" />
-      <file src="Programmerare.ShortestPaths.Adaptee.YanQi\bin\Release\net20\Programmerare.ShortestPaths.Adaptee.YanQi.pdb" target="lib\net20" />
-      <file src="Programmerare.ShortestPaths.Adaptee.YanQi\bin\Programmerare.ShortestPaths.Adaptee.YanQi.xml" target="lib\net20" />
+    <file src="Programmerare.ShortestPaths.Adapter.Bsmock\bin\Release\net10.0\Programmerare.ShortestPaths.Adapter.Bsmock.dll" target="lib\net10.0" />
+    <file src="Programmerare.ShortestPaths.Adapter.Bsmock\bin\Release\net10.0\Programmerare.ShortestPaths.Adapter.Bsmock.pdb" target="lib\net10.0" />
+    <file src="Programmerare.ShortestPaths.Adapter.Bsmock\bin\Release\net10.0\Programmerare.ShortestPaths.Adapter.Bsmock.xml" target="lib\net10.0" />
 
-      <file src="Programmerare.ShortestPaths.Adapter.Bsmock\bin\Release\net20\Programmerare.ShortestPaths.Adapter.Bsmock.dll" target="lib\net20" />
-      <file src="Programmerare.ShortestPaths.Adapter.Bsmock\bin\Release\net20\Programmerare.ShortestPaths.Adapter.Bsmock.pdb" target="lib\net20" />
-      <file src="Programmerare.ShortestPaths.Adapter.Bsmock\bin\Programmerare.ShortestPaths.Adapter.Bsmock.xml" target="lib\net20" />
+    <file src="Programmerare.ShortestPaths.Adapter.YanQi\bin\Release\net10.0\Programmerare.ShortestPaths.Adapter.YanQi.dll" target="lib\net10.0" />
+    <file src="Programmerare.ShortestPaths.Adapter.YanQi\bin\Release\net10.0\Programmerare.ShortestPaths.Adapter.YanQi.pdb" target="lib\net10.0" />
+    <file src="Programmerare.ShortestPaths.Adapter.YanQi\bin\Release\net10.0\Programmerare.ShortestPaths.Adapter.YanQi.xml" target="lib\net10.0" />
 
-      <file src="Programmerare.ShortestPaths.Adapter.YanQi\bin\Release\net20\Programmerare.ShortestPaths.Adapter.YanQi.dll" target="lib\net20" />
-      <file src="Programmerare.ShortestPaths.Adapter.YanQi\bin\Release\net20\Programmerare.ShortestPaths.Adapter.YanQi.pdb" target="lib\net20" />
-      <file src="Programmerare.ShortestPaths.Adapter.YanQi\bin\Programmerare.ShortestPaths.Adapter.YanQi.xml" target="lib\net20" />
-    <!-- net20 -->
-
-    <!-- net40 -->
-      <file src="Programmerare.ShortestPaths.Core\bin\Release\net40\Programmerare.ShortestPaths.Core.dll" target="lib\net40" />
-      <file src="Programmerare.ShortestPaths.Core\bin\Release\net40\Programmerare.ShortestPaths.Core.pdb" target="lib\net40" />
-      <file src="Programmerare.ShortestPaths.Core\bin\Programmerare.ShortestPaths.Core.xml" target="lib\net40" />
-
-      <file src="Programmerare.ShortestPaths.Adaptees.Common\bin\Release\net40\Programmerare.ShortestPaths.Adaptees.Common.dll" target="lib\net40" />
-      <file src="Programmerare.ShortestPaths.Adaptees.Common\bin\Release\net40\Programmerare.ShortestPaths.Adaptees.Common.pdb" target="lib\net40" />
-      <file src="Programmerare.ShortestPaths.Adaptees.Common\bin\Programmerare.ShortestPaths.Adaptees.Common.xml" target="lib\net40" />
-
-      <file src="Programmerare.ShortestPaths.Adaptee.Bsmock\bin\Release\net40\Programmerare.ShortestPaths.Adaptee.Bsmock.dll" target="lib\net40" />
-      <file src="Programmerare.ShortestPaths.Adaptee.Bsmock\bin\Release\net40\Programmerare.ShortestPaths.Adaptee.Bsmock.pdb" target="lib\net40" />
-      <file src="Programmerare.ShortestPaths.Adaptee.Bsmock\bin\Programmerare.ShortestPaths.Adaptee.Bsmock.xml" target="lib\net40" />
-
-      <file src="Programmerare.ShortestPaths.Adaptee.YanQi\bin\Release\net40\Programmerare.ShortestPaths.Adaptee.YanQi.dll" target="lib\net40" />
-      <file src="Programmerare.ShortestPaths.Adaptee.YanQi\bin\Release\net40\Programmerare.ShortestPaths.Adaptee.YanQi.pdb" target="lib\net40" />
-      <file src="Programmerare.ShortestPaths.Adaptee.YanQi\bin\Programmerare.ShortestPaths.Adaptee.YanQi.xml" target="lib\net40" />
-
-      <file src="Programmerare.ShortestPaths.Adapter.Bsmock\bin\Release\net40\Programmerare.ShortestPaths.Adapter.Bsmock.dll" target="lib\net40" />
-      <file src="Programmerare.ShortestPaths.Adapter.Bsmock\bin\Release\net40\Programmerare.ShortestPaths.Adapter.Bsmock.pdb" target="lib\net40" />
-      <file src="Programmerare.ShortestPaths.Adapter.Bsmock\bin\Programmerare.ShortestPaths.Adapter.Bsmock.xml" target="lib\net40" />
-
-      <file src="Programmerare.ShortestPaths.Adapter.YanQi\bin\Release\net40\Programmerare.ShortestPaths.Adapter.YanQi.dll" target="lib\net40" />
-      <file src="Programmerare.ShortestPaths.Adapter.YanQi\bin\Release\net40\Programmerare.ShortestPaths.Adapter.YanQi.pdb" target="lib\net40" />
-      <file src="Programmerare.ShortestPaths.Adapter.YanQi\bin\Programmerare.ShortestPaths.Adapter.YanQi.xml" target="lib\net40" />
-    <!-- net40 -->
-	
+    <file src="Programmerare.ShortestPaths.Adapter.QuikGraph\bin\Release\net10.0\Programmerare.ShortestPaths.Adapter.QuikGraph.dll" target="lib\net10.0" />
+    <file src="Programmerare.ShortestPaths.Adapter.QuikGraph\bin\Release\net10.0\Programmerare.ShortestPaths.Adapter.QuikGraph.pdb" target="lib\net10.0" />
+    <file src="Programmerare.ShortestPaths.Adapter.QuikGraph\bin\Release\net10.0\Programmerare.ShortestPaths.Adapter.QuikGraph.xml" target="lib\net10.0" />
   </files>
-<!--
-https://docs.microsoft.com/en-us/nuget/reference/nuspec
-nuget pack Programmerare.ShortestPaths.nuspec
--->
 </package>

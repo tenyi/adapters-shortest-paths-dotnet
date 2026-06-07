@@ -8,7 +8,7 @@
 * https://github.com/TomasJohansson/adapters-shortest-paths-dotnet/
 */
 
-using NUnit.Framework;
+using Xunit;
 using Programmerare.ShortestPaths.Core.Api;
 using System.Collections.Generic;
 using static Programmerare.ShortestPaths.Core.Impl.WeightImpl; // SMALL_DELTA_VALUE_FOR_WEIGHT_COMPARISONS
@@ -91,7 +91,7 @@ namespace Programmerare.ShortestPaths.Graphs.Utils {
 
 		    //assertThat("At least some implementation should be used", pathFinderFactoriesForImplementationsToTest.size(), greaterThanOrEqualTo(1));
             // TODO: "hamcrest" syntax similar to above java code
-            Assert.That(pathFinderFactoriesForImplementationsToTest.Count >= 1, "At least some implementation should be used");
+            Assert.True(pathFinderFactoriesForImplementationsToTest.Count >= 1);
 		    for (int i = 0; i < pathFinderFactoriesForImplementationsToTest.Count; i++) {
 			    PathFinderFactory pathFinderFactory = pathFinderFactoriesForImplementationsToTest[i];
 			    output("Will now test file " + optionalPathToResourceXmlFile + " with impl " + pathFinderFactory.GetType().Name);
@@ -101,9 +101,9 @@ namespace Programmerare.ShortestPaths.Graphs.Utils {
 				    GraphEdgesValidationDesired.NO // do the validation one time instead of doing it for each pathFinderFactory
 			    );
  			    IList<Path> shortestPaths = pathFinder.FindShortestPaths(startVertex, endVertex, numberOfPathsToFind);
- 			    Assert.IsNotNull(shortestPaths);
+ 			    Assert.NotNull(shortestPaths);
 			    //assertThat("At least some path should be found", shortestPaths.size(), greaterThanOrEqualTo(1));
-                Assert.That(shortestPaths.Count >= 1, "At least some path should be found"); // TODO "hamcrest" syntax as java above
+                Assert.True(shortestPaths.Count >= 1); // TODO "hamcrest" syntax as java above
 			    output(
 					    messagePrefixWithInformationAboutXmlSourcefileWithTestData
 						    + "Seconds: " + tm.GetSeconds() 
@@ -144,7 +144,7 @@ namespace Programmerare.ShortestPaths.Graphs.Utils {
 			string nameOfImplementation_1 = nameOfImplementations[i];
 			IList<Path> pathsFoundByImplementation_1 = shortestPathsPerImplementation[nameOfImplementation_1];
 				string failureMessage = nameOfImplementation_1 + " failed when comparing with expected result according to xml file " + optionalPathToResourceXmlFile; 
-				Assert.AreEqual(expectedListOfPaths.Count, pathsFoundByImplementation_1.Count, "Mismatching number of paths, " + failureMessage);
+				Assert.Equal(expectedListOfPaths.Count, pathsFoundByImplementation_1.Count);
 				for (int m = 0; m < pathsFoundByImplementation_1.Count; m++) {
 					AssertEqualPaths(failureMessage + " , path with index " + m , expectedListOfPaths[m], pathsFoundByImplementation_1[m]);
 				}					
@@ -163,7 +163,7 @@ namespace Programmerare.ShortestPaths.Graphs.Utils {
 				    string nameOfImplementation_2 = nameOfImplementations[j];
 				    string comparedImplementations = nameOfImplementation_1 + " vs " + nameOfImplementation_2 + " , "; 
 				    IList<Path> pathsFoundByImplementation_2 = shortestPathsPerImplementation[nameOfImplementation_2];
-				    Assert.AreEqual(pathsFoundByImplementation_1.Count, pathsFoundByImplementation_2.Count, nameOfImplementation_2 + " vs " + comparedImplementations);
+				    Assert.Equal(pathsFoundByImplementation_1.Count, pathsFoundByImplementation_2.Count);
 				    string fileNamePrefix = optionalPathToResourceXmlFile == null ? "" : "Xml file which defined the data: " + optionalPathToResourceXmlFile + " , ";
 				    for (int k = 0; k < pathsFoundByImplementation_2.Count; k++) {
 					    AssertEqualPaths(fileNamePrefix + comparedImplementations + "fail for i,j,k " + i + " , " + j + " , " + k , pathsFoundByImplementation_1[k], pathsFoundByImplementation_2[k]);
@@ -213,30 +213,21 @@ namespace Programmerare.ShortestPaths.Graphs.Utils {
 		
 		    IList<Edge> expectedEdges = expectedPath.EdgesForPath; 
 		    IList<Edge> actualEdges = actualPath.EdgesForPath;
-		    Assert.NotNull(expectedEdges, message); // same comment as above, regarding why the expected value is asserted
-		    Assert.NotNull(actualEdges, message);
+		    Assert.NotNull(expectedEdges); // same comment as above, regarding why the expected value is asserted
+		    Assert.NotNull(actualEdges);
 
             string messageIncludingActualAndExpectedPath = message + GetMessageIncludingActualAndExpectedPath(actualPath, expectedPath);
 
-		    Assert.AreEqual(
-			    expectedEdges.Count, 
-			    actualEdges.Count,
-			    "Mismatching number of vertices/edges in the path, " + messageIncludingActualAndExpectedPath
-		    );
+		    Assert.Equal(expectedEdges.Count, actualEdges.Count);
 		    for (int i = 0; i < actualEdges.Count; i++) {
 			    Edge actualEdge = actualEdges[i];
 			    Edge expectedEdge = expectedEdges[i];
-			    Assert.NotNull(expectedEdge, messageIncludingActualAndExpectedPath); // same comment as above, regarding why the expected value is asserted 
-			    Assert.NotNull(actualEdge, messageIncludingActualAndExpectedPath);
-			    Assert.AreEqual(expectedEdge.StartVertex, actualEdge.StartVertex, messageIncludingActualAndExpectedPath);
-			    Assert.AreEqual(expectedEdge.EndVertex, actualEdge.EndVertex, messageIncludingActualAndExpectedPath);
-			    Assert.AreEqual(
-				    expectedEdge.EdgeWeight.WeightValue, 
-				    actualEdge.EdgeWeight.WeightValue, 
-				    SMALL_DELTA_VALUE_FOR_WEIGHT_COMPARISONS,
-				    messageIncludingActualAndExpectedPath
-			    );			
-			    Assert.AreEqual(expectedEdge, actualEdge, messageIncludingActualAndExpectedPath);
+			    Assert.NotNull(expectedEdge); // same comment as above, regarding why the expected value is asserted 
+			    Assert.NotNull(actualEdge);
+			    Assert.Equal(expectedEdge.StartVertex, actualEdge.StartVertex);
+			    Assert.Equal(expectedEdge.EndVertex, actualEdge.EndVertex);
+			    Assert.Equal(expectedEdge.EdgeWeight.WeightValue, actualEdge.EdgeWeight.WeightValue, 8);			
+			    Assert.Equal(expectedEdge, actualEdge);
 		    }
 
 		    double weightTotal = 0;
@@ -244,19 +235,9 @@ namespace Programmerare.ShortestPaths.Graphs.Utils {
 			    Assert.NotNull(edge.EdgeWeight);
 			    weightTotal += edge.EdgeWeight.WeightValue;
 		    }
-		    Assert.AreEqual(
-			    weightTotal, 
-			    actualPath.TotalWeightForPath.WeightValue, 
-			    SMALL_DELTA_VALUE_FOR_WEIGHT_COMPARISONS,
-                messageIncludingActualAndExpectedPath
-		    );
+		    Assert.Equal(weightTotal, actualPath.TotalWeightForPath.WeightValue, 8);
 		
-		    Assert.AreEqual(
-			    expectedPath.TotalWeightForPath.WeightValue,
-			    actualPath.TotalWeightForPath.WeightValue, 
-			    SMALL_DELTA_VALUE_FOR_WEIGHT_COMPARISONS,
-			    messageIncludingActualAndExpectedPath
-		    );
+		    Assert.Equal(expectedPath.TotalWeightForPath.WeightValue, actualPath.TotalWeightForPath.WeightValue, 8);
 	    }
 	
 

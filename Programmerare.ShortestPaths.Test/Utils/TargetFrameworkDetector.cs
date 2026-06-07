@@ -5,8 +5,7 @@ using System.Runtime.Versioning;
 // see comment at the top of the file "TargetFramework.cs"
 
 namespace Programmerare.ShortestPaths.Test.Utils {
-
-    internal class TargetFrameworkDetector {
+public class TargetFrameworkDetector {
         
         private static IDictionary<String, TargetFrameworkEnum> dictionaryWithFrameworkNameAsKey;
         

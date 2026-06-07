@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 namespace Programmerare.ShortestPaths.Test.Utils
 {
-    internal class TargetFramework
+public class TargetFramework
     {
         private static ISet<TargetFrameworkEnum> targetFrameworksNotSupportingFileStreamReader;
 

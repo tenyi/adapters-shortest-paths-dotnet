@@ -10,8 +10,8 @@
 
 using Programmerare.ShortestPaths.Core.Api;
 using Programmerare.ShortestPaths.Core.Api.Generics;
-using NUnit.Framework;
-using static NUnit.Framework.Assert;
+using Xunit;
+
 using static Programmerare.ShortestPaths.Core.Impl.VertexImpl; // createVertex
 using static Programmerare.ShortestPaths.Core.Impl.EdgeImpl;
 using static Programmerare.ShortestPaths.Core.Impl.WeightImpl; // createWeight
@@ -20,64 +20,63 @@ using System;
 
 namespace Programmerare.ShortestPaths.Core.Parsers
 {
-    [TestFixture]
+
     public class EdgeParserTest
     {
         private EdgeParser<Edge, Vertex, Weight> edgeParser;
 
-        [SetUp]
-        public void setUp()
+        public EdgeParserTest()
         {
             edgeParser = EdgeParser<Edge,Vertex,Weight>.CreateEdgeParserDefault();
         }
 
-        [Test]
+        [Fact]
         public void testFromStringToEdge()
         {
             Edge edge = edgeParser.FromStringToEdge("A B 3.7");
-            IsNotNull(edge);
-            IsNotNull(edge.StartVertex);
-            IsNotNull(edge.EndVertex);
-            IsNotNull(edge.EdgeWeight);
-            AreEqual("A", edge.StartVertex.VertexId);
-            AreEqual("B", edge.EndVertex.VertexId);
-            AreEqual(3.7, edge.EdgeWeight.WeightValue, SMALL_DELTA_VALUE_FOR_WEIGHT_COMPARISONS);
+            Assert.NotNull(edge);
+            Assert.NotNull(edge.StartVertex);
+            Assert.NotNull(edge.EndVertex);
+            Assert.NotNull(edge.EdgeWeight);
+            Assert.Equal("A", edge.StartVertex.VertexId);
+            Assert.Equal("B", edge.EndVertex.VertexId);
+            Assert.Equal(3.7, edge.EdgeWeight.WeightValue, 8);
         }
         // TODO: refactor away duplication from above and below methods
-        [Test]
+        [Fact]
         public void testFromStringToEdgeGenerics()
         {
             Edge edge = edgeParser.FromStringToEdge("A B 3.7");
-            IsNotNull(edge);
-            IsNotNull(edge.StartVertex);
-            IsNotNull(edge.EndVertex);
-            IsNotNull(edge.EdgeWeight);
-            AreEqual("A", edge.StartVertex.VertexId);
-            AreEqual("B", edge.EndVertex.VertexId);
-            AreEqual(3.7, edge.EdgeWeight.WeightValue, SMALL_DELTA_VALUE_FOR_WEIGHT_COMPARISONS);
+            Assert.NotNull(edge);
+            Assert.NotNull(edge.StartVertex);
+            Assert.NotNull(edge.EndVertex);
+            Assert.NotNull(edge.EdgeWeight);
+            Assert.Equal("A", edge.StartVertex.VertexId);
+            Assert.Equal("B", edge.EndVertex.VertexId);
+            Assert.Equal(3.7, edge.EdgeWeight.WeightValue, 8);
         }
 
-        [Test]
+        [Fact]
         public void testFromEdgeParserGenericsToString()
         {
             Vertex startVertex = CreateVertex("A");
             Vertex endVertex = CreateVertex("B");
             Weight weight = CreateWeight(3.7);
             Edge edge = CreateEdge(startVertex, endVertex, weight);
-            AreEqual("A B 3.7", edgeParser.FromEdgeToString(edge));
+            Assert.Equal("A B 3.7", edgeParser.FromEdgeToString(edge));
         }
         // TODO: refactor away duplication from above and below methods	
-        [Test]
+        [Fact]
         public void testFromEdgeToString()
         {
             Vertex startVertex = CreateVertex("A");
             Vertex endVertex = CreateVertex("B");
             Weight weight = CreateWeight(3.7);
             Edge edge = CreateEdge(startVertex, endVertex, weight);
-            AreEqual("A B 3.7", edgeParser.FromEdgeToString(edge));
+            Assert.Equal("A B 3.7", edgeParser.FromEdgeToString(edge));
         }
 
-        [Test]
+        [Fact]
         public void testFromMultiLineStringToListOfEdgesGenerics()
         {
             //	    <graphDefinition>
@@ -93,23 +92,23 @@ namespace Programmerare.ShortestPaths.Core.Parsers
                     "B D 8\r\n" +
                     "C D 9";
             IList<Edge> edges = edgeParser.FromMultiLinedStringToListOfEdges(multiLinedString);
-            IsNotNull(edges);
-            AreEqual(5, edges.Count);
+            Assert.NotNull(edges);
+            Assert.Equal(5, edges.Count);
             EdgeGenerics<Vertex, Weight> firstEdge = edges[0];
             EdgeGenerics<Vertex, Weight> lastEdge = edges[4];
             assertNotNulls(firstEdge);
             assertNotNulls(lastEdge);
 
-            AreEqual("A", firstEdge.StartVertex.VertexId);
-            AreEqual("B", firstEdge.EndVertex.VertexId);
-            AreEqual(5, firstEdge.EdgeWeight.WeightValue, SMALL_DELTA_VALUE_FOR_WEIGHT_COMPARISONS);
+            Assert.Equal("A", firstEdge.StartVertex.VertexId);
+            Assert.Equal("B", firstEdge.EndVertex.VertexId);
+            Assert.Equal(5, firstEdge.EdgeWeight.WeightValue, 8);
 
-            AreEqual("C", lastEdge.StartVertex.VertexId);
-            AreEqual("D", lastEdge.EndVertex.VertexId);
-            AreEqual(9, lastEdge.EdgeWeight.WeightValue, SMALL_DELTA_VALUE_FOR_WEIGHT_COMPARISONS);
+            Assert.Equal("C", lastEdge.StartVertex.VertexId);
+            Assert.Equal("D", lastEdge.EndVertex.VertexId);
+            Assert.Equal(9, lastEdge.EdgeWeight.WeightValue, 8);
         }
         // TODO: refactor away duplication from above and below methods	
-        [Test]
+        [Fact]
         public void testFromMultiLineStringToListOfEdges()
         {
             //	    <graphDefinition>
@@ -125,28 +124,28 @@ namespace Programmerare.ShortestPaths.Core.Parsers
                     "B D 8\r\n" +
                     "C D 9";
             IList<Edge> edges = edgeParser.FromMultiLinedStringToListOfEdges(multiLinedString);
-            IsNotNull(edges);
-            AreEqual(5, edges.Count);
+            Assert.NotNull(edges);
+            Assert.Equal(5, edges.Count);
             EdgeGenerics<Vertex, Weight> firstEdge = edges[0];
             EdgeGenerics<Vertex, Weight> lastEdge = edges[4];
             assertNotNulls(firstEdge);
             assertNotNulls(lastEdge);
 
-            AreEqual("A", firstEdge.StartVertex.VertexId);
-            AreEqual("B", firstEdge.EndVertex.VertexId);
-            AreEqual(5, firstEdge.EdgeWeight.WeightValue, SMALL_DELTA_VALUE_FOR_WEIGHT_COMPARISONS);
+            Assert.Equal("A", firstEdge.StartVertex.VertexId);
+            Assert.Equal("B", firstEdge.EndVertex.VertexId);
+            Assert.Equal(5, firstEdge.EdgeWeight.WeightValue, 8);
 
-            AreEqual("C", lastEdge.StartVertex.VertexId);
-            AreEqual("D", lastEdge.EndVertex.VertexId);
-            AreEqual(9, lastEdge.EdgeWeight.WeightValue, SMALL_DELTA_VALUE_FOR_WEIGHT_COMPARISONS);
+            Assert.Equal("C", lastEdge.StartVertex.VertexId);
+            Assert.Equal("D", lastEdge.EndVertex.VertexId);
+            Assert.Equal(9, lastEdge.EdgeWeight.WeightValue, 8);
         }
 
         private void assertNotNulls(EdgeGenerics<Vertex, Weight> edge)
         {
-            IsNotNull(edge);
-            IsNotNull(edge.StartVertex);
-            IsNotNull(edge.EndVertex);
-            IsNotNull(edge.EdgeWeight);
+            Assert.NotNull(edge);
+            Assert.NotNull(edge.StartVertex);
+            Assert.NotNull(edge.EndVertex);
+            Assert.NotNull(edge.EdgeWeight);
         }
 
     }

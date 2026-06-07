@@ -9,8 +9,8 @@
 */
 
 using Programmerare.ShortestPaths.Core.Api;
-using NUnit.Framework;
-using static NUnit.Framework.Assert;
+using Xunit;
+
 using static Programmerare.ShortestPaths.Core.Impl.WeightImpl; // SMALL_DELTA_VALUE_FOR_WEIGHT_COMPARISONS
 using static Programmerare.ShortestPaths.Core.Impl.EdgeImpl; // createEdge
 using static Programmerare.ShortestPaths.Core.Impl.VertexImpl; // createVertex
@@ -24,8 +24,7 @@ namespace Programmerare.ShortestPaths.Core.Impl.Generics
     public class EdgeMapperTest {
 	    private Edge edgeX1, edgeX2, edgeY1, edgeY2;
 	
-	    [SetUp]
-	    public void setUp()  {
+	    public EdgeMapperTest()  {
 		    edgeX1 = CreateEdge(CreateVertex("A"), CreateVertex("B"), CreateWeight(7));
 		    edgeX2 = CreateEdge(CreateVertex("A"), CreateVertex("B"), CreateWeight(7));
 		
@@ -35,16 +34,16 @@ namespace Programmerare.ShortestPaths.Core.Impl.Generics
 		
 	    }
 
-	    [Test]
+	    [Fact]
 	    public void testGetOriginalObjectInstancesOfTheEdges() {
 		    List<Edge> originalEdges = new List<Edge>{edgeX1, edgeY1};
 		    List<Edge> equalEdgesButOtherInstances = new List<Edge>{edgeX2, edgeY2};
 		
-		    AreEqual(originalEdges[0], equalEdgesButOtherInstances[0]);
-		    AreEqual(originalEdges[1], equalEdgesButOtherInstances[1]);
+		    Assert.Equal(originalEdges[0], equalEdgesButOtherInstances[0]);
+		    Assert.Equal(originalEdges[1], equalEdgesButOtherInstances[1]);
 		    // Note that the above were equal but they are NOT the same instances as you can see here:
-		    IsFalse(originalEdges[0] == equalEdgesButOtherInstances[0]);
-		    IsFalse(originalEdges[1] == equalEdgesButOtherInstances[1]);
+		    Assert.False(originalEdges[0] == equalEdgesButOtherInstances[0]);
+		    Assert.False(originalEdges[1] == equalEdgesButOtherInstances[1]);
 
 		
 		    EdgeMapper<Edge, Vertex, Weight> edgeMapper = EdgeMapper<Edge, Vertex, Weight>.CreateEdgeMapper<Edge, Vertex, Weight>(originalEdges);
@@ -52,11 +51,11 @@ namespace Programmerare.ShortestPaths.Core.Impl.Generics
 		    // Note that the input parameter above vas the list which did NOT have the same instances as the original
 		    // list (i.e. the list passed into the constructor of EdgeMapper) but the returned list should have the same 
 		    // instances, and they should be mapped through the id of the edge
-		    AreSame(originalEdges[0], originalObjectInstancesOfTheEdges[0]);
-		    AreSame(originalEdges[1], originalObjectInstancesOfTheEdges[1]); 		
+		    Assert.Same(originalEdges[0], originalObjectInstancesOfTheEdges[0]);
+		    Assert.Same(originalEdges[1], originalObjectInstancesOfTheEdges[1]); 		
 	    }
 	
-	    [Test]
+	    [Fact]
 	    public void testGetOriginalEdgeInstance() {
 		    IList<Edge> originalEdges = new List<Edge> {edgeX1, edgeY1 };
 		
@@ -64,8 +63,8 @@ namespace Programmerare.ShortestPaths.Core.Impl.Generics
 
 		    // the same edge instance should be retrieve when we below pass in the string ids for the vertices of the edge 
 		
-		    AreSame(edgeX1, edgeMapper.GetOriginalEdgeInstance(edgeX1.StartVertex.VertexId, edgeX1.EndVertex.VertexId));
-		    AreSame(edgeY1, edgeMapper.GetOriginalEdgeInstance(edgeY1.StartVertex.VertexId, edgeY1.EndVertex.VertexId));
+		    Assert.Same(edgeX1, edgeMapper.GetOriginalEdgeInstance(edgeX1.StartVertex.VertexId, edgeX1.EndVertex.VertexId));
+		    Assert.Same(edgeY1, edgeMapper.GetOriginalEdgeInstance(edgeY1.StartVertex.VertexId, edgeY1.EndVertex.VertexId));
 	    }
     }
 }

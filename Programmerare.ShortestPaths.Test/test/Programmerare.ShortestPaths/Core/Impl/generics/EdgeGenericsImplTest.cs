@@ -7,8 +7,8 @@
 * It should also be possible to find more license information at this URL:
 * https://github.com/TomasJohansson/adapters-shortest-paths-dotnet/
 */
-using NUnit.Framework;
-using static NUnit.Framework.Assert;
+using Xunit;
+
 using static Programmerare.ShortestPaths.Core.Impl.WeightImpl; // SMALL_DELTA_VALUE_FOR_WEIGHT_COMPARISONS
 using static Programmerare.ShortestPaths.Core.Impl.EdgeImpl; // createEdge
 using static Programmerare.ShortestPaths.Core.Impl.VertexImpl; // createVertex
@@ -25,8 +25,7 @@ namespace Programmerare.ShortestPaths.Core.Impl.Generics
 	    private double weightValue;
 	    private Edge edgeX, edgeY;
 	
-	    [SetUp]
-	    public void setUp()  {
+	    public EdgeGenericsImplTest()  {
 		    vertexA = CreateVertex("A");
 		    vertexB = CreateVertex("B");
 		    weightValue = 123.45;
@@ -37,34 +36,34 @@ namespace Programmerare.ShortestPaths.Core.Impl.Generics
 	    }
 
 
-	    [Test]
+	    [Fact]
 	    public void testGetStartVertex() {
-		    AreEqual(vertexA.VertexId, edgeX.StartVertex.VertexId);
-		    AreEqual(vertexA, edgeX.StartVertex);
+		    Assert.Equal(vertexA.VertexId, edgeX.StartVertex.VertexId);
+		    Assert.Equal(vertexA, edgeX.StartVertex);
 	    }
 	
-	    [Test]
+	    [Fact]
 	    public void testGetEndVertex() {
-		    AreEqual(vertexB.VertexId, edgeX.EndVertex.VertexId);
-		    AreEqual(vertexB, edgeX.EndVertex);
+		    Assert.Equal(vertexB.VertexId, edgeX.EndVertex.VertexId);
+		    Assert.Equal(vertexB, edgeX.EndVertex);
 	    }	
 	
-	    [Test]
+	    [Fact]
 	    public void testgetEdgeWeight() {
-		    AreEqual(weightValue, edgeX.EdgeWeight.WeightValue, SMALL_DELTA_VALUE_FOR_WEIGHT_COMPARISONS);
-		    AreEqual(weight, edgeX.EdgeWeight);		
+		    Assert.Equal(weightValue, edgeX.EdgeWeight.WeightValue, 8);
+		    Assert.Equal(weight, edgeX.EdgeWeight);		
 	    }
 	
-	    [Test]
+	    [Fact]
 	    public void testEquals() {
-		    AreEqual(edgeX, edgeY);
-		    IsTrue(edgeX.Equals(edgeY));
-		    IsTrue(edgeY.Equals(edgeX));
+		    Assert.Equal(edgeX, edgeY);
+		    Assert.True(edgeX.Equals(edgeY));
+		    Assert.True(edgeY.Equals(edgeX));
 	    }
 	
-	    [Test]
+	    [Fact]
 	    public void testHashCode() {
-		    AreEqual(edgeX.GetHashCode(), edgeY.GetHashCode());
+		    Assert.Equal(edgeX.GetHashCode(), edgeY.GetHashCode());
 	    }	
     }
 }

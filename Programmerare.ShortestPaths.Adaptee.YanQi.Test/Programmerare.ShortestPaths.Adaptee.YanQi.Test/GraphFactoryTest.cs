@@ -1,28 +1,24 @@
-﻿using NUnit.Framework;
+﻿using Xunit;
 
 namespace Programmerare.ShortestPaths.Adaptee.YanQi.Test
 {
-    [TestFixture]
-    class GraphFactoryTest
+
+public class GraphFactoryTest
     {
-        [Test]
+        [Fact]
         public void TestGetFullPath_ExistingFile()
         {
-            Assert.IsTrue(
-                System.IO.File.Exists(
+            Assert.True(System.IO.File.Exists(
                     GraphFactory.GetFullPath("data/test_50")
-                )
-            );
+                ));
         }
 
-        [Test]
+        [Fact]
         public void TestGetFullPath_NotExistingFile()
         {
-            Assert.IsFalse(
-                System.IO.File.Exists(
+            Assert.False(System.IO.File.Exists(
                     GraphFactory.GetFullPath("data/nameOfNonExistinFile")
-                )
-            );
+                ));
         }
     }
 }

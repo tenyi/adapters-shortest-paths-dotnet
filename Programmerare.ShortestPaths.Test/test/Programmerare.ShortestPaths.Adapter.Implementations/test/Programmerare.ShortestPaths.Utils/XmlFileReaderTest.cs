@@ -9,7 +9,7 @@
 */
 
 using System.Xml;
-using NUnit.Framework;
+using Xunit;
 
 namespace Programmerare.ShortestPaths.Utils
 {
@@ -24,8 +24,7 @@ namespace Programmerare.ShortestPaths.Utils
 	    private string nameOfXmlRootElement;
 	    private string nameOfXmlSubElement;
 	
-	    [SetUp]
-	    public void SetUp() {
+	    public XmlFileReaderTest() {
 		    xmlFileReader = new XmlFileReader();
             filePathForXmlTestFile = @"directory_for_xmlfilereader_test\xmlFileReaderTest.xml";
 		    // testing the content of the file "/.../resources/directory_for_xmlfilereader_test/xmlFileReaderTest.xml":
@@ -41,36 +40,36 @@ namespace Programmerare.ShortestPaths.Utils
 		    textContentForSecondSubelement = "def";		
 	    }
 
-	    [Test]
+	    [Fact]
 	    public void TestGetResourceFileAsXmlDocument() {
 		    XmlDocument xmlDocument = xmlFileReader.GetResourceFileAsXmlDocument(filePathForXmlTestFile);
 		    Assert.NotNull(xmlDocument);
 		    XmlElement documentElement = xmlDocument.DocumentElement;
-		    Assert.AreEqual(nameOfXmlRootElement, documentElement.Name);
+		    Assert.Equal(nameOfXmlRootElement, documentElement.Name);
 	    }
 	
-	    [Test]
+	    [Fact]
 	    public void TestGetNodeListMatchingXPathExpression() {
             XmlDocument xmlDocument = xmlFileReader.GetResourceFileAsXmlDocument(filePathForXmlTestFile);
 		    XmlNodeList nodeList = xmlFileReader.GetNodeListMatchingXPathExpression(xmlDocument, xPathExpressionForSubelements);
 		    Assert.NotNull(nodeList);
-		    Assert.AreEqual(2,  nodeList.Count);
+		    Assert.Equal(2, nodeList.Count);
 		
 		    XmlNode item1 = nodeList.Item(0);
 		    XmlNode item2 = nodeList[1];
 		    Assert.NotNull(item1);
 		    Assert.NotNull(item2);
-		    Assert.AreEqual(textContentForFirstSubelement, item1.InnerText);
-		    Assert.AreEqual(textContentForSecondSubelement, item2.InnerText);
+		    Assert.Equal(textContentForFirstSubelement, item1.InnerText);
+		    Assert.Equal(textContentForSecondSubelement, item2.InnerText);
 	    }
 	
-	    [Test]
+	    [Fact]
 	    public void TestGetTextContentNodeOfFirstSubNode() {
 		    XmlDocument xmlDocument = xmlFileReader.GetResourceFileAsXmlDocument(filePathForXmlTestFile);
 		    XmlElement rootElement = xmlDocument.DocumentElement;
 		    string result = xmlFileReader.GetTextContentNodeOfFirstSubNode(rootElement , nameOfXmlSubElement);
 		    Assert.NotNull(result);
-		    Assert.AreEqual(textContentForFirstSubelement,  result);
+		    Assert.Equal(textContentForFirstSubelement, result);
 	    }
     }
 }

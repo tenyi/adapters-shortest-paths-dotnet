@@ -8,8 +8,8 @@
 * https://github.com/TomasJohansson/adapters-shortest-paths-dotnet/
 */
 
-using NUnit.Framework;
-using static NUnit.Framework.Assert;
+using Xunit;
+
 using Programmerare.ShortestPaths.Core.Api;
 using static Programmerare.ShortestPaths.Core.Impl.WeightImpl; // SMALL_DELTA_VALUE_FOR_WEIGHT_COMPARISONS
 
@@ -18,7 +18,7 @@ namespace Programmerare.ShortestPaths.Core.Impl
     /**
      * @author Tomas Johansson
      */
-    [TestFixture]
+
     public class WeightImplTest {
 
 	    private Weight weightA;
@@ -26,34 +26,29 @@ namespace Programmerare.ShortestPaths.Core.Impl
 	    private double weightValueA;
 	    private double weightValueB;
 	
-	    [SetUp]
-	    public void setUp()  {
+	    public WeightImplTest()  {
 		    weightValueA = 12345.6789;
 		    weightValueB = 12345.6789;
 		    weightA = CreateWeight(weightValueA);
 		    weightB = CreateWeight(weightValueB);
 	    }
 	
-	    [Test]
+	    [Fact]
 	    public void testGetWeightValue() {
-		    AreEqual(
-			    weightValueA, 
-			    weightA.WeightValue, 
-			    SMALL_DELTA_VALUE_FOR_WEIGHT_COMPARISONS
-		    );
+		    Assert.Equal(weightValueA, weightA.WeightValue, 8);
 	    }
 	
-	    [Test]
+	    [Fact]
 	    public void testEquals() {
-		    AreEqual(weightA, weightB);
+		    Assert.Equal(weightA, weightB);
 
-		    IsTrue(weightA.Equals(weightB));
-		    IsTrue(weightB.Equals(weightA));
+		    Assert.True(weightA.Equals(weightB));
+		    Assert.True(weightB.Equals(weightA));
 	    }
 	
-	    [Test]
+	    [Fact]
 	    public void testHashCode() {
-		    AreEqual(weightA.GetHashCode(), weightB.GetHashCode());
+		    Assert.Equal(weightA.GetHashCode(), weightB.GetHashCode());
 	    }	
     }
 }

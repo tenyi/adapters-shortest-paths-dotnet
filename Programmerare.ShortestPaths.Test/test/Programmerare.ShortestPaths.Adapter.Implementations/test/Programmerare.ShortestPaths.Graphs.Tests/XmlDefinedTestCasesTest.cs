@@ -10,7 +10,7 @@
 
 using System.Xml;
 using static Programmerare.ShortestPaths.Core.Impl.VertexImpl; // createVertex
-using NUnit.Framework;
+using Xunit;
 using Programmerare.ShortestPaths.Adapter.Bsmock;
 using Programmerare.ShortestPaths.Adapter.YanQi;
 using Programmerare.ShortestPaths.Adapter.QuikGraph;
@@ -29,7 +29,7 @@ namespace Programmerare.ShortestPaths.Graphs.Tests {
      * See an example in the xml file ".../src/test/resources/test_graphs/small_graph_1.xml"   
      * 
      */
-    [TestFixture]
+
     public class XmlDefinedTestCasesTest {
 
 	    private EdgeUtility<Edge, Vertex, Weight> edgeUtility;
@@ -62,8 +62,7 @@ namespace Programmerare.ShortestPaths.Graphs.Tests {
 	     */
 	    private int minimumTotalNumberOfXmlTestFiles = 11; // 2 in base directory and 2 in "bsmock" (actually 3 there but one is in the exclusion list of files) and some more in yanqi directory,...  
 	
-	    [SetUp]
-	    public void SetUp() {
+	    public XmlDefinedTestCasesTest() {
 		    edgeUtility = EdgeUtility<Edge, Vertex, Weight>.Create<Edge, Vertex, Weight>();
 		
 		    //fileReaderForGraphTestData = FileReaderForGraphEdges<Edge, Vertex, Weight>.CreateFileReaderForGraphEdges(new EdgeFactoryDefault());
@@ -129,7 +128,7 @@ namespace Programmerare.ShortestPaths.Graphs.Tests {
 	     * Method for troubleshooting (or for big slow files), when you want to temporary want to focus at one 
 	     * file, as opposed to normal regression testing when all files are iterated through another test method  
 	     */
-	    [Test] // enable this row when you want to used the method
+	    [Fact] // enable this row when you want to used the method
 	    public void TemporaryTest() {
 		    // Either use all factories as the first row below, or add one or more to the list which is empty after the setup method 
     //		pathFinderFactories = pathFinderFactoriesForAllImplementations;
@@ -159,7 +158,7 @@ namespace Programmerare.ShortestPaths.Graphs.Tests {
 	     */
 
 	    //[Test] 
-	    public void TestXmlFile_smallRoadNetwork01() {
+	    private void TestXmlFile_smallRoadNetwork01() {
 		    //graphShortestPathAssertionHelper.SetConsoleOutputDesired(ConsoleOutputDesired.TIME_MEASURE);
 		    pathFinderFactories.Add(new PathFinderFactoryYanQi()); // 20 seconds
 		    pathFinderFactories.Add(new PathFinderFactoryBsmock()); // 475 seconds
@@ -175,7 +174,7 @@ namespace Programmerare.ShortestPaths.Graphs.Tests {
 	    }
 
 
-        [Test]
+        [Fact]
 	    public void TestXmlFile_test_50_2() {
 		    graphShortestPathAssertionHelper.SetConsoleOutputDesired(ConsoleOutputDesired.ALL);
 		    pathFinderFactories.Add(new PathFinderFactoryYanQi());
@@ -188,7 +187,7 @@ namespace Programmerare.ShortestPaths.Graphs.Tests {
 
 	
 	
-	    [Test]
+	    [Fact]
 	    public void TestXmlFile_test_50() {
 		    graphShortestPathAssertionHelper.SetConsoleOutputDesired(ConsoleOutputDesired.ALL);
             pathFinderFactories.Add(new PathFinderFactoryYanQi());
@@ -198,7 +197,7 @@ namespace Programmerare.ShortestPaths.Graphs.Tests {
             //pathFinderFactories.Add(new PathFinderFactoryParrisha());  // fails
             runTestCaseDefinedInXmlFile(DIRECTORY_FOR_XML_TEST_FILES_FROM_YANQI, XML_FILE_BIG_TEST__50, pathFinderFactories);
 	    }
-	    [Test]
+	    [Fact]
 	    public void TestXmlFile_test_7() {
 		    graphShortestPathAssertionHelper.SetConsoleOutputDesired(ConsoleOutputDesired.ALL);
             pathFinderFactories.Add(new PathFinderFactoryYanQi());
@@ -209,7 +208,7 @@ namespace Programmerare.ShortestPaths.Graphs.Tests {
             runTestCaseDefinedInXmlFile(DIRECTORY_FOR_XML_TEST_FILES_FROM_YANQI, XML_FILE_TEST__7, pathFinderFactories);
 	    }
 
-	    [Test]
+	    [Fact]
 	    public void Test_all_xml_files_in_test_graphs_directory() {
 		    // the advantage with iterating xml files is this method is that you do not have to add a new test method
 		    // for each new xml file with test cases, but the disadvantage is that you do not automatically see which file failed
@@ -232,7 +231,7 @@ namespace Programmerare.ShortestPaths.Graphs.Tests {
 				    }
 			    }
 		    }
-		    Assert.That(counterForNumberOfXmlFilesTested >= minimumTotalNumberOfXmlTestFiles, "Too few files tested"); // TODO java hamcrest Assert.That(counterForNumberOfXmlFilesTested, greaterThanOrEqualTo(minimumTotalNumberOfXmlTestFiles));
+		    Assert.True(counterForNumberOfXmlFilesTested >= minimumTotalNumberOfXmlTestFiles); // TODO java hamcrest Assert.True(counterForNumberOfXmlFilesTested);
 
 	    }
 
@@ -257,7 +256,7 @@ namespace Programmerare.ShortestPaths.Graphs.Tests {
 		    XmlDocument document = xmlFileReader.GetResourceFileAsXmlDocument(pathToResourceXmlFile);
 		    XmlNodeList nodeList = xmlFileReader.GetNodeListMatchingXPathExpression(document, "graphTestData/graphDefinition");
 		    Assert.NotNull(nodeList);
-		    Assert.AreEqual(1, nodeList.Count); // should only be one graph definition per file
+		    Assert.Equal(1, nodeList.Count); // should only be one graph definition per file
 		
 		    XmlNode nodeWithGraphDefinition = nodeList.Item(0);
 		    Assert.NotNull(nodeWithGraphDefinition);
@@ -295,7 +294,7 @@ namespace Programmerare.ShortestPaths.Graphs.Tests {
 				    edgeGraphEdgesValidator.ValidateAllPathsOnlyContainEdgesDefinedInGraph(expectedListOfPaths, edgesForGraph);	
 			    }
 			
-			    Assert.AreEqual(1, nodeListWithInput.Count); // should only be one input element
+			    Assert.Equal(1, nodeListWithInput.Count); // should only be one input element
 			    XmlNode nodeWithInputForTestCase  = nodeListWithInput.Item(0);
 			    //final NodeList nodeListWithInput = xmlFileReader.getNodeListMatchingXPathExpression(itemWithTestCase, "input");
 			    string startVertexId = xmlFileReader.GetTextContentNodeOfFirstSubNode(nodeWithInputForTestCase, "startVertex");
@@ -324,7 +323,7 @@ namespace Programmerare.ShortestPaths.Graphs.Tests {
 	
     //    [Obsolete]
 	   // //@Deprecated // use xml instead
-	   // [Test]
+	   // [Fact]
 	   // public void Test_graph_datafile__small_graph_1() {
 		  //  string filePath = "test_graphs/small_graph_1.txt";
     ////		A B 5
@@ -346,7 +345,7 @@ namespace Programmerare.ShortestPaths.Graphs.Tests {
 
 	   // //@Deprecated // use xml instead
     //    [Obsolete]
-	   // [Test]
+	   // [Fact]
 	   // public void Test_graph_datafile__small_graph_2() throws IOException {
 		  //  string filePath = "test_graphs/small_graph_2.txt";
     ////		F G 13

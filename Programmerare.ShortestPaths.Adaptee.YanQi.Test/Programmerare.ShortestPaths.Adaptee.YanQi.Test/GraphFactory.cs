@@ -9,7 +9,7 @@ namespace Programmerare.ShortestPaths.Adaptee.YanQi.Test
     ///     graph = GraphFactory.createGraph("data/test_50");
     /// (to resolve the relative path provided as parameter)
     /// </summary>
-    class GraphFactory
+public class GraphFactory
     {
         internal static Graph createGraph(string fileNamePathRelativeFromProjectDirectory)
         {

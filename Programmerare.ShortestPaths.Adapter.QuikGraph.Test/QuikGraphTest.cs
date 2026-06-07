@@ -1,18 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using NUnit.Framework;
+using Xunit;
 using QuikGraph;
 using QuikGraph.Algorithms.ShortestPath;
 
 namespace Programmerare.ShortestPaths.Adapter.QuikGraph.Test
 {
-    [TestFixture]
+
     public class QuikGraphTest
     {
 
         // This test method for QuikGraph 1.0.0 is based on the code example in the following issue for QuickGraph 3.7.3 (which failed):
         // https://github.com/YaccConstructor/QuickGraph/issues/178
-        [Test]
+        [Fact]
         public void Test()
         {
             var graph = new AdjacencyGraph<string, EquatableTaggedEdge<string, double>>(false);
@@ -41,29 +41,29 @@ namespace Programmerare.ShortestPaths.Adapter.QuikGraph.Test
             //  A -> B -> D
             //  A -> C -> D
             // The last path was missing (i.e. A -> B -> C -> D) for QuickGraph 3.7.3
-            Assert.AreEqual(3, actualPaths.Count); // Failure for QuickGraph 3.7.3 : Expected: 3 But was:  2
+            Assert.Equal(3, actualPaths.Count); // Failure for QuickGraph 3.7.3 : Expected: 3 But was:  2
             // but when running the code with the fork for QuikGraph 1.0.0, then it works
 
             var path1 = actualPaths[0];
             var path2 = actualPaths[1];
             var path3 = actualPaths[2];
 
-            Assert.AreEqual("A", path1.ElementAt(0).Source);
-            Assert.AreEqual("B", path1.ElementAt(0).Target);
-            Assert.AreEqual("B", path1.ElementAt(1).Source);
-            Assert.AreEqual("D", path1.ElementAt(1).Target);
+            Assert.Equal("A", path1.ElementAt(0).Source);
+            Assert.Equal("B", path1.ElementAt(0).Target);
+            Assert.Equal("B", path1.ElementAt(1).Source);
+            Assert.Equal("D", path1.ElementAt(1).Target);
 
-            Assert.AreEqual("A", path2.ElementAt(0).Source);
-            Assert.AreEqual("C", path2.ElementAt(0).Target);
-            Assert.AreEqual("C", path2.ElementAt(1).Source);
-            Assert.AreEqual("D", path2.ElementAt(1).Target);
+            Assert.Equal("A", path2.ElementAt(0).Source);
+            Assert.Equal("C", path2.ElementAt(0).Target);
+            Assert.Equal("C", path2.ElementAt(1).Source);
+            Assert.Equal("D", path2.ElementAt(1).Target);
 
-            Assert.AreEqual("A", path3.ElementAt(0).Source);
-            Assert.AreEqual("B", path3.ElementAt(0).Target);
-            Assert.AreEqual("B", path3.ElementAt(1).Source);
-            Assert.AreEqual("C", path3.ElementAt(1).Target);
-            Assert.AreEqual("C", path3.ElementAt(2).Source);
-            Assert.AreEqual("D", path3.ElementAt(2).Target);
+            Assert.Equal("A", path3.ElementAt(0).Source);
+            Assert.Equal("B", path3.ElementAt(0).Target);
+            Assert.Equal("B", path3.ElementAt(1).Source);
+            Assert.Equal("C", path3.ElementAt(1).Target);
+            Assert.Equal("C", path3.ElementAt(2).Source);
+            Assert.Equal("D", path3.ElementAt(2).Target);
         }
     }
 }

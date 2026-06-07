@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+﻿using Xunit;
 using edu.asu.emit.algorithm.graph;
 using edu.asu.emit.algorithm.graph.abstraction;
 using edu.asu.emit.algorithm.graph.shortestpaths;
@@ -9,12 +9,12 @@ using Programmerare.ShortestPaths.Test.Utils;
 
 namespace Programmerare.ShortestPaths.Adaptee.YanQi.Test
 {
-    [TestFixture]
-    class YenTopKShortestPathsAlgTest
+
+public class YenTopKShortestPathsAlgTest
     {
         private const double SMALL_DELTA_VALUE_FOR_ASSERTIONS = 0.00000001;
         
-        [Test]
+        [Fact]
         public void TestVerySmallGraph() {
             IgnoreIfTrue(!IsAssemblyForAdapteeYanQiSupportingStreamReader());
             Graph graph = CreateGraph("graph_very_small.txt");
@@ -27,7 +27,7 @@ namespace Programmerare.ShortestPaths.Adaptee.YanQi.Test
             var first = yenAlg.Next();
             var second = yenAlg.Next();
             var third = yenAlg.Next();
-            Assert.IsFalse(yenAlg.HasNext());
+            Assert.False(yenAlg.HasNext());
             string expectedResult = @"
 			    13 0 1 3
 			    15 0 2 3
@@ -41,7 +41,7 @@ namespace Programmerare.ShortestPaths.Adaptee.YanQi.Test
             assertExpectedPath(listWithExpectedWeightsAndNodes[2], third);
         }
 
-        [Test]
+        [Fact]
         public void TestSmallGraph() {
             IgnoreIfTrue(!IsAssemblyForAdapteeYanQiSupportingStreamReader());
             Graph graph = CreateGraph("graph_small.txt");
@@ -112,17 +112,17 @@ namespace Programmerare.ShortestPaths.Adaptee.YanQi.Test
 
         private void assertExpectedPath(WeightAndNodes expectedPath, Path actualPath)
         {
-            Assert.AreEqual(expectedPath.Weight, actualPath.GetWeight(), SMALL_DELTA_VALUE_FOR_ASSERTIONS);
+            Assert.Equal(expectedPath.Weight, actualPath.GetWeight(), 8);
             assertVertexList(expectedPath.Nodes, actualPath.GetVertexList());
         }
 
         private void assertVertexList(IList<int> expectedVertices, IList<BaseVertex> actualVertices)
         {
-            Assert.AreEqual(expectedVertices.Count, actualVertices.Count);
+            Assert.Equal(expectedVertices.Count, actualVertices.Count);
             int count = expectedVertices.Count;
             for(int i=0; i<count; i++)
             {
-                Assert.AreEqual(expectedVertices[i], actualVertices[i].GetId());
+                Assert.Equal(expectedVertices[i], actualVertices[i].GetId());
             }
         }
 
@@ -141,11 +141,11 @@ namespace Programmerare.ShortestPaths.Adaptee.YanQi.Test
 
         private void IgnoreIfTrue(bool condition) {
             if(condition) {
-                Assert.Ignore();
+                return;
             }
         }
     }
-    class WeightAndNodes
+public class WeightAndNodes
     {
         private readonly double weight;
         private readonly System.Collections.Generic.IList<int> nodess;

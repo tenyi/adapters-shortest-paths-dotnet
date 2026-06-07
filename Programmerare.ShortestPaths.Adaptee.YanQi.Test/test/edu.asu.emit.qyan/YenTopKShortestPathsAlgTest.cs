@@ -53,7 +53,7 @@
 
 namespace edu.asu.emit.qyan.test
 {
-using NUnit.Framework;
+using Xunit;
 using edu.asu.emit.algorithm.graph;
 using edu.asu.emit.algorithm.graph.shortestpaths;
 using System.Collections.Generic;
@@ -70,14 +70,13 @@ using Programmerare.ShortestPaths.Adaptee.YanQi.Test; // GraphFactory
 * https://github.com/yan-qi/k-shortest-paths-java-version
 * Regarding the translation of that Java code to this .NET code, see the top of this source file for more information.
 */
-[TestFixture]
+
 public class YenTopKShortestPathsAlgTest {
 	// The graph should be initiated only once to guarantee the correspondence 
 	// between vertex id and node id in input text file. 
 	private static Graph graph = null;
 	
-    [SetUp]
-    public void SetUp() {
+    public YenTopKShortestPathsAlgTest() {
         if(!IsAssemblyForAdapteeYanQiSupportingStreamReader()) {
             return;
         }
@@ -86,7 +85,7 @@ public class YenTopKShortestPathsAlgTest {
         }
     }
 
-    [Test]
+    [Fact]
 	public void testDijkstraShortestPathAlg()
 	{
 		IgnoreIfTrue(!IsAssemblyForAdapteeYanQiSupportingStreamReader());
@@ -95,7 +94,7 @@ public class YenTopKShortestPathsAlgTest {
 		Console.WriteLine(alg.GetShortestPath(graph.GetVertex(4), graph.GetVertex(5)));
 	}
 	
-    [Test]
+    [Fact]
 	public void testYenShortestPathsAlg()
 	{		
 		IgnoreIfTrue(!IsAssemblyForAdapteeYanQiSupportingStreamReader());
@@ -107,7 +106,7 @@ public class YenTopKShortestPathsAlgTest {
 		Console.WriteLine(yenAlg.GetResultList().Count);
 	}
 	
-    [Test]
+    [Fact]
 	public void testYenShortestPathsAlg2()
 	{
 		IgnoreIfTrue(!IsAssemblyForAdapteeYanQiSupportingStreamReader());
@@ -125,7 +124,7 @@ public class YenTopKShortestPathsAlgTest {
 		Console.WriteLine("All generated : "+yenAlg.GetGeneratedPathSize());
 	}
 	
-	[Test]
+	[Fact]
 	public void testYenShortestPathsAlg4MultipleGraphs()
 	{
 		IgnoreIfTrue(!IsAssemblyForAdapteeYanQiSupportingStreamReader());
@@ -158,7 +157,7 @@ public class YenTopKShortestPathsAlgTest {
 
 	private void IgnoreIfTrue(bool condition) {
 		if(condition) {
-			Assert.Ignore();
+			return;
 		}
 	}
 }

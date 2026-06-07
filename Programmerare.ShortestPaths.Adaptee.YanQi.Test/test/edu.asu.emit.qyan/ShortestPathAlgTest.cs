@@ -52,7 +52,7 @@
  */
 namespace edu.asu.emit.qyan.test
 {
-using NUnit.Framework;
+using Xunit;
 using edu.asu.emit.algorithm.graph;
 using edu.asu.emit.algorithm.graph.shortestpaths;
 using System;
@@ -68,15 +68,14 @@ using Programmerare.ShortestPaths.Adaptee.YanQi.Test; // GraphFactory
 * https://github.com/yan-qi/k-shortest-paths-java-version
 * Regarding the translation of that Java code to this .NET code, see the top of this source file for more information.
 */
-[TestFixture]
+
 public class ShortestPathAlgTest {
 	private Graph graph = null;
 	
 	/**
 	 * @throws java.lang.Exception
 	 */
-	[SetUp]
-	public void setUp() {
+	public ShortestPathAlgTest() {
         if(!IsAssemblyForAdapteeYanQiSupportingStreamReader()) {
             return;
         }
@@ -85,7 +84,7 @@ public class ShortestPathAlgTest {
         // original java code: graph = new Graph("data/test_50"); // https://github.com/yan-qi/k-shortest-paths-java-version/blob/master/src/test/java/edu/asu/emit/qyan/test/ShortestPathAlgTest.java
 	}
 
-	[Test]
+	[Fact]
 	public void testShorstPathAlg()	{
         IgnoreIfTrue(!IsAssemblyForAdapteeYanQiSupportingStreamReader());
 		Console.WriteLine("Testing Dijkstra Algorithm.");
@@ -95,7 +94,7 @@ public class ShortestPathAlgTest {
 
 	private void IgnoreIfTrue(bool condition) {
 		if(condition) {
-			Assert.Ignore();
+			return;
 		}
 	}
 

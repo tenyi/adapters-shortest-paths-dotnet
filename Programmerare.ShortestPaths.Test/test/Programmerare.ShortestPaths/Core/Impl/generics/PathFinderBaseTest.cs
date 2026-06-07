@@ -18,7 +18,7 @@ namespace Programmerare.ShortestPaths.Core.Impl.Generics
 	
 	   // private const string NEWLINE = " \r\n";
 	
-	   // [Test]
+	   // [Fact]
 	   // public void testCreateWeightInstance() {
 		
 		  //  PathFinderConcrete<PathGenerics<EdgeGenerics<Vertex,Weight>,Vertex,Weight>, EdgeGenerics<Vertex,Weight>,Vertex,Weight> pathFinderConcrete = new PathFinderConcrete<PathGenerics<EdgeGenerics<Vertex,Weight>,Vertex,Weight> , EdgeGenerics<Vertex,Weight>,Vertex,Weight>(graph, GraphEdgesValidationDesired.YES);
@@ -28,9 +28,9 @@ namespace Programmerare.ShortestPaths.Core.Impl.Generics
 		  //  Weight weightForFirstEdge = edges[0].getEdgeWeight();
 		
 		  //  Weight createdWeightInstance = pathFinderConcrete.createInstanceWithTotalWeight(12.456, edges);
-		  //  IsNotNull(createdWeightInstance);
-		  //  AreEqual(weightForFirstEdge.GetType(), createdWeightInstance.GetType());
-		  //  AreEqual(12.456, createdWeightInstance.getWeightValue(), 0.0001);
+		  //  Assert.NotNull(createdWeightInstance);
+		  //  Assert.Equal(weightForFirstEdge.GetType(), createdWeightInstance.GetType());
+		  //  Assert.Equal(12.456, createdWeightInstance.getWeightValue(), 8);
 	   // }
 
 	   // [SetUp]
@@ -64,17 +64,17 @@ namespace Programmerare.ShortestPaths.Core.Impl.Generics
 	   // }
 
 	
-	   // [Test]
+	   // [Fact]
 	   // public void validateThatAllEdgesInAllPathsArePartOfTheGraph_should_NOT_throw_exception() {
 		  //  //var pathFinderConcrete = new PathFinderConcrete<PathGenerics<EdgeGenerics<Vertex,Weight>,Vertex,Weight>, EdgeGenerics<Vertex,Weight>,Vertex,Weight>(graph, GraphEdgesValidationDesired.YES);
 		  //  //pathFinderConcrete.validateThatAllEdgesInAllPathsArePartOfTheGraph(this.pathWithAllEdgesBeingPartOfTheGraph);
-    //        Fail("fix");
+    //        Assert.Fail("fix");
 	   // }
 	
 	   // //@Test(expected = GraphValidationException.class)
-    //    [Test]
+    //    [Fact]
 	   // public void validateThatAllEdgesInAllPathsArePartOfTheGraph_SHOULD_throw_exception() {
-    //        Fail("fix exception test");
+    //        Assert.Fail("fix exception test");
 		  //  //PathFinderConcrete<PathGenerics<EdgeGenerics<Vertex,Weight>,Vertex,Weight>, EdgeGenerics<Vertex,Weight>,Vertex,Weight> pathFinderConcrete = new PathFinderConcrete<PathGenerics<EdgeGenerics<Vertex,Weight>,Vertex,Weight>, EdgeGenerics<Vertex,Weight>,Vertex,Weight>(graph, GraphEdgesValidationDesired.YES);
 		  //  //pathFinderConcrete.validateThatAllEdgesInAllPathsArePartOfTheGraph(this.pathWithAllEdgesNOTbeingPartOfTheGraph);
 	   // }

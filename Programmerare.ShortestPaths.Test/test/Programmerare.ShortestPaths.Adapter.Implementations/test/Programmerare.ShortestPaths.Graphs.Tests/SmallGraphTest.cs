@@ -7,7 +7,7 @@
 * It should also be possible to find more license information at this URL:
 * https://github.com/TomasJohansson/adapters-shortest-paths-dotnet/
 */
-using NUnit.Framework;
+using Xunit;
 using System.Collections.Generic;
 using Programmerare.ShortestPaths.Core.Api;
 using Programmerare.ShortestPaths.Core.Validation;
@@ -30,45 +30,45 @@ namespace Programmerare.ShortestPaths.Graphs.Tests
      * B --> D (13)
      *
      */
-    [TestFixture]
+
     public class SmallGraphTest {
 
-	    [Test]
+	    [Fact]
 	    public void TestFindShortestPaths_Bsmock() {
 		    TestFindShortestPaths(
 			    new PathFinderFactoryBsmock()
 		    );		
 	    }
 
-	    //[Test]
+	    //[Fact]
 	    //public void TestFindShortestPaths_QuickGraph() {
 		   // TestFindShortestPaths(
 			  //  new PathFinderFactoryQuickGraph()
 		   // );		
 	    //}
 
-		[Test]
+		[Fact]
 	    public void TestFindShortestPaths_QuikGraph() {
 		    TestFindShortestPaths(
 			    new PathFinderFactoryQuikGraph()
 		    );
 	    }
 
-		[Test]
+		[Fact]
 	    public void testFindShortestPaths_YanQi() {
 		    TestFindShortestPaths(
 			    new PathFinderFactoryYanQi()
 		    );
 	    }
 
-	    //[Test]
+	    //[Fact]
 	    //public void TestFindShortestPaths_Parrisha() {
 		   // TestFindShortestPaths(
 			  //  new PathFinderFactoryParrisha()
 		   // );		
 	    //}
         
-	    public void TestFindShortestPaths(
+	    private void TestFindShortestPaths(
 			    PathFinderFactory pathFinderFactory
 	    ) {
 		    Edge edgeAB3 = CreateEdge(CreateVertex("A"), CreateVertex("B"), CreateWeight(3));
@@ -90,29 +90,29 @@ namespace Programmerare.ShortestPaths.Graphs.Tests
 			    GraphEdgesValidationDesired.YES // TODO: refactor the construction of edges to able to do the validation only once instead of doing it for each factory
 		    );
 		    IList<Path> shortestPaths = pathFinder.FindShortestPaths(CreateVertex("A"), CreateVertex("D"), 5); // max 5 but actually we should only find 2
-		    Assert.AreEqual(2,  shortestPaths.Count);
+		    Assert.Equal(2, shortestPaths.Count);
 
 		    Path path = shortestPaths[0]; // the shortest mentioned above with total weight 15
-		    Assert.AreEqual(15,  path.TotalWeightForPath.WeightValue, SMALL_DELTA_VALUE_FOR_WEIGHT_COMPARISONS);
+		    Assert.Equal(15, path.TotalWeightForPath.WeightValue, 8);
 		    IList<Edge> edgesForPath = path.EdgesForPath;
-		    Assert.AreEqual(3,  edgesForPath.Count);
+		    Assert.Equal(3, edgesForPath.Count);
 		    assertEqualsAndTheSameInstance(edgeAB3,  edgesForPath[0]);
 		    assertEqualsAndTheSameInstance(edgeBC5,  edgesForPath[1]);
 		    assertEqualsAndTheSameInstance(edgeCD7,  edgesForPath[2]);
     //		
     //
 		    Path path2 = shortestPaths[1];
-		    Assert.AreEqual(16,  path2.TotalWeightForPath.WeightValue, SMALL_DELTA_VALUE_FOR_WEIGHT_COMPARISONS);
+		    Assert.Equal(16, path2.TotalWeightForPath.WeightValue, 8);
 		    IList<Edge> edgesForPath2 = path2.EdgesForPath;
-		    Assert.AreEqual(2,  edgesForPath2.Count);
+		    Assert.Equal(2, edgesForPath2.Count);
 		    assertEqualsAndTheSameInstance(edgeAB3,  edgesForPath2[0]);
 		    assertEqualsAndTheSameInstance(edgeBD13,  edgesForPath2[1]);
 	    }
 
 	    private void assertEqualsAndTheSameInstance(Edge edgeFromOriginalInput, Edge edgeFromResultingPath) {
-		    Assert.AreEqual(edgeFromOriginalInput,  edgeFromResultingPath);
+		    Assert.Equal(edgeFromOriginalInput, edgeFromResultingPath);
 		    // Note that the below assertion works thanks to the class EdgeMappe
-		    Assert.AreSame(edgeFromOriginalInput, edgeFromResultingPath);
+		    Assert.Same(edgeFromOriginalInput, edgeFromResultingPath);
 	    }
     }
 

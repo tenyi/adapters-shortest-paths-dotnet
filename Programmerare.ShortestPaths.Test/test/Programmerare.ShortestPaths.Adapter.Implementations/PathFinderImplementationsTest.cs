@@ -8,11 +8,11 @@
 * https://github.com/TomasJohansson/adapters-shortest-paths-dotnet/
 */
 
-using NUnit.Framework;
+using Xunit;
 using Programmerare.ShortestPaths.Adapter.YanQi;
 using Programmerare.ShortestPaths.Adapter.Bsmock;
 using Programmerare.ShortestPaths.Adapter.QuikGraph;
-using static NUnit.Framework.Assert;
+
 using Programmerare.ShortestPaths.Core.Validation;
 using System.Collections.Generic;
 using Programmerare.ShortestPaths.Core.Api;
@@ -27,15 +27,14 @@ using static Programmerare.ShortestPaths.Core.Impl.VertexImpl; // createVertex
 
 namespace dotnet_adapters_shortest_paths_test.test.Programmerare.ShortestPaths.Adapter.YanQi
 {
-    [TestFixture]
-    class PathFinderImplementationsTest
+
+public class PathFinderImplementationsTest
     {
         private Graph graph;
         private PathFinder pathFinder;
         Vertex a, b, c, d;
 
-        [SetUp]
-        public void SetUp()
+        public PathFinderImplementationsTest()
         {
 	        a = CreateVertex("A");
 	        b = CreateVertex("B");
@@ -52,29 +51,29 @@ namespace dotnet_adapters_shortest_paths_test.test.Programmerare.ShortestPaths.A
             graph = CreateGraph(edges, GraphEdgesValidationDesired.YES); 
         }
 
-        [Test]
+        [Fact]
         public void PathFinderTestYanQi()
         {
             PathFinderTest(new PathFinderFactoryYanQi());
         }
 
-        //[Test]
+        //[Fact]
         //public void PathFinderTestParrisha() {
         //    PathFinderTest(new PathFinderFactoryParrisha());
         //}
 
-        [Test]
+        [Fact]
         public void PathFinderTestBSmock()
         {
             PathFinderTest(new PathFinderFactoryBsmock());
         }
 
-        //[Test]
+        //[Fact]
         //public void PathFinderTestQuickGraph() {
         //    PathFinderTest(new PathFinderFactoryQuickGraph());
         //}
 
-        [Test]
+        [Fact]
         public void PathFinderTestQuikGraph()
         {
             PathFinderTest(new PathFinderFactoryQuikGraph());
@@ -85,7 +84,7 @@ namespace dotnet_adapters_shortest_paths_test.test.Programmerare.ShortestPaths.A
             pathFinder = pathFinderFactory.CreatePathFinder(graph);
 
             IList<Path> shortestPaths = pathFinder.FindShortestPaths(a, d, 10);
-            AreEqual(3, shortestPaths.Count);
+            Assert.Equal(3, shortestPaths.Count);
 
             // path1 : A -> B -> D (with total weight 13)
             assertPath(shortestPaths[0], 13, "A", "B", "D");
@@ -99,13 +98,13 @@ namespace dotnet_adapters_shortest_paths_test.test.Programmerare.ShortestPaths.A
 
         private void assertPath(Path path, double expectedTotalWeight, params string[] expectedVertices)
         {
-            AreEqual(expectedTotalWeight, path.TotalWeightForPath.WeightValue, SMALL_DELTA_VALUE_FOR_WEIGHT_COMPARISONS);
+            Assert.Equal(expectedTotalWeight, path.TotalWeightForPath.WeightValue, 8);
             var edges = path.EdgesForPath;
-            AreEqual(expectedVertices[0], edges[0].StartVertex.VertexId);
-            AreEqual(expectedVertices.Length, edges.Count + 1); // one more since each edge contain two nodes
+            Assert.Equal(expectedVertices[0], edges[0].StartVertex.VertexId);
+            Assert.Equal(expectedVertices.Length, edges.Count + 1); // one more since each edge contain two nodes
             for(int i=0; i<edges.Count; i++)
             {
-                AreEqual(expectedVertices[i+1], edges[i].EndVertex.VertexId);
+                Assert.Equal(expectedVertices[i+1], edges[i].EndVertex.VertexId);
             }
         }
     }

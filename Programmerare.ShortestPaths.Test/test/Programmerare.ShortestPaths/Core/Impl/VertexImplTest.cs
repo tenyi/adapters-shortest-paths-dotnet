@@ -8,8 +8,8 @@
 * https://github.com/TomasJohansson/adapters-shortest-paths-dotnet/
 */
 
-using NUnit.Framework;
-using static NUnit.Framework.Assert;
+using Xunit;
+
 using Programmerare.ShortestPaths.Core.Api;
 using static Programmerare.ShortestPaths.Core.Impl.VertexImpl; // createVertex
 
@@ -18,38 +18,37 @@ namespace Programmerare.ShortestPaths.Core.Impl
     /**
      * @author Tomas Johansson
      */
-    [TestFixture]
+
     public class VertexImplTest {
 
 	    private Vertex vertexA;
 	    private Vertex vertexB;
 	
-	    [SetUp]
-	    public void setUp() {
+	    public VertexImplTest() {
 		    vertexA = CreateVertex(357);
 		    vertexB = CreateVertex("357");		
 	    }
 	
-	    [Test]
+	    [Fact]
 	    public void testGetVertexId() {
 		
-		    AreEqual(vertexA.VertexId, vertexB.VertexId);
+		    Assert.Equal(vertexA.VertexId, vertexB.VertexId);
 		
-		    AreEqual(vertexA, vertexB);
-		    AreEqual(vertexA.GetHashCode(), vertexB.GetHashCode());
+		    Assert.Equal(vertexA, vertexB);
+		    Assert.Equal(vertexA.GetHashCode(), vertexB.GetHashCode());
 	    }
 	
-	    [Test]
+	    [Fact]
 	    public void testEquals() {
-		    AreEqual(vertexA, vertexB);
+		    Assert.Equal(vertexA, vertexB);
 
-		    IsTrue(vertexA.Equals(vertexB));
-		    IsTrue(vertexB.Equals(vertexA));
+		    Assert.True(vertexA.Equals(vertexB));
+		    Assert.True(vertexB.Equals(vertexA));
 	    }
 	
-	    [Test]
+	    [Fact]
 	    public void testHashCode() {
-		    AreEqual(vertexA.GetHashCode(), vertexB.GetHashCode());
+		    Assert.Equal(vertexA.GetHashCode(), vertexB.GetHashCode());
 	    }	
 
     }

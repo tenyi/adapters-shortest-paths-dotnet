@@ -9,8 +9,8 @@
 */
 
 using Programmerare.ShortestPaths.Core.Api;
-using NUnit.Framework;
-using static NUnit.Framework.Assert;
+using Xunit;
+
 using static Programmerare.ShortestPaths.Core.Impl.WeightImpl; // SMALL_DELTA_VALUE_FOR_WEIGHT_COMPARISONS
 using static Programmerare.ShortestPaths.Core.Impl.EdgeImpl; // createEdge
 using static Programmerare.ShortestPaths.Core.Impl.VertexImpl; // createVertex
@@ -23,7 +23,7 @@ namespace Programmerare.ShortestPaths.Core.Impl.Generics
     /**
      * @author Tomas Johansson
      */
-    [TestFixture]
+
     public class PathGenericsImplTest {
 
 	    private Edge edgeAB3;
@@ -33,8 +33,7 @@ namespace Programmerare.ShortestPaths.Core.Impl.Generics
 	    private double weightFirstEdge, weightSecondEdge, weightThirdEdge, totalWeight;
 	    private Path path; 
 			
-	    [SetUp]
-	    public void setUp()  {
+	    public PathGenericsImplTest()  {
 		    firstVertex = "A";
 		    secondVertex = "B";
 		    thirdVertex = "C";
@@ -52,21 +51,21 @@ namespace Programmerare.ShortestPaths.Core.Impl.Generics
 		    path = CreatePath(CreateWeight(totalWeight), new List<Edge> {edgeAB3, edgeBC5, edgeCD7 });
 	    }
 
-	    [Test]
+	    [Fact]
 	    public void testGetTotalWeightForPath() {
-		    AreEqual(totalWeight, path.TotalWeightForPath.WeightValue, SMALL_DELTA_VALUE_FOR_WEIGHT_COMPARISONS);
+		    Assert.Equal(totalWeight, path.TotalWeightForPath.WeightValue, 8);
 	    }
 
-	    [Test]
+	    [Fact]
 	    public void testGetEdgesForPath() {
 		    var edgesForPath = path.EdgesForPath;
-		    AreEqual(3, edgesForPath.Count);
-		    AreEqual(edgeAB3, edgesForPath[0]);
-		    AreEqual(edgeBC5, edgesForPath[1]);
-		    AreEqual(edgeCD7, edgesForPath[2]);
+		    Assert.Equal(3, edgesForPath.Count);
+		    Assert.Equal(edgeAB3, edgesForPath[0]);
+		    Assert.Equal(edgeBC5, edgesForPath[1]);
+		    Assert.Equal(edgeCD7, edgesForPath[2]);
 	    }
 
-	    [Test]//@Test(expected = RuntimeException.class) 
+	    [Fact]//@Test(expected = RuntimeException.class) 
 	    public void testExceptionIsThrownIfVerticesIsNotMatching() { 
             var exceptionThrown = Assert.Throws<Exception>(() => {
                 PathGenericsImpl<Edge, Vertex, Weight>.CreatePathGenerics<Edge, Vertex, Weight>(
@@ -81,10 +80,10 @@ namespace Programmerare.ShortestPaths.Core.Impl.Generics
                     true // tell creation method to throw exception if not all vertices are matching
                 );
             });
-            IsNotNull(exceptionThrown);
+            Assert.NotNull(exceptionThrown);
         }
     
-        [Test]
+        [Fact]
 	    public void testExceptionIsTotalWeightIsNotMatching() {
             var exceptionThrown = Assert.Throws<Exception>(() => {
                 PathGenericsImpl<Edge, Vertex, Weight>.CreatePathGenerics<Edge, Vertex, Weight>(
@@ -98,7 +97,7 @@ namespace Programmerare.ShortestPaths.Core.Impl.Generics
                     false
                 );
             });
-            IsNotNull(exceptionThrown);
+            Assert.NotNull(exceptionThrown);
         }	
     }
 }

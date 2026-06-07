@@ -10,8 +10,8 @@
 
 using Programmerare.ShortestPaths.Core.Api;
 using System.Collections.Generic;
-using NUnit.Framework;
-using static NUnit.Framework.Assert;
+using Xunit;
+
 using static Programmerare.ShortestPaths.Core.Impl.PathImpl; // createPath
 using static Programmerare.ShortestPaths.Core.Impl.EdgeImpl; // createEdge
 
@@ -44,8 +44,7 @@ namespace Programmerare.ShortestPaths.Core.Validation
 	    private string stringIdY = "y";
 	    private string stringIdZ = "Z";
 	
-	    [SetUp]
-	    public void setUp() {
+	    public GraphEdgesValidatorTest() {
 		    graphEdgesValidator = GraphEdgesValidator<Path, Edge, Vertex, Weight>.CreateGraphEdgesValidator<Path, Edge, Vertex, Weight>();
 		
 		    vertexA = createTestVertex("A");
@@ -70,32 +69,33 @@ namespace Programmerare.ShortestPaths.Core.Validation
 	    // ----------------------------------------------------------------------------------------------
 	    // tests for validateNonNullObjects below
 	
+	    [Fact]
 	    public void testValidateNonNullObjects_whenAllEdgePartsAreValid() {
 		    graphEdgesValidator.ValidateNonNullObjects(createTestEdge(stringIdX, vertexA, vertexB, weight5));
 	    }
 
-        [Test]	
+        [Fact]	
 	    public void testValidateNonNullObjects_whenEdgeIsNull() {
             var exceptionThrown = Assert.Throws<GraphValidationException>(() => {
                 graphEdgesValidator.ValidateNonNullObjects(null);    
             });
 	    }
 	
-	    [Test]
+	    [Fact]
 	    public void testValidateNonNullObjects_whenStartVertexIsNull() {
             var exceptionThrown = Assert.Throws<GraphValidationException>(() => {
                 graphEdgesValidator.ValidateNonNullObjects(createTestEdge(stringIdX, null, vertexA, weight6));    
             });
 	    }
 	
-        [Test]
+        [Fact]
 	    public void testValidateNonNullObjects_whenEndVertexIsNull() {
             var exceptionThrown = Assert.Throws<GraphValidationException>(() => {
                 graphEdgesValidator.ValidateNonNullObjects(createTestEdge(stringIdX, vertexA, null, weight6));    
             });
 	    }
 	
-        [Test]
+        [Fact]
 	    public void testValidateNonNullObjects_whenWeightIsNull() {
             var exceptionThrown = Assert.Throws<GraphValidationException>(() => {
                 graphEdgesValidator.ValidateNonNullObjects(createTestEdge(stringIdX, vertexA, vertexB, null));    
@@ -105,7 +105,7 @@ namespace Programmerare.ShortestPaths.Core.Validation
 	    // tests for validateNonNullObjects above
 	    // ----------------------------------------------------------------------------------------------
 	    // tests for validateNonBlankIds below
-	    [Test]
+	    [Fact]
 	    public void testValidateNonBlankIds_whenAllEdgePartsAreValid() {
             graphEdgesValidator.ValidateNonBlankIds(createTestEdge(stringIdX, vertexA, vertexB, weight5));    
 	    }
@@ -113,45 +113,45 @@ namespace Programmerare.ShortestPaths.Core.Validation
 	    // - - - - - -
 	    // Three tests for edge id:
 	    
-        [Test]
+        [Fact]
 	    public void testValidateNonBlankIds_whenEdgeIdIsNull() {
             var exceptionThrown = Assert.Throws<GraphValidationException>(() => {
                 graphEdgesValidator.ValidateNonBlankIds(createTestEdge(stringIdNull, vertexA, vertexB, weight5));    
             });
 	    }	
 
-        [Test]	
+        [Fact]	
 	    public void testValidateNonBlankIds_whenEdgeIdIsEmptyString() {
             var exceptionThrown = Assert.Throws<GraphValidationException>(() => {
                 graphEdgesValidator.ValidateNonBlankIds(createTestEdge(stringIdEmpty, vertexA, vertexB, weight5));    
             });
 	    }
 	
-        [Test]	
+        [Fact]	
 	    public void testValidateNonBlankIds_whenEdgeIdIsSomeSpaces() {
             var exceptionThrown = Assert.Throws<GraphValidationException>(() => {
                 graphEdgesValidator.ValidateNonBlankIds(createTestEdge(stringIdSomeSpaces, vertexA, vertexB, weight5));
             });
-            IsNotNull(exceptionThrown);
+            Assert.NotNull(exceptionThrown);
 	    }	
 	
 	    // - - - - - -
 	    // Three tests for start vertex id:
-	    [Test]
+	    [Fact]
 	    public void testValidateNonBlankIds_whenStartVertexIdIsNull() {
             var exceptionThrown = Assert.Throws<GraphValidationException>(() => {
                 graphEdgesValidator.ValidateNonBlankIds(createTestEdge(stringIdNull, vertexWithNullAsId, vertexB, weight5));    
             });
 	    }	
 	
-	    [Test]
+	    [Fact]
 	    public void testValidateNonBlankIds_whenStartVertexIdIsEmptyString() {
             var exceptionThrown = Assert.Throws<GraphValidationException>(() => {
                 graphEdgesValidator.ValidateNonBlankIds(createTestEdge(stringIdEmpty, vertexWithEmptyStringAsId, vertexB, weight5));    
             });
 	    }
 	
-	    [Test]
+	    [Fact]
 	    public void testValidateNonBlankIds_whenStartVertexIdIsSomeSpaces() {
             var exceptionThrown = Assert.Throws<GraphValidationException>(() => {
                 graphEdgesValidator.ValidateNonBlankIds(createTestEdge(stringIdSomeSpaces, vertexWithSomeSpacesAsId, vertexB, weight5));    
@@ -160,21 +160,21 @@ namespace Programmerare.ShortestPaths.Core.Validation
 	
 	    // - - - - - -
 	    // Three tests for end vertex id:
-	    [Test]
+	    [Fact]
 	    public void testValidateNonBlankIds_whenEndVertexIdIsNull() {
             var exceptionThrown = Assert.Throws<GraphValidationException>(() => {
                 graphEdgesValidator.ValidateNonBlankIds(createTestEdge(stringIdNull, vertexA, vertexWithNullAsId, weight5));    
             });
 	    }	
 	
-	    [Test]
+	    [Fact]
 	    public void testValidateNonBlankIds_whenEndVertexIdIsEmptyString() {
             var exceptionThrown = Assert.Throws<GraphValidationException>(() => {
                 graphEdgesValidator.ValidateNonBlankIds(createTestEdge(stringIdEmpty, vertexA, vertexWithEmptyStringAsId, weight5));    
             });
 	    }
 	
-	    [Test]
+	    [Fact]
 	    public void testValidateNonBlankIds_whenEndVertexIdIsSomeSpaces() {
             var exceptionThrown = Assert.Throws<GraphValidationException>(() => {
                 graphEdgesValidator.ValidateNonBlankIds(createTestEdge(stringIdSomeSpaces, vertexA, vertexWithSomeSpacesAsId, weight5));    
@@ -184,7 +184,7 @@ namespace Programmerare.ShortestPaths.Core.Validation
 	    // ----------------------------------------------------------------------------------------------
 	
 	    // tests for validateUniqueEdgeId below	
-	    [Test]
+	    [Fact]
 	    public void testValidateUniqueEdgeId_whenAlllAreUnique() {
             List<Edge> edges = new List<Edge> {
                 createTestEdge(stringIdX, vertexA, vertexB, weight5),
@@ -196,7 +196,7 @@ namespace Programmerare.ShortestPaths.Core.Validation
             graphEdgesValidator.ValidateUniqueEdgeId(edges[2], mapForValidatingUniqueEdgeId);
         }
 
-        [Test]
+        [Fact]
 	    public void testValidateUniqueEdgeId_whenAlllAreNotUnique() {
             var exceptionThrown = Assert.Throws<GraphValidationException>(() => {
                     List<Edge> edges = new List<Edge>{
@@ -213,7 +213,7 @@ namespace Programmerare.ShortestPaths.Core.Validation
 	    // tests for validateUniqueEdgeId above
 	    // ----------------------------------------------------------------------------------------------
 	
-	    [Test]
+	    [Fact]
 	    public void testValidateUniqueVerticesIds_whenAlllAreUnique() {
             List<Edge> edges = new List<Edge>{
                 createTestEdge(stringIdX, vertexA, vertexB, weight5),
@@ -225,7 +225,7 @@ namespace Programmerare.ShortestPaths.Core.Validation
             graphEdgesValidator.ValidateUniqueVerticesIds(edges[2], mapForValidatingUniqueVerticesIds);
         }	
 	
-	    [Test]
+	    [Fact]
 	    public void testValidateUniqueVerticesIds_whenAlllAreNotUnique() {
             var exceptionThrown = Assert.Throws<GraphValidationException>(() => {
             List<Edge> edges = new List<Edge>{
@@ -321,7 +321,7 @@ namespace Programmerare.ShortestPaths.Core.Validation
 	    }
 
 	    // ----------------------------------------------------------------------------------------------
-	    [Test]
+	    [Fact]
 	    public void testValidateAllPathsOnlyContainEdgesDefinedInGraph() {
             var exceptionThrown = Assert.Throws<GraphValidationException>(() => {
 		        IList<Edge> allEdgesForGraph = new List<Edge>();

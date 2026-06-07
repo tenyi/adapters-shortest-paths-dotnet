@@ -8,12 +8,12 @@
 * https://github.com/TomasJohansson/adapters-shortest-paths-dotnet/
 */
 
-using NUnit.Framework;
-using static NUnit.Framework.Assert;
+using Xunit;
+
 
 namespace Programmerare.ShortestPaths.Utils
 {
-[TestFixture]
+
 public class MapperForIntegerIdsAndGeneralStringIdsTest {
 
 //	@Before
@@ -22,37 +22,37 @@ public class MapperForIntegerIdsAndGeneralStringIdsTest {
 
 	// TODO: improve the testing below. Each method is currently doing too much.
 
-	[Test]
+	[Fact]
 	public void testStartIndexZero() {
 		MapperForIntegerIdsAndGeneralStringIds idMapper = MapperForIntegerIdsAndGeneralStringIds.CreateIdMapper(0);
-		AreEqual(0, idMapper.CreateOrRetrieveIntegerId("A"));
-		AreEqual(1, idMapper.CreateOrRetrieveIntegerId("B"));
-		AreEqual(0, idMapper.CreateOrRetrieveIntegerId("A"));
-		AreEqual(2, idMapper.CreateOrRetrieveIntegerId("C"));
-		AreEqual(0, idMapper.CreateOrRetrieveIntegerId("A"));
-		AreEqual(3, idMapper.CreateOrRetrieveIntegerId("D"));
+		Assert.Equal(0, idMapper.CreateOrRetrieveIntegerId("A"));
+		Assert.Equal(1, idMapper.CreateOrRetrieveIntegerId("B"));
+		Assert.Equal(0, idMapper.CreateOrRetrieveIntegerId("A"));
+		Assert.Equal(2, idMapper.CreateOrRetrieveIntegerId("C"));
+		Assert.Equal(0, idMapper.CreateOrRetrieveIntegerId("A"));
+		Assert.Equal(3, idMapper.CreateOrRetrieveIntegerId("D"));
 
-		AreEqual(4, idMapper.GetNumberOfVertices());
+		Assert.Equal(4, idMapper.GetNumberOfVertices());
 		
-		AreEqual("A", idMapper.GetBackThePreviouslyStoredGeneralStringIdForInteger(0));
-		AreEqual("B", idMapper.GetBackThePreviouslyStoredGeneralStringIdForInteger(1));
-		AreEqual("C", idMapper.GetBackThePreviouslyStoredGeneralStringIdForInteger(2));
-		AreEqual("D", idMapper.GetBackThePreviouslyStoredGeneralStringIdForInteger(3));
+		Assert.Equal("A", idMapper.GetBackThePreviouslyStoredGeneralStringIdForInteger(0));
+		Assert.Equal("B", idMapper.GetBackThePreviouslyStoredGeneralStringIdForInteger(1));
+		Assert.Equal("C", idMapper.GetBackThePreviouslyStoredGeneralStringIdForInteger(2));
+		Assert.Equal("D", idMapper.GetBackThePreviouslyStoredGeneralStringIdForInteger(3));
 	}
 	
-	[Test]
+	[Fact]
 	public void testStartIndexOne() {
 		MapperForIntegerIdsAndGeneralStringIds idMapper = MapperForIntegerIdsAndGeneralStringIds.CreateIdMapper(1);
-		AreEqual(1, idMapper.CreateOrRetrieveIntegerId("ABC"));
-		AreEqual(2, idMapper.CreateOrRetrieveIntegerId("DEF"));
-		AreEqual(3, idMapper.CreateOrRetrieveIntegerId("GHI"));
-		AreEqual(2, idMapper.CreateOrRetrieveIntegerId("DEF"));
+		Assert.Equal(1, idMapper.CreateOrRetrieveIntegerId("ABC"));
+		Assert.Equal(2, idMapper.CreateOrRetrieveIntegerId("DEF"));
+		Assert.Equal(3, idMapper.CreateOrRetrieveIntegerId("GHI"));
+		Assert.Equal(2, idMapper.CreateOrRetrieveIntegerId("DEF"));
 		
-		AreEqual(3, idMapper.GetNumberOfVertices());
+		Assert.Equal(3, idMapper.GetNumberOfVertices());
 		
-		AreEqual("ABC", idMapper.GetBackThePreviouslyStoredGeneralStringIdForInteger(1));
-		AreEqual("DEF", idMapper.GetBackThePreviouslyStoredGeneralStringIdForInteger(2));
-		AreEqual("GHI", idMapper.GetBackThePreviouslyStoredGeneralStringIdForInteger(3));
+		Assert.Equal("ABC", idMapper.GetBackThePreviouslyStoredGeneralStringIdForInteger(1));
+		Assert.Equal("DEF", idMapper.GetBackThePreviouslyStoredGeneralStringIdForInteger(2));
+		Assert.Equal("GHI", idMapper.GetBackThePreviouslyStoredGeneralStringIdForInteger(3));
 	}	
 	
 //	@Test

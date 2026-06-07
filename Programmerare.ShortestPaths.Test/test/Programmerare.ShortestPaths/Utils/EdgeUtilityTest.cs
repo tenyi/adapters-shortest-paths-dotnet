@@ -10,7 +10,7 @@
 
 namespace Programmerare.ShortestPaths.Utils
 {
-    //[TestFixture]
+
     //public class EdgeUtilityTest {
 
 	   // EdgeUtility<EdgeGenerics<Vertex,Weight>, Vertex, Weight> edgeUtility;
@@ -46,38 +46,38 @@ namespace Programmerare.ShortestPaths.Utils
 			 //   edges.Add(createEdgeGenerics(createVertex(B), createVertex(C), createWeight(weightBaseValueFor_B_C * multiplier)));
 			 //   edges.Add(createEdgeGenerics(createVertex(C), createVertex(D), createWeight(weightBaseValueFor_C_D * multiplier)));
 		  //  }
-		  //  AreEqual(3 * multipliers.Count, edges.Count);
+		  //  Assert.Equal(3 * multipliers.Count, edges.Count);
 	   // }
 
-	   // [Test]
+	   // [Fact]
 	   // public void testGetEdgesWithoutDuplicates_Selecting_First() {
 		  //  List<EdgeGenerics<Vertex, Weight>> result = edgeUtility.getEdgesWithoutDuplicates(edges, SelectionStrategyWhenEdgesAreDuplicated.FIRST_IN_LIST_OF_EDGES);
 		  //  assertResult(result, startIndexForFirst);
 	   // }
 
-	   // [Test]
+	   // [Fact]
 	   // public void testGetEdgesWithoutDuplicates_Selecting_Last() {
 		  //  List<EdgeGenerics<Vertex, Weight>> result = edgeUtility.getEdgesWithoutDuplicates(edges, SelectionStrategyWhenEdgesAreDuplicated.LAST_IN_LIST_OF_EDGES);
 		  //  assertResult(result, startIndexForLast);
 	   // }
 
-	   // [Test]
+	   // [Fact]
 	   // public void testGetEdgesWithoutDuplicates_Selecting_Smallest() {
 		  //  List<EdgeGenerics<Vertex, Weight>> result = edgeUtility.getEdgesWithoutDuplicates(edges, SelectionStrategyWhenEdgesAreDuplicated.SMALLEST_WEIGHT);
 		  //  assertResult(result, startIndexForSmallest);
 	   // }
 	
-	   // [Test]
+	   // [Fact]
 	   // public void testGetEdgesWithoutDuplicates_Selecting_Largest() {
 		  //  List<EdgeGenerics<Vertex, Weight>> result = edgeUtility.getEdgesWithoutDuplicates(edges, SelectionStrategyWhenEdgesAreDuplicated.LARGEST_WEIGHT);
 		  //  assertResult(result, startIndexForLargest);
 	   // }
 
 	   // private void assertResult(List<EdgeGenerics<Vertex, Weight>> result, int startIndex) {
-		  //  AreEqual(3, result.Count);
-		  //  AreEqual(edges[startIndex++], result[0]);
-		  //  AreEqual(edges[startIndex++], result[1]);
-		  //  AreEqual(edges[startIndex], result[2]);
+		  //  Assert.Equal(3, result.Count);
+		  //  Assert.Equal(edges[startIndex++], result[0]);
+		  //  Assert.Equal(edges[startIndex++], result[1]);
+		  //  Assert.Equal(edges[startIndex], result[2]);
 	   // }	
     //}
 }

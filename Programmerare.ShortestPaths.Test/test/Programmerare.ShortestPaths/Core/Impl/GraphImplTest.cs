@@ -8,8 +8,8 @@
 * https://github.com/TomasJohansson/adapters-shortest-paths-dotnet/
 */
 
-using NUnit.Framework;
-using static NUnit.Framework.Assert;
+using Xunit;
+
 using Programmerare.ShortestPaths.Core.Api;
 using static Programmerare.ShortestPaths.Core.Impl.GraphImpl;
 using static Programmerare.ShortestPaths.Core.Impl.VertexImpl; // createVertex
@@ -25,7 +25,7 @@ namespace Programmerare.ShortestPaths.Core.Impl
     /**
      * @author Tomas Johansson
      */
-    [TestFixture]
+
     public class GraphImplTest {
 
 	    private IList<Edge> edgesForAcceptableGraph;
@@ -33,8 +33,7 @@ namespace Programmerare.ShortestPaths.Core.Impl
 
 	    private Graph graph;
 	
-	    [SetUp]
-	    public void setUp()  {
+	    public GraphImplTest()  {
 		
 		    Edge edge_A_B = CreateEdge(CreateVertex("A"), CreateVertex("B"), CreateWeight(123));
 		    Edge edge_B_C = CreateEdge(CreateVertex("B"), CreateVertex("C"), CreateWeight(456));
@@ -50,20 +49,20 @@ namespace Programmerare.ShortestPaths.Core.Impl
             return Programmerare.ShortestPaths.Core.Impl.Generics.EdgeGenericsImpl<Vertex, Weight>.CreateEdgeGenerics(vertex1, vertex2, weight);
         }
 
-        [Test]
+        [Fact]
 	    public void testCreateGraph_SHOULD_throw_exception_for_unacceptable_graph_when_validation_REQUIRED() {
             var exceptionThrown = Assert.Throws<GraphValidationException>(() => {
     		    graph = CreateGraph(edgesForUnacceptableGraph, GraphEdgesValidationDesired.YES);
             });
-            IsNotNull(exceptionThrown);
+            Assert.NotNull(exceptionThrown);
 	    }
 	
-	    [Test]
+	    [Fact]
 	    public void testCreateGraph_should_NOT_throw_exception_for_unacceptable_graph_when_validation_NOT_required() {
 		    graph = CreateGraph(edgesForUnacceptableGraph, GraphEdgesValidationDesired.NO);
 	    }	
 
-	    [Test]
+	    [Fact]
 	    public void testCreateGraph_should_NOT_throw_exception_for_acceptable_graph() {
 		    // a bit lazy to do two validation below within the same test method, 
 		    // but since the graph should be acceptable, no exception should be thrown 
