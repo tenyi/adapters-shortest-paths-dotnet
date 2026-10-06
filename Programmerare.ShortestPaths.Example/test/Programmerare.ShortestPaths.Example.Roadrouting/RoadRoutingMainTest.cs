@@ -1,35 +1,15 @@
-using NUnit.Framework;
+using Xunit;
+
 namespace Programmerare.ShortestPaths.Example.Roadrouting {
-    // TODO: fix old Java doumentation below ...
     /**
-     * This is not a real test class which is doing any assertions, but it is a convenient 
-     * way of running the code to write "mvn test" instead of writing (finding and pasting) 
-     * the following command:
-     * mvn exec:java -Dexec.mainClass="roadrouting.RoadRoutingMain" -Dexec.args="1"
-     * 
-     * @author Tomas Johansson
+     * A smoke test that runs the example main method end-to-end.
+     * (Retained from the original NUnit version, migrated to xUnit.)
      */
-    [TestFixture]
     public class RoadRoutingMainTest {
 
-        //private RoadRoutingMain roadRoutingMain;
-        private bool useDatabase;
-
-        [SetUp]
-        public void SetUp() {
-            //roadRoutingMain = new RoadRoutingMain();
+        [Fact]
+        public void TestMain() {
+            RoadRoutingMain.MainMethod();
         }
-
-        [Test]
-        public void TestMainWithDatabase() {
-            useDatabase = true;
-            RoadRoutingMain.MainMethod(useDatabase);
-        }
-
-        [Test]
-        public void TestMainWithoutDatabase() {
-            useDatabase = false;
-            RoadRoutingMain.MainMethod(useDatabase);
-        }	
     }
 }

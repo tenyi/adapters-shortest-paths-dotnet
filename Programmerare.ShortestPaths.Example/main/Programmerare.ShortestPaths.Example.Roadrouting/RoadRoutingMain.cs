@@ -11,9 +11,8 @@ namespace Programmerare.ShortestPaths.Example.Roadrouting {
      * @author Tomas Johansson
      */
     public class RoadRoutingMain {
-	    public static void MainMethod(bool useDatabase) {
-            Console.WriteLine("useDatabase : " + useDatabase);
-		    CityRoadService cityRoadService = CityRoadServiceFactory.CreateCityRoadService(useDatabase);
+	    public static void MainMethod() {
+		    CityRoadService cityRoadService = CityRoadServiceFactory.CreateCityRoadService();
 		    try {
 			    IList<Road> roads = cityRoadService.GetAllRoads();
 			    City startCity = cityRoadService.GetStartCity();
