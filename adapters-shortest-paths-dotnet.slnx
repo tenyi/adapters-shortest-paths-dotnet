@@ -1,0 +1,18 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="Programmerare.ShortestPaths.Adaptee.Bsmock.Test/Programmerare.ShortestPaths.Adaptee.Bsmock.Test.csproj" />
+  <Project Path="Programmerare.ShortestPaths.Adaptee.Bsmock/Programmerare.ShortestPaths.Adaptee.Bsmock.csproj" />
+  <Project Path="Programmerare.ShortestPaths.Adaptee.YanQi.Test/Programmerare.ShortestPaths.Adaptee.YanQi.Test.csproj" />
+  <Project Path="Programmerare.ShortestPaths.Adaptee.YanQi/Programmerare.ShortestPaths.Adaptee.YanQi.csproj" />
+  <Project Path="Programmerare.ShortestPaths.Adapter.Bsmock/Programmerare.ShortestPaths.Adapter.Bsmock.csproj" />
+  <Project Path="Programmerare.ShortestPaths.Adapter.QuikGraph.Test/Programmerare.ShortestPaths.Adapter.QuikGraph.Test.csproj" />
+  <Project Path="Programmerare.ShortestPaths.Adapter.QuikGraph/Programmerare.ShortestPaths.Adapter.QuikGraph.csproj" />
+  <Project Path="Programmerare.ShortestPaths.Adapter.YanQi/Programmerare.ShortestPaths.Adapter.YanQi.csproj" />
+  <Project Path="Programmerare.ShortestPaths.Core/Programmerare.ShortestPaths.Core.csproj" />
+  <Project Path="Programmerare.ShortestPaths.Example/Programmerare.ShortestPaths.Example.csproj" />
+  <Project Path="Programmerare.ShortestPaths.Test/Programmerare.ShortestPaths.Test.csproj" />
+</Solution>
